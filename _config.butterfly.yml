@@ -29,13 +29,12 @@ menu:
 
 #头像
 avatar:
-  img: /image/logo_1.gif
+  img: /image/logo_1.GIF
   effect: false # 头像会一直转，转的贼快，太鬼畜了
 
 #顶部图
 index_img: /image/bg_3.png
 default_top_img: /image/bg_3.png
-# index_top_img_height: 400px #顶部图高度
 
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
