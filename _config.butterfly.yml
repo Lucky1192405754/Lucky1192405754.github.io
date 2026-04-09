@@ -1,0 +1,367 @@
+# Hexo Configuration
+## Docs: https://hexo.io/docs/configuration.html
+## Source: https://github.com/hexojs/hexo/
+
+#博客标题总览
+title: "Lucky's Elysian Euphoria ♪"
+# subtitle: "Welcome to Keming's Blog"
+description: "Welcome to Lucky's Blog"
+keywords: " Blog, Technology, Programming"
+author: LuckyShen
+language: zh-CN
+timezone: Asia/Shanghai
+
+# 主页subtitle
+subtitle:
+  enable: true
+  # Typewriter Effect (打字效果)
+  effect: true
+  startDelay: 400 # time before typing starts in milliseconds
+  typeSpeed: 150 # type speed in milliseconds
+  backSpeed: 50 # backspacing speed in milliseconds
+  # loop (循环打字)
+  loop: true
+  # source 调用三方服务
+  # source: false 开关调用
+  # subtitle 会先显示 source , 再显示 sub 的內容
+  source: true
+  # 如果关闭打字效果，subtitle 只会显示 sub 的第一行文字
+  sub:
+    - 一壶浊酒喜相逢 &#44; 古今多少事 &#44; 都付笑谈中。  ——杨慎《临江仙·滚滚长江东逝水》
+    - 无论何时 &#44;人工智能工作者都应为人类谋福祉 &#44;『没有人类的文明 &#44; 毫无意义』。
+    - 江东子弟多才俊 &#44; 卷土重来未可知。  —— 杜牧《题乌江亭》
+    - 少年人 &#44; 你要好好长大 &#44; 不要输给风 &#44; 不要输给雨 &#44; 不要输给冬雪 &#44; 不要输给炎夏。  —— 森林书《原神》
+    - 人生就是一列开往坟墓的列车 &#44; 路途上会有很多站 &#44; 很难有人可以自始至终陪着走完。  ——《千与千寻》
+    - 敬 &#44; 不完美的明天。  ——加拉赫《崩坏·星穹铁道》
+    - 大道至简 &#44; 重器无锋。
+    - 胜败乃兵家常事。  ——《旧唐书·裴度传》
+    - 黑夜无论怎样悠长 &#44; 白昼总会到来。  —— 莎士比亚
+    - 林花谢了春红 &#44; 太匆匆。  —— 李煜《相见欢》
+    - 在命运的颠沛中 &#44; 最能够看出人们的气节。  —— 莎士比亚《哈姆雷特》
+    - 高山仰止 &#44; 景行行止 &#44; 虽不能至 &#44; 心向往之。  —— 《诗经·小雅·车辖》
+    - 真正的大师 &#44; 永远都怀着一颗学徒之心。  ——无极剑圣·易《英雄联盟》
+    - 莫愁前路无知己 &#44; 天下谁人不识君。  ——高适《别董大》
+    - 欲将心事付瑶琴 &#44; 知音少 &#44; 弦断有谁听？  ——岳飞《小重山》
+    - 谎言不会伤人 &#44; 真相才是快刀。  ——青钢影·卡蜜尔《英雄联盟》
+    - 大梦谁先觉 &#44; 平生我自知。  ——罗贯中《三国演义》
+    - 简洁是智慧的灵魂 &#44; 冗长是肤浅的藻饰。  —— 莎士比亚《哈姆雷特》
+    - 休对故人思故国  &#44; 且将新火试新茶  &#44; 诗酒趁年华。  ——苏轼《望江南·超然台作》
+    - 人类的一切智慧包含在这四个字里面：「等待」和「希望」。  —— 大仲马《基督山伯爵》
+    - 须知少日拏云志 &#44; 曾许人间第一流。  —— 悔余生《题三十小象》
+    - 衣带渐宽终不悔 &#44; 为伊消得人憔悴。  —— 柳永《蝶恋花》
+    - 每个不曾起舞的日子 &#44; 都是对生命的辜负。  —— 尼采《查拉图斯特拉如是说》
+    - 岁月送给我苦难 &#44;也随赠我清醒与冷静。  —— 大仲马《基督山伯爵》
+    - 历史是一堆灰烬 &#44; 而灰烬深处有余温。  —— 黑格尔《历史哲学》
+    - 大鹏一日同风起 &#44; 扶摇直上九万里。  —— 李白《上李邕》
+    - 醉后不知天在水 &#44; 满船清梦压星河。  —— 唐温如《题龙阳县青草湖》
+    - 关山难越 &#44; 谁悲失路之人？萍水相逢 &#44; 尽是他乡之客。  —— 王勃《滕王阁序》
+    - 世界上只有一种英雄主义 &#44; 那就是在认清生活的真相后依然热爱生活。  —— 罗曼·罗兰《米开朗琪罗传》
+    - 胸有惊雷而面如平湖者 &#44; 可拜上将军。  —— 司马迁《史记·项羽本纪》
+    - 竹杖芒鞋轻胜马 &#44; 谁怕？一蓑烟雨任平生。  —— 苏轼《定风波》
+    - 在黎明到来之前 &#44; 必须要有人稍微照亮黑暗。  ——迪卢克《原神》
+    - 悲剧并非终结&#44;而是希望的起始。  —— 爱莉希雅《崩坏3·往事乐土》
+    - 人生如逆旅 &#44; 我亦是行人。  —— 苏轼《临江仙·送钱穆父》
+    - 欲买桂花同载酒 &#44; 终不似 &#44; 少年游。  —— 刘过《唐多令·芦叶满汀洲》
+    - 待到秋来九月八 &#44; 我花开后百花杀。  —— 黄巢《不第后赋菊》
+    - 我身在黑暗 &#44; 心向光明。  ——猫腻《将夜》
+    - 人生下来不是为了拖着锁链 &#44; 而是为了展开双翼。  —— 尼采《查拉图斯特拉如是说》
+    - 阵前再亮旧时剑 &#44; 寒光凛凛似当年。  —— 鲁迅《自题小像》
+    - 所谓高贵的灵魂 &#44; 即对自己怀有敬畏之心。  —— 尼采《查拉图斯特拉如是说》
+    - 此去泉台招旧部 &#44; 旌旗十万斩阎罗。  —— 陈毅《梅岭三章》
+    - 俱往矣 &#44; 数风流人物 &#44; 还看今朝。  —— 毛泽东《沁园春·雪》
+    - 故弟子不必不如师 &#44; 师不必贤于弟子。  —— 韩愈《师说》
+    - 凡不能毁灭我的 &#44; 必将使我强大。  —— 尼采《查拉图斯特拉如是说》
+    - 当你为错过太阳而哭泣的时候 &#44; 你也要再错过群星了。  —— 泰戈尔《飞鸟集》
+    - 满堂花醉三千客 &#44; 一剑霜寒十四州。  —— 贯休《献钱尚父》
+    - 世界以痛吻我 &#44; 要我报之以歌。  —— 泰戈尔《飞鸟集》
+    - 暴虎冯河 &#44; 死而不悔者 &#44; 吾不与也。  —— 《论语·述而》
+    - 但得夕阳无限好 &#44; 何须惆怅近黄昏。  —— 朱自清
+    - 我的心是旷野的鸟 &#44; 在你的眼睛里找到了它的天空。  —— 泰戈尔《飞鸟集》
+    - 巧言令色 &#44; 鲜矣仁。  —— 《论语·颜渊》
+    - 抬起头继续前进 &#44;把不完美的故事变成你期望的样子。  —— 无量塔·姬子《崩坏3》
+    - 岁寒 &#44; 然后知松柏之后凋也。  —— 孔子《论语·子罕》
+    - 往者不可谏 &#44; 来者犹可追。  —— 孔子《论语·微子》
+    - 若不披上这件衣裳 &#44; 众生又怎知我尘缘已断 &#44; 金海尽干？  ——"南海观音"《黑神话·悟空》
+    - 同是天涯沦落人 &#44; 相逢何必曾相识。  —— 白居易《琵琶行》
+    - 心有所向 &#44; 日复一日 &#44; 必有精进。  —— 刻晴《原神》
+    - 悲欢离合总无情 &#44; 一任阶前点滴到天明。  —— 蒋捷《虞美人·听雨》
+    - 宏大的理想未必能对抗虚无 &#44; 但微小的选择可以
+    - 我见青山多妩媚 &#44; 料青山见我应如是。  —— 辛弃疾《贺新郎·甚矣吾衰矣》
+    - 庭前旧梅泛新香。当时故人 &#44; 如今无在旁。醒时恐为梦一场。身世俱忘 &#44; 何处是吾乡？  ——符华《崩坏3》
+    - 五花马 &#44; 千金裘 &#44; 呼儿将出换美酒 &#44; 与尔同销万古愁。  —— 李白《将进酒》
+    - 星垂平野阔 &#44; 月涌大江流。  —— 杜甫《旅夜书怀》
+    - 风带来故事的种子 &#44; 时间使其发芽。
+    - 没有废墟的人生太累了 &#44; 没有废墟的大地太挤了 &#44; 掩盖废墟的举动太伪诈了。  —— 余秋雨《文化苦旅》
+    - 朝霞之上 &#44; 行者无疆。
+    - 三山半落青天外 &#44; 二水中分白鹭洲。  ——李白《登金陵凤凰台》
+    - 失败的人生同样是人生 &#44; 凡人亦有权品尝至最后。  ——真理医生《崩坏·星穹铁道》
+    - 世界上总有一些美好值得我们全力以赴 &#44; 哪怕粉身碎骨。  —— 贺炜
+    - 以铜为镜 &#44; 可以正衣冠；以史为镜 &#44; 可以知兴替；以人为镜 &#44; 可以明得失。  —— 李世民《旧唐书·魏徵传》
+    - 唯有自由的鸟儿 &#44; 才能跳出既定的灭亡。  —— 凯文·卡斯兰娜《崩坏3》
+    - 闻道有先后 &#44; 术业有专攻 &#44;如是而已。  —— 韩愈《师说》
+    - 花自飘零水自流。一种相思 &#44; 两处闲愁。  —— 李清照《一剪梅·红藕香残玉簟秋》
+    - 晚来天欲雪 &#44; 能饮一杯无？  —— 白居易《问刘十九》
+    - 曲高未必人不识 &#44; 自有知音和清词。  —— 云堇《原神》
+    - 莫等闲 &#44; 白了少年头 &#44; 空悲切。  —— 岳飞《满江红》
+    - 天空没有翅膀的痕迹 &#44; 而我已飞过。  —— 泰戈尔《飞鸟集》
+    - 踏遍青山人未老 &#44; 风景这边独好。  —— 毛泽东《清平乐·会昌》
+    - 花开堪折直须折 &#44; 莫待无花空折枝。  —— 杜秋娘《金缕衣》
+    - 她怡然泰然悠然坦然 &#44; 仿佛含笑面对秋阳。  —— 季羡林《丝瓜》
+    - 世上本没有路 &#44; 走的人多了 &#44; 也便成了路。  —— 鲁迅《故乡》
+    - 流光容易把人抛 &#44; 红了樱桃 &#44; 绿了芭蕉。  —— 蒋捷《一剪梅·舟过吴江》
+    - 人生最大的痛苦莫过于梦醒时发现无路可走。  —— 鲁迅《狂人日记》
+    - 闲看庭前花开花落 &#44; 漫随天外云卷云舒。  —— 陈继儒《小窗幽记》
+    - 纸上得来终觉浅 &#44; 绝知此事要躬行。  —— 陆游《冬夜读书示子聿》
+
+#导航栏
+nav:
+  logo: /image/logo_2.gif
+  display_title: true
+  fixed: false # fixed navigation bar
+  post_asset_folder: true
+
+# footer_img: "linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347)"
+footer_img: true
+background: https://raw.githubusercontent.com/Lucky1192405754/Lucky1192405754.github.io/main/image/bg_16.png
+# background: "linear-gradient(20deg, #0062be, #925696, #cc426e, #fb0347)"
+# background: "linear-gradient(145deg, #654ea3, #eaafc8)"
+
+menu:
+  首页: / || fas fa-home
+  时间轴: /archives/ || fas fa-archive
+  标签: /tags/ || fas fa-tags
+  分类: /categories/ || fas fa-folder-open
+  清单||fa fa-heartbeat:
+    音乐: /music/ || fas fa-music
+    照片: /Gallery/ || fas fa-images
+    电影: /movies/ || fas fa-video
+
+#头像
+avatar:
+  img: /image/avatar.png
+  effect: false # 头像会一直转，转的贼快，太鬼畜了
+
+#顶部图
+index_img: /image/bg_2.png
+default_top_img: /image/bg_2.png
+
+# Choose: fancybox / medium_zoom 
+# https://github.com/francoischalifour/medium-zoom 
+# https://fancyapps.com/fancybox/ 
+# Leave it empty if you don't need lightbox 
+lightbox: fancybox
+
+# pjax: enable: false # Exclude the specified pages from pjax, such as '/music/' exclude: # - /xxxxxx/
+
+# Stretches the lines so that each line has equal width（文字向两侧对齐，对最后一行无效）
+text_align_justify:  true
+
+
+#本地搜索
+local_search:
+  enable: true
+  # Preload the search data when the page loads.
+  preload: false
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: true
+  CDN:
+
+# 背景特效
+# canvas_nest:
+#   enable: true
+#   color: "0, 0, 0" #color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
+#   opacity: 1 # the opacity of line (0~1), default: 0.5.
+#   zIndex: -1 # z-index property of the background, default: -1.
+#   count: 99 # the number of lines, default: 99.
+#   mobile: false # false 手机端不显示 true 手机端显示
+
+canvas_fluttering_ribbon:
+  enable: true
+  mobile: true # false 手機端不顯示 true 手機端顯示
+
+#加载动画
+preloader:
+  enable: true
+  source: 1 #可选值1=fullpage或2=progress bar，可查看https://codebyzach.github.io/pace/
+  pace_css_url:
+
+# # 自定义样式（池塘养鱼）
+# inject:
+#   head:
+#     - <link rel="stylesheet" href="/styles/main.css">
+#     - <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+#   bottom:
+#     - <script src="/styles/fish.js"></script>
+
+# 网页图标
+favicon: ./source/image/planet_output.png
+
+# 主题色
+theme_color:
+  enable: true
+  # 主色：经典深桃红
+  main: "#D6336C" # 深桃红（Deep Pink）、对比强烈
+  # 分页器：暗樱桃粉
+  paginator: "#C0275D" # Cherry Blossom 深调
+  # 按钮悬停：玫瑰石英深版
+  button_hover: "#B21F59" # Rose Quartz 深版
+  # 文本选中：深暮粉
+  text_selection: "#A51755" # Magenta Deep
+  # 链接颜色：暗珊瑚粉
+  link_color: "#8F1350" # Coral Dark
+  # 元信息文字色：酒红带紫
+  meta_color: "#7A0E4B" # Burgundy Purple
+  # 分割线颜色：深粉蓝混合
+  hr_color: "#E0619E" # Blush Deep
+  # 代码块前景：亮珊瑚
+  code_foreground: "#FF4081" # Bright Coral
+  # 代码块背景：半透明深粉
+  code_background: "rgba(214,51,108,0.1)"
+  # 目录高亮：复用主色
+  toc_color: "#D6336C"
+  # 引用块左侧条：暗蜜桃
+  blockquote_padding_color: "#C94574" # Dark Peach
+  # 引用块背景：半透明暗粉
+  blockquote_background_color: "rgba(201,69,116,0.2)"
+  # 滚动条：暗樱桃粉
+  scrollbar_color: "#C94574"
+
+mask: # 为 header 或 footer 添加黑色半透遮罩
+  header: true
+  footer: true
+
+# 代码块美化
+highlight_theme: light #  darker / pale night / light / ocean / mac / mac light / false
+highlight_copy: true # copy button
+highlight_lang: true # show the code language
+highlight_shrink: false # true: shrink the code blocks / false: expand the code blocks | none: expand code blocks and hide the button
+highlight_height_limit: 400 # unit: px
+code_word_wrap: false # 设置代码是否会自动换行
+
+# Global font settings
+font:
+  global-font-size:
+  code-font-size:
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Lato, Roboto, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif
+  code-font-family: consolas, Menlo, "PingFang SC", "Microsoft JhengHei", "Microsoft YaHei", sans-serif
+
+hr_icon: # 水平分隔线图标设置，带个小剪刀图标
+  enable: true
+  icon: \3423 # the unicode value of Font Awesome icon, such as '\3423'
+  icon-top:
+
+# 美化頁面顯示
+beautify:
+  enable: true
+  field: site # site/post
+  title-prefix-icon: '\f0c1' #填写的是fontawesome的icon的Unicode数。
+  title-prefix-icon-color: "#0062be"
+
+# A simple 404 page
+error_404:
+  enable: true
+  subtitle: "Oops！页面不见啦🎶"
+  background:
+
+# URL
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
+url: https://lucky1192405754.github.io
+permalink: :year/:month/:day/:title/
+permalink_defaults:
+pretty_urls:
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks
+
+# Directory
+source_dir: source
+public_dir: public
+tag_dir: tags
+archive_dir: archives
+category_dir: categories
+code_dir: downloads/code
+i18n_dir: :lang
+skip_render:
+  - "README.md"
+  - "projects/**"   
+  - "projects/**/*" 
+
+# Writing
+new_post_name: :title.md # File name of new posts
+default_layout: post
+titlecase: false # Transform title into titlecase
+external_link:
+  enable: true # Open external links in new tab
+  field: site # Apply to the whole site
+  exclude: ""
+filename_case: 0
+render_drafts: false
+post_asset_folder: false
+relative_link: false
+future: true
+syntax_highlighter: highlight.js
+highlight:
+  line_number: true
+  auto_detect: false
+  tab_replace: ""
+  wrap: true
+  hljs: false
+prismjs:
+  preprocess: true
+  line_number: true
+  tab_replace: ""
+
+# Home page setting
+# path: Root path for your blogs index page. (default = '')
+# per_page: Posts displayed per page. (0 = disable pagination)
+# order_by: Posts order. (Order by date descending by default)
+index_generator:
+  path: ""
+  per_page: 10
+  order_by: -date
+
+# Category & Tag
+default_category: uncategorized
+category_map:
+tag_map:
+
+# Metadata elements
+## https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
+meta_generator: true
+
+# Date / Time format
+## Hexo uses Moment.js to parse and display date
+## You can customize the date format as defined in
+## http://momentjs.com/docs/#/displaying/format/
+date_format: YYYY-MM-DD
+time_format: HH:mm:ss
+## updated_option supports 'mtime', 'date', 'empty'
+updated_option: "mtime"
+
+# Pagination
+## Set per_page to 0 to disable pagination
+per_page: 10
+pagination_dir: page
+
+# Include / Exclude file(s)
+## include:/exclude: options only apply to the 'source/' folder
+include:
+exclude:
+ignore:
+
+# Extensions
+## Plugins: https://hexo.io/plugins/
+## Themes: https://hexo.io/themes/
+theme: butterfly
+baidu_analytics: d307051884df6e49bb73adb7336b2992
+runtimeshow:
+  enable: true
+  publish_date: 20/5/2025 00:00:00
+
+# Deployment
+## Docs: https://hexo.io/docs/one-command-deployment
+deploy:
+  type: git
+  repository: https://github.com/Lucky1192405754/Lucky1192405754.github.io.git
+  branch: main
