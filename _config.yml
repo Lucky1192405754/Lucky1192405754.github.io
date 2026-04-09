@@ -2,12 +2,12 @@
 ## Docs: https://hexo.io/docs/configuration.html
 ## Source: https://github.com/hexojs/hexo/
 
-#site
-title: "Keming's Blog"
+#博客标题总览
+title: "Lucky's Elysian Euphoria ♪"
 subtitle: "Welcome to Keming's Blog"
-description: "Welcome to Keming's Blog"
-keywords: "Keming, Blog, Technology, Programming"
-author: Keming
+description: "Welcome to Lucky's Blog"
+keywords: " Blog, Technology, Programming"
+author: LuckyShen
 language: zh-CN
 timezone: Asia/Shanghai
 
@@ -20,6 +20,25 @@ pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
+canvas_nest:
+  enable: true
+  color: "0,0,255" #color of lines, default: '0,0,0'; RGB values: (R,G,B).(note: use ',' to separate.)
+  opacity: 0.7 # the opacity of line (0~1), default: 0.5.
+  zIndex: -1 # z-index property of the background, default: -1.
+  count: 99 # the number of lines, default: 99.
+  mobile: false # false 手机端不显示 true 手机端显示
+
+#本地搜索
+local_search:
+  enable: true
+  # Preload the search data when the page loads.
+  preload: false
+  # Show top n results per article, show all results by setting to -1
+  top_n_per_article: 1
+  # Unescape html strings to the readable one.
+  unescape: true
+  CDN:
+
 # Directory
 source_dir: source
 public_dir: public
@@ -29,6 +48,9 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
+  - "README.md"
+  - "projects/**"   
+  - "projects/**/*" 
 
 # Writing
 new_post_name: :title.md # File name of new posts
@@ -37,7 +59,7 @@ titlecase: false # Transform title into titlecase
 external_link:
   enable: true # Open external links in new tab
   field: site # Apply to the whole site
-  exclude: ''
+  exclude: ""
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
@@ -47,20 +69,20 @@ syntax_highlighter: highlight.js
 highlight:
   line_number: true
   auto_detect: false
-  tab_replace: ''
+  tab_replace: ""
   wrap: true
   hljs: false
 prismjs:
   preprocess: true
   line_number: true
-  tab_replace: ''
+  tab_replace: ""
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
 # per_page: Posts displayed per page. (0 = disable pagination)
 # order_by: Posts order. (Order by date descending by default)
 index_generator:
-  path: ''
+  path: ""
   per_page: 10
   order_by: -date
 
@@ -80,7 +102,7 @@ meta_generator: true
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
 ## updated_option supports 'mtime', 'date', 'empty'
-updated_option: 'mtime'
+updated_option: "mtime"
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -97,6 +119,10 @@ ignore:
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
 theme: butterfly
+
+# 在这里添加 custom_js （注意缩进和位置无所谓，只要在顶层即可）
+custom_js:
+  - js/custom-subtitle.js
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
