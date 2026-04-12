@@ -7,10 +7,10 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lucky1192405754.github.io/image/bg_3.png">
 <meta property="article:published_time" content="2026-04-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-04-09T17:35:51.131Z">
+<meta property="article:modified_time" content="2026-04-12T18:09:20.538Z">
 <meta property="article:author" content="LuckyShen">
-<meta property="article:tag" content="计算机视觉">
 <meta property="article:tag" content="深度学习">
+<meta property="article:tag" content="计算机视觉">
 <meta property="article:tag" content="Transformer">
 <meta property="article:tag" content="Attention">
 <meta property="article:tag" content="可视化">
@@ -22,7 +22,7 @@
   "url": "https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/",
   "image": "https://lucky1192405754.github.io/image/bg_3.png",
   "datePublished": "2026-04-09T16:00:00.000Z",
-  "dateModified": "2026-04-09T17:35:51.131Z",
+  "dateModified": "2026-04-12T18:09:20.538Z",
   "author": [
     {
       "@type": "Person",
@@ -194,17 +194,82 @@ btf.addGlobalFn('pjaxComplete', () => {
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/Lucky1192405754/Lucky1192405754.github.io/main/image/bg_16.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/bg_3.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Lucky's Elysian Euphoria ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">看见注意力：用可视化理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">看见注意力：用可视化理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-09T17:35:51.131Z" title="更新于 2026-04-10 01:35:51">2026-04-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+})()</script><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/Lucky1192405754/Lucky1192405754.github.io/main/image/bg_16.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/bg_3.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Lucky's Elysian Euphoria ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">看见注意力：用可视化理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">看见注意力：用可视化理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-12T18:09:20.538Z" title="更新于 2026-04-13 02:09:20">2026-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
 <p><strong>阅读导引</strong>：本文包含多个<strong>交互式可视化组件</strong>，建议在 PC 端浏览器中阅读以获得最佳体验。所有可视化数据均来自真实 Transformer 模型的预计算 attention weights。</p>
 </blockquote>
 <hr>
-<h2 id="一、为什么需要”注意力”？"><a href="#一、为什么需要”注意力”？" class="headerlink" title="一、为什么需要”注意力”？"></a>一、为什么需要”注意力”？</h2><p>在 RNN 时代，序列建模有一个根本性的缺陷：无论输入序列多长，最终都要把所有信息压缩进一个固定大小的隐向量。这就好像让你读完一本书，然后只能用一张 A4 纸总结——信息必然丢失，你会遗忘一开始的内容，也会忽略掉对你来说印象不深刻的文本，且书本篇幅越长越严重。</p>
-<p><strong>Attention 机制</strong>的核心思想是：当处理某个元素时，不必等信息被压缩后再传递，而是<strong>直接查询原始序列中所有位置</strong>，按相关性加权取用。</p>
-<script type="math/tex; mode=display">
-\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V</script><p>这个公式是整个 Transformer 的心脏。我们先通过交互演示建立直觉，再深入数学细节。</p>
+<h2 id="一、引言：我们是如何读文本和看图的？"><a href="#一、引言：我们是如何读文本和看图的？" class="headerlink" title="一、引言：我们是如何读文本和看图的？"></a>一、引言：我们是如何读文本和看图的？</h2><p>想象一下，你正在阅读这样一句的话：</p>
+<blockquote>
+<p><strong>The door of the bank $^1$ was broken, so he went to another bank $^2$ to withdraw money</strong>. </p>
+</blockquote>
+<p>这句话翻译过来的意思是：</p>
+<blockquote>
+<p><strong>这所银行的门坏了，所以他去了另一家银行取钱</strong>。</p>
+</blockquote>
+<p>现在我们来回顾一下我们翻译的思考过程：当你读到第二个单词「bank」时，你的大脑并没有把它当成一个孤立的词汇。你的潜意识会立刻关联前面的「取钱」这个行为，以及第一次出现的「bank」，从而瞬间明白这里第二个「bank」指的是银行，而不是「河岸」（Bank 的另一个意思）。在这个例子中，我们的思考过程实际上就是练习上下文理解的过程，文本中所包含的上下文信息决定了某个词的意思。</p>
+<p>我们再举个例子，当你第一眼看向下面这张猫咪的照片时，你的眼睛会自然地聚焦在图像的右半部分。因为你会更加关注图片中猫的面部、眼睛、耳朵乃至身体上，而不是没有对焦的环境信息，也就是说，你不会平均地将你的注意力分配给图像中环境里的木制地板和猫身上。</p>
+<p><img src="/image/cat-type_00.jpg" alt=""></p>
+<p>直觉上来讲，我们不管是理解文字，还是看图的行为，我们都希望大脑能够自动过滤掉无关信息，只保留对我们有用的那部分。而这个能力，就是 <strong>注意力（Attention）</strong>。这种 <strong>「结合全局上下文，将焦点放在关键信息上」的能力，就是所谓的「注意力（Attention）」。</strong></p>
+<p>事实上，相当一部分的机器学习任务，就是希望人工智能（或者我们常说的<strong>模型</strong>），能够模仿人类这种过滤掉无关信息，保留重要的、有关联的信息的能力。在 若干年前，人工智能在这方面做得很吃力：</p>
+<p>最早人们发明了一个拿着放大镜的观察者角色：它每次只能看到一小块区域（局部感受野），想要看到整张图的全局结构，就必须一层一层地堆叠这个角色本身，效率低下。这就是我们说的卷积神经网络（CNN）。</p>
+<p>同时，人们还发明了一个记忆力极差的读者角色：它只能逐字逐句地读文字，把遇到的文本一股脑地塞进自己固定大小的记忆里。但是它读到句尾时，早就忘了句首的内容。无论句子多长，这就是循环神经网络（RNN）。</p>
+<p><strong>直到2017年，一篇名叫《Attention is All You Need》的文章的出现打破了这一切。</strong> 它赋予了人工智能一种类似「上帝视角」的能力：在一瞬间同时看到所有的字词（或图像区块），然后让它们互相「交流」，自行决定哪些部分最重要。而实现这一点的核心魔法，就是 <strong>Attention（注意力机制）</strong>。</p>
 <hr>
-<h2 id="二、Self-Attention-可视化：一句话如何”看”自己"><a href="#二、Self-Attention-可视化：一句话如何”看”自己" class="headerlink" title="二、Self-Attention 可视化：一句话如何”看”自己"></a>二、Self-Attention 可视化：一句话如何”看”自己</h2><p>下面展示的是一个真实 BERT-base 模型第 6 层第 1 个注意力头，对一句中文的 Self-Attention 矩阵（数据来自实际模型推理，已对 padding token 裁剪）。</p>
-<p><strong>点击矩阵中的单元格，或悬停查看注意力强度；点击”切换注意力头”观察不同头的分工。</strong></p>
+<h2 id="二、Query、Key、Value——从图书馆讲起"><a href="#二、Query、Key、Value——从图书馆讲起" class="headerlink" title="二、Query、Key、Value——从图书馆讲起"></a>二、Query、Key、Value——从图书馆讲起</h2><p>首先，我们需要先搞懂 Attention 机制里最核心的三个字母的含义：<strong>Q (Query)</strong>、<strong>K (Key)</strong> 和 <strong>V (Value)</strong>。很多非专业的读者看到这里就会被公式吓跑，但其实它们的逻辑非常生活化。</p>
+<p>让我们再通过一个案例来理解，假设某一天你来到了图书馆，你的任务是，<strong>要在图书馆里找寻相关资料，然后写一篇关于「苹果公司」的论文。</strong></p>
+<p>这时候我们会同时经过下面三个历程：</p>
+<ol>
+<li><strong>Query（查询 - 你想要什么？）</strong>：你带着任务和问题来到图书馆，脑子里的关键词是「科技」、「智能手机」、「乔布斯」。在注意力机制里，我们说这个带着强烈目的性的查询词，定义为 <strong>Q</strong>。</li>
+<li><strong>Key（键/索引 - 别人有什么？）</strong>：图书馆里有成千上万本书。每本书的书脊上都贴着标签（比如「水果种植」、「科技巨头传记」）。那么在这个过程中，这些用于匹配的标签，定义为 <strong>K</strong>。</li>
+<li><strong>Value（值/内容 - 实际的信息）</strong>：毫无疑问，每本书里都包含海量的信息。有关「水果种植」的书里记载了苹果树的栽种方法，「科技巨头传记」有一章节描写了乔布斯的传奇一生。而这些书本里真正的文字内容。定义为 <strong>V</strong>。</li>
+</ol>
+<p>我们再回到上面的例子，你现在要怎么利用图书馆的资源查询资料呢？</p>
+<ol>
+<li>首先，你的脑海里已经形成了检索词 ，比如说是<strong>乔布斯</strong>。然后你去和所有书的标签 <strong>K</strong> 逐一比对。这时候，你的常识告诉你，有关<strong>乔布斯</strong>的生平，很有可能会在与贴着「科技巨头传记」标签的书籍里，也就是说，「科技巨头传记」这个标签 <strong>K</strong>，与 <strong>乔布斯</strong> 的匹配度极高，你心中给这个「科技巨头传记」标签打了95分；反之，你认为与带有「水果种植」标签的书籍的匹配度极低（聪明的你只给他打了5分）。</li>
+<li>接着，你把总精力（100%）按照上面打的分数分配出去。你花了 95% 的时间用来读传记，而只花了 5% 的时间随便翻翻水果书（这在数学上叫做 <code>Softmax</code> 操作）。</li>
+<li>最后，你把书里的实际内容 <strong>V</strong>，按照你分配的注意力比例汇总起来，就得到了你想要的知识。</li>
+</ol>
+<p>上面的这个过程，实际上就是 <strong>Attention机制</strong> 中最核心的三个元素：查询向量、键和值的运作逻辑。如果用严谨的数学语言表达，就能得到这个著名的公式：</p>
+<script type="math/tex; mode=display">
+\text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V</script><p><em>(注：除以 $\sqrt{d_k}$ 只是为了防止高维空间中点积值过大导致 softmax 梯度消失，导致模型「脑死」无法学习。)</em></p>
+<p>初看这个矩阵相乘的公式可能会觉得有些抽象，但只要结合我们刚才「图书馆查资料」的经历，公式里的每个符号和步骤就都变得有血有肉了：</p>
+<ol>
+<li><p><strong>$QK^T$（计算相关性打分）</strong>：</p>
+<ul>
+<li>这里的 $Q$ 包含了我们的检索需求，$K$ 包含了所有内容的标签。右上角的 $T$ 表示矩阵转置。</li>
+<li>$Q$ 和 $K^T$ 相乘，在数学上就是计算两个向量的<strong>点积（Dot Product）</strong>，这是一种用来衡量两个向量相似度的经典方法。</li>
+<li><strong>物理意义</strong>：这对应着我们用「乔布斯」这个词，去和所有书的标签进行比对的过程。计算出的结果矩阵里，存的就是你给每本书打出的「匹配分数」（比如那 95 分和 5 分）。分数越高，说明当前的标签 $K$ 越符合需求 $Q$。</li>
+</ul>
+</li>
+<li><p><strong>$\text{softmax}(\dots)$（转化为注意力权重）</strong>：</p>
+<ul>
+<li>Softmax 函数的作用，是把所有的原始打分转化为正数，并且让这些分数的总和恰好等于 1（也就是 100%）。它还有一个特性：会指数级地「放大」高分，「压抑」低分。</li>
+<li><strong>物理意义</strong>：这就像是你将自己 100% 的精力重新分配，95% 甚至 99% 给了高度相关的「科技巨头传记」，而极少部分精力给到了无关的「水果种植」。它解答了最关键的问题：<strong>「我应该把多少百分比的注意力，分配给不同的书本？」</strong></li>
+</ul>
+</li>
+<li><p><strong>$\times V$（加权提取信息）</strong>：</p>
+<ul>
+<li>将上面算出的注意力分配比例矩阵，去乘以书本的实际内容 $V$。</li>
+<li><strong>物理意义</strong>：这意味着你开始「博采众长」。你摘抄了大量传记里的核心知识，可能顺带瞥了一眼水果书里的两行字。所有这些你吸收的信息，按比例加权汇总起来。</li>
+</ul>
+</li>
+</ol>
+<p><strong>👉 最终返回的值，究竟代表着什么样的物理意义？</strong></p>
+<p>经过上面这一整套计算，最终输出的结果，已经<strong>不再是一个孤立的、干瘪的初始词汇了</strong>。</p>
+<p>在图书馆的例子里，它从一个简单的查询词「乔布斯」，变成了一份<strong>融合了你所需要的所有背景知识的「详尽调查报告」</strong>。</p>
+<p>如果回到我们文章开头阅读文本的例子（“这所银行的门坏了，所以他去了另一家银行取钱”）：<br>当系统处理到第二个单词「bank」时，它会把「bank」当作查询项（$Q$），去和全句的其他词语（$K$）做比对。公式中的 $QK^T$ 会发现，「bank」与「withdraw（取钱）」、「money（钱）」这两个词的关联度极高，于是 Softmax 给了它们极大的权重分配。随后在乘上 $V$ 时，模型大量吸收了“取款”和“钱”包含的语义信息。</p>
+<p>所以，公式运算返回的最终值，是一个<strong>经过全局上下文“滋润”和“重塑”后的全新向量</strong>。这个新向量不再是字典里冰冷的“bank（银行/河岸）”这一层普通含义，而是被赋予了强烈语境的：<strong>“这是一个有大门、可以提取货币的金融机构”</strong>。</p>
+<p>这正是注意力机制让 AI 真正做到「理解上下文」的底层物理真相。</p>
+<hr>
+<h2 id="三、Self-Attention-可视化：一句话如何「看」自己"><a href="#三、Self-Attention-可视化：一句话如何「看」自己" class="headerlink" title="三、Self-Attention 可视化：一句话如何「看」自己"></a>三、Self-Attention 可视化：一句话如何「看」自己</h2><p>在自然语言处理中，Transformer 使用的是 <strong>Self-Attention（自注意力机制）</strong>。顾名思义，就是<strong>「自己查询自己」</strong>。句子里的每一个词，都会同时生成自己的 Q、K 和 V。也就是说，每个词都在全句中大喊：「我是谁，我需要找谁？」同时也在回应：「我在这里，我有什么特征。」</p>
+<p>下面展示的是一个真实的 AI 模型（BERT-base）在阅读 <strong>「猫坐在垫子上。」</strong> 这句话时的脑部活动。</p>
+<blockquote>
+<p>💡 <strong>交互指南</strong>：</p>
+<ul>
+<li>点击或悬停矩阵中的单元格，可以查看词与词之间具体的「注意力强度」。</li>
+<li>点击上方的「切换注意力头」，观察模型是如何从不同维度理解这句话的。</li>
+</ul>
+</blockquote>
 <div class="attn-demo-wrapper">
 <style>
 .attn-demo-wrapper {
@@ -528,58 +593,29 @@ btf.addGlobalFn('pjaxComplete', () => {
 </script>
 <p>&lt;/div&gt;</p>
 <blockquote>
-<p><strong>观察建议</strong>：切换到 Head 4 和 Head 5，你会看到截然不同的规律——分别呈现明显的上对角线和下对角线。这揭示了多头注意力的核心价值：<strong>不同的头学到了不同的语言规律</strong>，它们的输出拼接后才构成丰富的语义表示。</p>
+<p><strong>观察建议</strong>：切换到 Head 4 和 Head 5，你会看到截然不同的规律——分别呈现明显的上对角线和下对角线。这揭示了多头注意力的核心价值：<strong>不同的头就像是不同领域的专家，它们学到了不同的语言规律</strong>，最终将各自的结论汇总，形成对整句话丰富的理解。</p>
 </blockquote>
 <hr>
-<h2 id="三、Q、K、V-的几何直觉"><a href="#三、Q、K、V-的几何直觉" class="headerlink" title="三、Q、K、V 的几何直觉"></a>三、Q、K、V 的几何直觉</h2><p>Attention 公式中有三个核心矩阵，很多教程直接给出定义，但鲜少解释”为什么”。</p>
-<h3 id="3-1-一个类比：图书馆检索"><a href="#3-1-一个类比：图书馆检索" class="headerlink" title="3.1 一个类比：图书馆检索"></a>3.1 一个类比：图书馆检索</h3><div class="table-container">
-<table>
-<thead>
-<tr>
-<th>概念</th>
-<th>类比</th>
-<th>数学含义</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Query (Q)</strong></td>
-<td>你的检索需求</td>
-<td>当前 token 想要什么信息</td>
-</tr>
-<tr>
-<td><strong>Key (K)</strong></td>
-<td>书架上的索引标签</td>
-<td>每个 token 能提供什么信息</td>
-</tr>
-<tr>
-<td><strong>Value (V)</strong></td>
-<td>书的实际内容</td>
-<td>每个 token 实际携带的信息</td>
-</tr>
-<tr>
-<td><strong>Attention Score</strong></td>
-<td>检索匹配度</td>
-<td>Q 与每个 K 的相似度</td>
-</tr>
-<tr>
-<td><strong>输出</strong></td>
-<td>加权摘录</td>
-<td>按匹配度加权求和所有 V</td>
-</tr>
-</tbody>
-</table>
-</div>
+<h2 id="四、拼图的完整样貌：Transformer-架构大解密"><a href="#四、拼图的完整样貌：Transformer-架构大解密" class="headerlink" title="四、拼图的完整样貌：Transformer 架构大解密"></a>四、拼图的完整样貌：Transformer 架构大解密</h2><p>刚才我们体验了 Transformer 最核心的「心脏」——Attention 机制。但是光有一颗心脏是无法运作的。要把一段文本转换成 AI 能理解的形式，还需要一整套精密配合的系统。</p>
+<p>让我们一层一层剥开 Transformer 的完整架构（这也就是著名的 <strong>Encoder-Decoder 架构中的 Encoder 部分</strong>）：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">1. 输入文本（比如「猫坐在垫子上」）</span><br><span class="line">       ↓</span><br><span class="line">2. 词嵌入与位置编码（Token Embedding + Positional Encoding）</span><br><span class="line">       ↓</span><br><span class="line">   ┌──────────────────────────────────────────┐</span><br><span class="line">   │  Transformer 编码器层（堆叠 N 次）          │</span><br><span class="line">   │                                          │</span><br><span class="line">3. │  ┌────────────────────────────────────┐  │</span><br><span class="line">   │  │  多头自注意力（Multi-Head Attention）│  │</span><br><span class="line">   │  │  (+ 残差连接与层归一化)                │  │</span><br><span class="line">   │  └────────────────────────────────────┘  │</span><br><span class="line">   │                 ↓                        │</span><br><span class="line">4. │  ┌────────────────────────────────────┐  │</span><br><span class="line">   │  │  前馈神经网络（Feed-Forward Network） │  │</span><br><span class="line">   │  │  (+ 残差连接与层归一化)                │  │</span><br><span class="line">   │  └────────────────────────────────────┘  │</span><br><span class="line">   └──────────────────────────────────────────┘</span><br><span class="line">       ↓</span><br><span class="line">5. 输出丰富的高级特征表示（可用于分类、翻译等）</span><br></pre></td></tr></table></figure>
+<p>即使是非技术背景的读者，也可以通过下面的比喻轻松理解这几个关键部件的作用：</p>
+<h3 id="1-词嵌入（Token-Embedding）：给文字翻译成数字代码"><a href="#1-词嵌入（Token-Embedding）：给文字翻译成数字代码" class="headerlink" title="1. 词嵌入（Token Embedding）：给文字翻译成数字代码"></a>1. 词嵌入（Token Embedding）：给文字翻译成数字代码</h3><p>计算机不懂「猫」这个汉字。所以第一步，我们需要一本厚厚的密码本（字典），把「猫」翻译成一串长长的数字（向量）。这个过程就像是给每个词发放了一张包含其基本特征（名词、动物、带毛的）的身份证。</p>
+<h3 id="2-位置编码（Positional-Encoding）：给单词发排队号码牌"><a href="#2-位置编码（Positional-Encoding）：给单词发排队号码牌" class="headerlink" title="2. 位置编码（Positional Encoding）：给单词发排队号码牌"></a>2. 位置编码（Positional Encoding）：给单词发排队号码牌</h3><p>RNN 是按顺序一个一个词读的，天生就知道哪个词在前面。但 <strong>Transformer 是「上帝视角」，它是一下子看完全部的词。</strong> 这样会导致一个问题：「狗咬人」和「人咬狗」在它看来包含的词完全一样！<br>为了解决这个问题，我们需要在每个词的身份证上盖一个位置邮戳。这就是位置编码的作用。</p>
+<p>数学上，它通常使用精妙的正余弦函数来实现，保证了不同位置有独特的编码，而且能表达出相对位置的远近：</p>
 <script type="math/tex; mode=display">
-\text{score}(Q_i, K_j) = \frac{Q_i \cdot K_j}{\sqrt{d_k}}</script><p>除以 $\sqrt{d_k}$ 是为了防止高维空间中点积值过大导致 softmax 后梯度消失。</p>
-<h3 id="3-2-为什么是”多头”？"><a href="#3-2-为什么是”多头”？" class="headerlink" title="3.2 为什么是”多头”？"></a>3.2 为什么是”多头”？</h3><p>单头 attention 相当于只有一种”检索方式”。多头的思想是：</p>
+PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right), \quad PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)</script><h3 id="3-多头注意力（Multi-Head-Attention）：组建专家委员会"><a href="#3-多头注意力（Multi-Head-Attention）：组建专家委员会" class="headerlink" title="3. 多头注意力（Multi-Head Attention）：组建专家委员会"></a>3. 多头注意力（Multi-Head Attention）：组建专家委员会</h3><p>我们刚才提到过，单头 Attention 就像一个人在思考。但一句话可能有很多维度的含义：有语法维度的（主谓宾），有情感维度的，有指代维度的。<br><strong>多头（Multi-Head）的思想就是克隆出多个独立的 Attention 机制</strong>，让它们分别去关注不同的维度。最后把这些专家的意见拼接起来，形成全面的判断。</p>
+<h3 id="4-前馈神经网络（FFN）：专家的独立沉淀"><a href="#4-前馈神经网络（FFN）：专家的独立沉淀" class="headerlink" title="4. 前馈神经网络（FFN）：专家的独立沉淀"></a>4. 前馈神经网络（FFN）：专家的独立沉淀</h3><p>多头注意力模块让所有的词进行了充分的「交流与会议」。开完会后，每个词需要回到自己的工位上，独立消化会议精神。<br>FFN 就是针对每一个词单独进行的两层处理网络（MLP），它负责在 Attention 聚合信息后，进一步提炼和转换特征：</p>
 <script type="math/tex; mode=display">
-\text{MultiHead}(Q,K,V) = \text{Concat}(\text{head}_1, \ldots, \text{head}_h) W^O</script><script type="math/tex; mode=display">
-\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)</script><p>每个头都有独立的投影矩阵，因此可以在不同的<strong>子空间</strong>中学习不同类型的关系——正如上面可视化中展示的，有的头关注句法近邻，有的头关注语义依存，有的头汇聚全局信息。</p>
+\text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2</script><h3 id="5-残差连接与层归一化（Add-amp-Norm）：团队的护城河"><a href="#5-残差连接与层归一化（Add-amp-Norm）：团队的护城河" class="headerlink" title="5. 残差连接与层归一化（Add &amp; Norm）：团队的护城河"></a>5. 残差连接与层归一化（Add &amp; Norm）：团队的护城河</h3><p>在每次「开会」（Attention）和「沉淀」（FFN）之后，模型都会做两件事：</p>
+<ul>
+<li><strong>残差连接（Add）</strong>：把处理前的内容和处理后的内容加起来。这就像是保留了会议前的初衷，防止信息在多次处理后被完全扭曲。</li>
+<li><strong>层归一化（Norm）</strong>：把数值大小控制在合理范围内，防止出现极端情绪（数值爆炸），保证网络稳定训练。</li>
+</ul>
 <hr>
-<h2 id="四、图像版-Attention：Vision-Transformer（ViT）"><a href="#四、图像版-Attention：Vision-Transformer（ViT）" class="headerlink" title="四、图像版 Attention：Vision Transformer（ViT）"></a>四、图像版 Attention：Vision Transformer（ViT）</h2><p>NLP 中 token 是词，ViT 里的 “token” 是图像的 <strong>Patch</strong>。</p>
-<h3 id="4-1-图像分块（Patch-Embedding）"><a href="#4-1-图像分块（Patch-Embedding）" class="headerlink" title="4.1 图像分块（Patch Embedding）"></a>4.1 图像分块（Patch Embedding）</h3><p>一张 $224 \times 224$ 的图像，以 $16 \times 16$ 为一个 patch，得到 $\left(\frac{224}{16}\right)^2 = 196$ 个 patch token，加上一个 <code>[CLS]</code> token，共 197 个序列元素。</p>
-<p>下面展示的是 <strong>ViT-B/16 在典型图像上的 <code>[CLS]</code> token 对各图像 patch 的注意力分布</strong>（即：模型”看”哪里）。这是真正的 ViT 最后一层 attention head 的平均值，反映了模型决策时关注的空间区域。</p>
+<h2 id="五、跨界魔法：图像版的-Attention（Vision-Transformer-ViT）"><a href="#五、跨界魔法：图像版的-Attention（Vision-Transformer-ViT）" class="headerlink" title="五、跨界魔法：图像版的 Attention（Vision Transformer / ViT）"></a>五、跨界魔法：图像版的 Attention（Vision Transformer / ViT）</h2><p>一开始，大家都以为 Transformer 只能用来处理文字。直到 2020 年，<strong>ViT (Vision Transformer)</strong> 横空出世，人们惊讶地发现：<strong>原来图片也能被当成句子来读！</strong></p>
+<p><strong>怎么把图片变成句子呢？</strong> 答案是「切块」。<br>一张 $224 \times 224$ 分辨率的图片，如果以 $16 \times 16$ 像素为一个方块（Patch）进行切割，整张图就会被切成 196 块。<br>模型会把这 196 个小方块当作 196 个「单词」，然后再额外加上一个代表整张图全局总结的特殊单词（<code>[CLS]</code> token），总共 197 个元素送进 Transformer。</p>
+<p>接下来，我们来看看 <strong>ViT 是如何像人类一样「看懂」一张图的</strong>。下面展示的是 ViT 模型在做决策时，那个总结全图的 <code>[CLS]</code> token 对这 196 个图像方块的注意力分布。</p>
 <div class="vit-attn-wrapper">
 <style>
 .vit-attn-wrapper { margin: 2rem 0; }
@@ -919,14 +955,22 @@ btf.addGlobalFn('pjaxComplete', () => {
   switchVitScene(0);
 })();
 </script>
-<p>&lt;/div&gt;：Attention Map 使用 Viridis 色系——从深紫（低注意力）到亮黄（高注意力）。点击下方各注意力头的缩略图可单独查看该头的关注区域。</p>
+<p>&lt;/div&gt;</p>
 <blockquote>
-<p><strong>颜色说明</strong>：Attention Map 使用 Viridis 色系——从深紫（低注意力）到亮黄（高注意力）。点击下方各注意力头的缩略图可单独查看该头的关注区域。</p>
+<p><strong>颜色说明</strong>：Attention Map 使用了从深紫（表示几乎没注意）到亮黄（表示高度聚焦）的渐变色系。你可以点击下方各个注意力头的缩略图，看看不同的专家（Head）分别关注了画面的哪里。你会发现，CNN 那种「一点一点扩大视野」的做法被彻底颠覆了，ViT 可以在第一眼就直接捕捉到全局中最重要的特征。</p>
 </blockquote>
 <hr>
-<h2 id="五、Cross-Attention：图像与文字的”对话”"><a href="#五、Cross-Attention：图像与文字的”对话”" class="headerlink" title="五、Cross-Attention：图像与文字的”对话”"></a>五、Cross-Attention：图像与文字的”对话”</h2><p>在 CLIP、DALL-E、Stable Diffusion 等多模态模型中，使用的是 <strong>Cross-Attention</strong>——Query 来自一个模态（如文本），Key/Value 来自另一个模态（如图像），从而实现跨模态信息检索。</p>
+<h2 id="六、跨模态对话：图像与文字的相会（Cross-Attention）"><a href="#六、跨模态对话：图像与文字的相会（Cross-Attention）" class="headerlink" title="六、跨模态对话：图像与文字的相会（Cross-Attention）"></a>六、跨模态对话：图像与文字的相会（Cross-Attention）</h2><p>既然文字可以用 Attention，图片也可以用 Attention，那我们能不能让<strong>文字和图片互相看对眼</strong>呢？</p>
+<p>这就引出了 <strong>Cross-Attention（交叉注意力）</strong> 的概念。它是现在大火的 AI 绘画模型（比如 Midjourney、Stable Diffusion）以及图文理解模型（如 CLIP）的核心技术。</p>
+<p>前面讲的 Self-Attention 都是「自己查询自己」（Q、K、V 都来自同一句话，或者同一张图）。<br>而在 Cross-Attention 中，我们玩了一个跨界游戏：</p>
+<ul>
+<li><strong>Query (Q) 来自文本</strong>（比如「寻找猫的位置」）。</li>
+<li><strong>Key (K) 和 Value (V) 来自图像</strong>（图片提供所有的特征区域等待挑选）。</li>
+</ul>
+<p>这就像是<strong>文字在向图片提问，而图片给出回答</strong>。</p>
 <script type="math/tex; mode=display">
-\text{CrossAttn}(Q_{\text{text}}, K_{\text{image}}, V_{\text{image}}) = \text{softmax}\left(\frac{Q_{\text{text}} K_{\text{image}}^T}{\sqrt{d_k}}\right) V_{\text{image}}</script><div class="cross-attn-wrapper">
+\text{CrossAttn}(Q_{\text{text}}, K_{\text{image}}, V_{\text{image}}) = \text{softmax}\left(\frac{Q_{\text{text}} K_{\text{image}}^T}{\sqrt{d_k}}\right) V_{\text{image}}</script><p>看看下面的演示，当我们选择句子中的不同词汇时，模型是如何在图片上精准定位出那个词对应的区域的。</p>
+<div class="cross-attn-wrapper">
 <style>
 .cross-attn-wrapper { margin: 2rem 0; }
 .cross-flex { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
@@ -1127,71 +1171,60 @@ btf.addGlobalFn('pjaxComplete', () => {
 </script>
 <p>&lt;/div&gt;</p>
 <blockquote>
-<p><strong>操作提示</strong>：点击左侧不同的文字 token，右侧图像上的热力图会实时更新，展示该 token 最关注图像的哪些区域。注意”猫”对猫的头/身体的高响应，以及”窗边”对窗户区域的精准定位。</p>
+<p><strong>操作提示</strong>：点击左侧不同的文字 token，右侧图像上的热力图会实时更新。你会惊奇地发现，当点击「猫」时，热力图精准覆盖了猫的身体；点击「窗边」时，注意力立刻转移到了右侧的窗户上。这就仿佛是 AI 真正「听懂」了你的话，并且在图片里「找」到了对应的东西。</p>
 </blockquote>
 <hr>
-<h2 id="六、Transformer-完整架构回顾"><a href="#六、Transformer-完整架构回顾" class="headerlink" title="六、Transformer 完整架构回顾"></a>六、Transformer 完整架构回顾</h2><p>理解了 Attention 之后，Transformer 的其余结构就很自然了：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">输入序列</span><br><span class="line">    ↓</span><br><span class="line">[Token Embedding + Positional Encoding]</span><br><span class="line">    ↓</span><br><span class="line">┌─────────────────────────────────────┐</span><br><span class="line">│  Transformer Encoder Block × N      │</span><br><span class="line">│                                     │</span><br><span class="line">│  ┌──────────────────────────────┐   │</span><br><span class="line">│  │  Multi-Head Self-Attention   │   │</span><br><span class="line">│  │  (+ Residual + LayerNorm)    │   │</span><br><span class="line">│  └──────────────────────────────┘   │</span><br><span class="line">│              ↓                      │</span><br><span class="line">│  ┌──────────────────────────────┐   │</span><br><span class="line">│  │  Feed-Forward Network        │   │</span><br><span class="line">│  │  (两层MLP, + Residual + LN)  │   │</span><br><span class="line">│  └──────────────────────────────┘   │</span><br><span class="line">└─────────────────────────────────────┘</span><br><span class="line">    ↓</span><br><span class="line">输出表示（用于分类/生成/etc.）</span><br></pre></td></tr></table></figure>
-<p><strong>Positional Encoding</strong> 解决了 Attention 对位置无感知的问题：</p>
-<script type="math/tex; mode=display">
-PE_{(pos, 2i)} = \sin\left(\frac{pos}{10000^{2i/d_{model}}}\right), \quad PE_{(pos, 2i+1)} = \cos\left(\frac{pos}{10000^{2i/d_{model}}}\right)</script><p><strong>Feed-Forward Network</strong> 是逐位置的两层 MLP，负责在 Attention 聚合信息后进一步提炼特征：</p>
-<script type="math/tex; mode=display">
-\text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2</script><p><strong>残差连接 + LayerNorm</strong> 则是保证深层网络可训练的工程关键。</p>
-<hr>
-<h2 id="七、ViT-vs-CNN：两种”看”世界的方式"><a href="#七、ViT-vs-CNN：两种”看”世界的方式" class="headerlink" title="七、ViT vs CNN：两种”看”世界的方式"></a>七、ViT vs CNN：两种”看”世界的方式</h2><div class="table-container">
+<h2 id="七、ViT-vs-CNN：两种「看」世界的方式（总结）"><a href="#七、ViT-vs-CNN：两种「看」世界的方式（总结）" class="headerlink" title="七、ViT vs CNN：两种「看」世界的方式（总结）"></a>七、ViT vs CNN：两种「看」世界的方式（总结）</h2><p>到这里，我们已经完整体验了 Transformer 在自然语言处理和计算机视觉中的魔法。最后，我们用一张通俗的表格，来对比一下传统的 CNN 和今天的主角 ViT：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
 <th>特性</th>
-<th>CNN</th>
-<th>Vision Transformer</th>
+<th>🔍 传统的 CNN（卷积神经网络）</th>
+<th>🦅 Vision Transformer (ViT)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>感受野</strong></td>
-<td>局部→逐层扩大</td>
-<td>全局（第一层就能关注全图）</td>
+<td><strong>观察方式（感受野）</strong></td>
+<td><strong>井底之蛙，逐渐爬高</strong>：开始只能看到一小块，需要很多层才能看到全貌。</td>
+<td><strong>上帝视角，尽收眼底</strong>：第一层就能关注并比对全图的所有角落。</td>
 </tr>
 <tr>
-<td><strong>归纳偏置</strong></td>
-<td>平移不变性强</td>
-<td>归纳偏置弱，依赖数据学习</td>
+<td><strong>先天经验（归纳偏置）</strong></td>
+<td><strong>经验丰富的老工匠</strong>：天生就知道怎么找边缘、找纹理（平移不变性强）。</td>
+<td><strong>天赋异禀的白纸</strong>：天生什么都不懂，全靠后天从海量数据中自己摸索规律。</td>
 </tr>
 <tr>
-<td><strong>小数据性能</strong></td>
-<td>优</td>
-<td>较差（需要大规模预训练）</td>
+<td><strong>小数据学习能力</strong></td>
+<td><strong>优</strong>：因为有先天经验，给少量图片就能学个大概。</td>
+<td><strong>差</strong>：因为是白纸，数据太少容易「死记硬背」导致学偏（过拟合）。</td>
 </tr>
 <tr>
-<td><strong>大数据性能</strong></td>
-<td>较好</td>
-<td>更优（可扩展性强）</td>
+<td><strong>大数据学习上限</strong></td>
+<td><strong>较好</strong>：到了一定程度就会遇到瓶颈。</td>
+<td><strong>无与伦比</strong>：给的数据越多，它学得越聪明，上限极高。</td>
 </tr>
 <tr>
-<td><strong>长程依赖</strong></td>
-<td>弱</td>
-<td>强（O(n²) 的 attention）</td>
-</tr>
-<tr>
-<td><strong>可解释性</strong></td>
-<td>用 CAM/Grad-CAM</td>
-<td>直接可视化 attention map</td>
+<td><strong>解释性</strong></td>
+<td><strong>相对黑盒</strong>：想知道它认出猫的依据，需要借助 CAM 等复杂工具。</td>
+<td><strong>清晰明了</strong>：直接把 Attention Map 画出来（就像本文演示的那样），它看哪儿一目了然。</td>
 </tr>
 </tbody>
 </table>
 </div>
-<p>这也是为什么 ViT 在 ImageNet-21k 这种大规模数据上训练后，才能真正超越 CNN 的原因——它需要足够多的数据来弥补缺失的归纳偏置。</p>
+<p><strong>总结：</strong> Transformer 及其衍生出的各种架构（ViT、GPT等），之所以能够掀起一场波澜壮阔的 AI 革命，正是因为它摒弃了人类强加的各种「规则和捷径」，转而采用了一种极其简单却又无限贴近本质的方式：<strong>把所有的信息（文字或图片方块）放在一起，让它们自己决定谁和谁最相关。</strong></p>
+<p>希望这篇文章里的交互动画和通俗比喻，能让你在没有沉重理论包袱的情况下，直观感受到 Transformer 冰冷代码背后的数学之美。</p>
 <hr>
-<h2 id="延伸阅读"><a href="#延伸阅读" class="headerlink" title="延伸阅读"></a>延伸阅读</h2><ol>
-<li><strong>Attention Is All You Need</strong> (Vaswani et al., 2017) — Transformer 原始论文</li>
-<li><strong>An Image is Worth 16x16 Words</strong> (Dosovitskiy et al., 2020) — ViT 原始论文</li>
-<li><strong>Learning Transferable Visual Models From Natural Language Supervision</strong> (Radford et al., 2021) — CLIP</li>
-<li><strong>BERTviz</strong> — 开源的 BERT Attention 可视化工具</li>
+<h2 id="📚-延伸阅读（给喜欢深究的你）"><a href="#📚-延伸阅读（给喜欢深究的你）" class="headerlink" title="📚 延伸阅读（给喜欢深究的你）"></a>📚 延伸阅读（给喜欢深究的你）</h2><ol>
+<li><strong>《Attention Is All You Need》</strong> (Vaswani et al., 2017) — 传奇的开端，Transformer 的原始论文。</li>
+<li><strong>《An Image is Worth 16x16 Words》</strong> (Dosovitskiy et al., 2020) — ViT 的原始论文，证明了图片真的能切成方块当成文字读。</li>
+<li><strong>《Learning Transferable Visual Models From Natural Language Supervision》</strong> (Radford et al., 2021) — 著名图文匹配模型 CLIP 的论文，Cross-Attention 在跨模态领域的巅峰应用。</li>
+<li><strong>BERTviz</strong> — 一个强大的开源交互式 Attention 可视化工具库。</li>
 </ol>
 <hr>
-<p><em>本文所有可视化基于真实 Transformer 模型的预计算 attention 权重数据。代码实现使用纯 Canvas API，无外部依赖。</em></p>
-</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/">https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Lucky's Elysian Euphoria ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a><a class="post-meta__tags" href="/tags/Attention/">Attention</a><a class="post-meta__tags" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></div><div class="post-share"><div class="social-share" data-image="/image/bg_3.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/09/motion-category-introduction/" title="「Motion」3D人体动作生成"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">「Motion」3D人体动作生成</div></div><div class="info-2"><div class="info-item-1">研究方向本栏目记录我在3D人体动作生成领域的研究笔记，主要关注以下方向： 📌 核心问题 文本驱动的动作生成：如何从自然语言描述生成符合语义的三维人体运动序列 运动表示学习：如何有效编码人体运动的时空特性 跨模态对齐：如何建立语言与动作之间的语义映射 物理合理性：如何保证生成动作的运动学可行性  📚 研究内容本栏目将系统性地记录以下内容：  任务综述：形式化定义、问题建模、评价指标 运动表示：骨架关节表示、SMPL参数化模型、离散化编码 生成方法：检索式方法、VAE/CVAE、GAN、扩散模型、Transformer 数据集分析：HumanML3D、KIT-ML、BABEL等常用基准 前沿工作：最新论文的阅读笔记与复现心得 工程实践：模型训练、推理优化、可视化工具  🎯 研究目标 构建对动作生成领域的系统性认知框架 追踪前沿技术动态，积累代码实现经验 探索细粒度时空对齐、组合泛化、多人体交互等开放问题   内容概览🚧 施工中…TO BE DONE     Oh, I’d rather like to show you my fist. </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「CV」看得见的计算机视觉</div></div><div class="info-2"><div class="info-item-1">栏目愿景🚧欢迎来到 「看得见的计算机视觉」！ 这是一个正在构建中的计算机视觉基础理论教程系列。我希望打造一个类似 Dive into Deep Learning 的交互式学习资源，让抽象的深度学习算法变得可见、可感、可交互。  设计理念本栏目将着重介绍计算机视觉的一些理论基础，围绕可视化的内容构建对于领域专业名词、模型架构、具体应用的刻画和介绍。  🎨 可视化优先看见，才能理解。本栏目的核心特色：  🖼️ 动态图示：用动画展示算法的执行过程 🎮 交互演示：可调节参数、实时观察效果 📊 三维可视化：从不同维度理解高维数据 💡 直觉先行：先建立直觉，再引入数学  📐 数学友好不回避数学，但我相信我的描述能让你接受繁琐的公式：  关键公式配有几何解释 推导过程分步骤可视化 提供代码实现与数学公式的对照 理论支撑实验，结果验证理论    互动方式本栏目计划逐步引入以下交互形式：  🎛️ 参数调节器：拖动滑块，实时观察算法效果 🎨 图像上传器：用自己的图片测试算法 📝 代码演练场：边学边写，即时反馈 🧪 实验对比器：并排对比不同方法的效果   当前进度🚧...</div></div></div></a><a class="pagination-related" href="/2026/04/05/text-to-motion-generation-survey/" title="文本到动作生成（Text-to-Motion）任务综述"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-05</div><div class="info-item-2">文本到动作生成（Text-to-Motion）任务综述</div></div><div class="info-2"><div class="info-item-1">摘要文本到动作生成（Text-to-Motion Generation）旨在根据自然语言描述自动合成符合语义的人体运动序列（通常为三维关节轨迹或 SMPL 等参数化人体模型的姿态序列）。该任务连接语言与动作两种模态，在虚拟现实、游戏动画、体育分析、人机交互与辅助内容创作等领域具有广泛应用前景。本文从问题形式化、运动表示与数据集、评价方式、方法谱系以及开放问题等方面对该任务进行结构化梳理。  1. 任务定义与问题表述1.1 输入与输出 输入：一段自然语言文本 $t$，可描述动作类型（如「行走」「挥手」）、风格（如「疲惫地」「欢快地」）、方向、节奏或与物体的交互关系等。 输出：一段时序人体运动 $M = {m_1, m_2, \ldots, m_T}$，其中每个时间步 $m_i$ 可为关节角、全局根节点轨迹与局部姿态、或 SMPL/SMPL-X 的 pose 与 shape 参数等。  1.2 形式化目标在给定文本 $t$ 的条件下，学习条件分布 $p(M \mid...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">LuckyShen</div><div class="author-info-description">Welcome to Lucky's Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lucky1192405754"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E2%80%9D%E6%B3%A8%E6%84%8F%E5%8A%9B%E2%80%9D%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、为什么需要”注意力”？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Self-Attention-%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9A%E4%B8%80%E5%8F%A5%E8%AF%9D%E5%A6%82%E4%BD%95%E2%80%9D%E7%9C%8B%E2%80%9D%E8%87%AA%E5%B7%B1"><span class="toc-number">2.</span> <span class="toc-text">二、Self-Attention 可视化：一句话如何”看”自己</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Q%E3%80%81K%E3%80%81V-%E7%9A%84%E5%87%A0%E4%BD%95%E7%9B%B4%E8%A7%89"><span class="toc-number">3.</span> <span class="toc-text">三、Q、K、V 的几何直觉</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E4%B8%80%E4%B8%AA%E7%B1%BB%E6%AF%94%EF%BC%9A%E5%9B%BE%E4%B9%A6%E9%A6%86%E6%A3%80%E7%B4%A2"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 一个类比：图书馆检索</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E2%80%9D%E5%A4%9A%E5%A4%B4%E2%80%9D%EF%BC%9F"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 为什么是”多头”？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E5%9B%BE%E5%83%8F%E7%89%88-Attention%EF%BC%9AVision-Transformer%EF%BC%88ViT%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">四、图像版 Attention：Vision Transformer（ViT）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E5%9B%BE%E5%83%8F%E5%88%86%E5%9D%97%EF%BC%88Patch-Embedding%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 图像分块（Patch Embedding）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81Cross-Attention%EF%BC%9A%E5%9B%BE%E5%83%8F%E4%B8%8E%E6%96%87%E5%AD%97%E7%9A%84%E2%80%9D%E5%AF%B9%E8%AF%9D%E2%80%9D"><span class="toc-number">5.</span> <span class="toc-text">五、Cross-Attention：图像与文字的”对话”</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">5.0.1.</span> <span class="toc-text">🔤 文本 Token（点击选择）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">5.0.2.</span> <span class="toc-text">🖼️ 图像区域的响应（Cross-Attention）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81Transformer-%E5%AE%8C%E6%95%B4%E6%9E%B6%E6%9E%84%E5%9B%9E%E9%A1%BE"><span class="toc-number">6.</span> <span class="toc-text">六、Transformer 完整架构回顾</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81ViT-vs-CNN%EF%BC%9A%E4%B8%A4%E7%A7%8D%E2%80%9D%E7%9C%8B%E2%80%9D%E4%B8%96%E7%95%8C%E7%9A%84%E6%96%B9%E5%BC%8F"><span class="toc-number">7.</span> <span class="toc-text">七、ViT vs CNN：两种”看”世界的方式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB"><span class="toc-number">8.</span> <span class="toc-text">延伸阅读</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制"><img src="/image/bg_3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="看见注意力：用可视化理解 Transformer 的 Attention 机制"/></a><div class="content"><a class="title" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制">看见注意力：用可视化理解 Transformer 的 Attention 机制</a><time datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/food-category-introduction/" title="「食为天」雅舍谈吃">「食为天」雅舍谈吃</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉">「CV」看得见的计算机视觉</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南">「Linux」服务器操作指南</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/memoir-category-introduction/" title="「童年，在人间，我的大学」">「童年，在人间，我的大学」</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/image/bg_3.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+<p><em>（注：本文所有可视化动画均基于真实 Transformer 模型的预计算 Attention 权重数据，纯原生 Canvas 渲染。）</em></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/">https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Lucky's Elysian Euphoria ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a><a class="post-meta__tags" href="/tags/Attention/">Attention</a><a class="post-meta__tags" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></div><div class="post-share"><div class="social-share" data-image="/image/bg_3.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">「CV」看得见的计算机视觉</div></div><div class="info-2"><div class="info-item-1">栏目愿景🚧欢迎来到 「看得见的计算机视觉」！ 这是一个正在构建中的计算机视觉基础理论教程系列。我希望打造一个类似 Dive into Deep Learning 的交互式学习资源，让抽象的深度学习算法变得可见、可感、可交互。  设计理念本栏目将着重介绍计算机视觉的一些理论基础，围绕可视化的内容构建对于领域专业名词、模型架构、具体应用的刻画和介绍。  🎨 可视化优先看见，才能理解。本栏目的核心特色：  🖼️ 动态图示：用动画展示算法的执行过程 🎮 交互演示：可调节参数、实时观察效果 📊 三维可视化：从不同维度理解高维数据 💡 直觉先行：先建立直觉，再引入数学  📐 数学友好不回避数学，但我相信我的描述能让你接受繁琐的公式：  关键公式配有几何解释 推导过程分步骤可视化 提供代码实现与数学公式的对照 理论支撑实验，结果验证理论    互动方式本栏目计划逐步引入以下交互形式：  🎛️ 参数调节器：拖动滑块，实时观察算法效果 🎨 图像上传器：用自己的图片测试算法 📝 代码演练场：边学边写，即时反馈 🧪 实验对比器：并排对比不同方法的效果   当前进度🚧...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「CV」看得见的计算机视觉</div></div><div class="info-2"><div class="info-item-1">栏目愿景🚧欢迎来到 「看得见的计算机视觉」！ 这是一个正在构建中的计算机视觉基础理论教程系列。我希望打造一个类似 Dive into Deep Learning 的交互式学习资源，让抽象的深度学习算法变得可见、可感、可交互。  设计理念本栏目将着重介绍计算机视觉的一些理论基础，围绕可视化的内容构建对于领域专业名词、模型架构、具体应用的刻画和介绍。  🎨 可视化优先看见，才能理解。本栏目的核心特色：  🖼️ 动态图示：用动画展示算法的执行过程 🎮 交互演示：可调节参数、实时观察效果 📊 三维可视化：从不同维度理解高维数据 💡 直觉先行：先建立直觉，再引入数学  📐 数学友好不回避数学，但我相信我的描述能让你接受繁琐的公式：  关键公式配有几何解释 推导过程分步骤可视化 提供代码实现与数学公式的对照 理论支撑实验，结果验证理论    互动方式本栏目计划逐步引入以下交互形式：  🎛️ 参数调节器：拖动滑块，实时观察算法效果 🎨 图像上传器：用自己的图片测试算法 📝 代码演练场：边学边写，即时反馈 🧪 实验对比器：并排对比不同方法的效果   当前进度🚧...</div></div></div></a><a class="pagination-related" href="/2026/04/05/text-to-motion-generation-survey/" title="文本到动作生成（Text-to-Motion）任务综述"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-05</div><div class="info-item-2">文本到动作生成（Text-to-Motion）任务综述</div></div><div class="info-2"><div class="info-item-1">摘要文本到动作生成（Text-to-Motion Generation）旨在根据自然语言描述自动合成符合语义的人体运动序列（通常为三维关节轨迹或 SMPL 等参数化人体模型的姿态序列）。该任务连接语言与动作两种模态，在虚拟现实、游戏动画、体育分析、人机交互与辅助内容创作等领域具有广泛应用前景。本文从问题形式化、运动表示与数据集、评价方式、方法谱系以及开放问题等方面对该任务进行结构化梳理。  1. 任务定义与问题表述1.1 输入与输出 输入：一段自然语言文本 $t$，可描述动作类型（如「行走」「挥手」）、风格（如「疲惫地」「欢快地」）、方向、节奏或与物体的交互关系等。 输出：一段时序人体运动 $M = {m_1, m_2, \ldots, m_T}$，其中每个时间步 $m_i$ 可为关节角、全局根节点轨迹与局部姿态、或 SMPL/SMPL-X 的 pose 与 shape 参数等。  1.2 形式化目标在给定文本 $t$ 的条件下，学习条件分布 $p(M \mid...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">LuckyShen</div><div class="author-info-description">Welcome to Lucky's Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lucky1192405754"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80%EF%BC%9A%E6%88%91%E4%BB%AC%E6%98%AF%E5%A6%82%E4%BD%95%E8%AF%BB%E6%96%87%E6%9C%AC%E5%92%8C%E7%9C%8B%E5%9B%BE%E7%9A%84%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、引言：我们是如何读文本和看图的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Query%E3%80%81Key%E3%80%81Value%E2%80%94%E2%80%94%E4%BB%8E%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%AE%B2%E8%B5%B7"><span class="toc-number">2.</span> <span class="toc-text">二、Query、Key、Value——从图书馆讲起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Self-Attention-%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9A%E4%B8%80%E5%8F%A5%E8%AF%9D%E5%A6%82%E4%BD%95%E3%80%8C%E7%9C%8B%E3%80%8D%E8%87%AA%E5%B7%B1"><span class="toc-number">3.</span> <span class="toc-text">三、Self-Attention 可视化：一句话如何「看」自己</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%8B%BC%E5%9B%BE%E7%9A%84%E5%AE%8C%E6%95%B4%E6%A0%B7%E8%B2%8C%EF%BC%9ATransformer-%E6%9E%B6%E6%9E%84%E5%A4%A7%E8%A7%A3%E5%AF%86"><span class="toc-number">4.</span> <span class="toc-text">四、拼图的完整样貌：Transformer 架构大解密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%AF%8D%E5%B5%8C%E5%85%A5%EF%BC%88Token-Embedding%EF%BC%89%EF%BC%9A%E7%BB%99%E6%96%87%E5%AD%97%E7%BF%BB%E8%AF%91%E6%88%90%E6%95%B0%E5%AD%97%E4%BB%A3%E7%A0%81"><span class="toc-number">4.1.</span> <span class="toc-text">1. 词嵌入（Token Embedding）：给文字翻译成数字代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%EF%BC%88Positional-Encoding%EF%BC%89%EF%BC%9A%E7%BB%99%E5%8D%95%E8%AF%8D%E5%8F%91%E6%8E%92%E9%98%9F%E5%8F%B7%E7%A0%81%E7%89%8C"><span class="toc-number">4.2.</span> <span class="toc-text">2. 位置编码（Positional Encoding）：给单词发排队号码牌</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%EF%BC%88Multi-Head-Attention%EF%BC%89%EF%BC%9A%E7%BB%84%E5%BB%BA%E4%B8%93%E5%AE%B6%E5%A7%94%E5%91%98%E4%BC%9A"><span class="toc-number">4.3.</span> <span class="toc-text">3. 多头注意力（Multi-Head Attention）：组建专家委员会</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%88FFN%EF%BC%89%EF%BC%9A%E4%B8%93%E5%AE%B6%E7%9A%84%E7%8B%AC%E7%AB%8B%E6%B2%89%E6%B7%80"><span class="toc-number">4.4.</span> <span class="toc-text">4. 前馈神经网络（FFN）：专家的独立沉淀</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%AE%8B%E5%B7%AE%E8%BF%9E%E6%8E%A5%E4%B8%8E%E5%B1%82%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%88Add-amp-Norm%EF%BC%89%EF%BC%9A%E5%9B%A2%E9%98%9F%E7%9A%84%E6%8A%A4%E5%9F%8E%E6%B2%B3"><span class="toc-number">4.5.</span> <span class="toc-text">5. 残差连接与层归一化（Add &amp; Norm）：团队的护城河</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E8%B7%A8%E7%95%8C%E9%AD%94%E6%B3%95%EF%BC%9A%E5%9B%BE%E5%83%8F%E7%89%88%E7%9A%84-Attention%EF%BC%88Vision-Transformer-ViT%EF%BC%89"><span class="toc-number">5.</span> <span class="toc-text">五、跨界魔法：图像版的 Attention（Vision Transformer &#x2F; ViT）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AD%E3%80%81%E8%B7%A8%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D%EF%BC%9A%E5%9B%BE%E5%83%8F%E4%B8%8E%E6%96%87%E5%AD%97%E7%9A%84%E7%9B%B8%E4%BC%9A%EF%BC%88Cross-Attention%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">六、跨模态对话：图像与文字的相会（Cross-Attention）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">6.0.1.</span> <span class="toc-text">🔤 文本 Token（点击选择）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">6.0.2.</span> <span class="toc-text">🖼️ 图像区域的响应（Cross-Attention）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81ViT-vs-CNN%EF%BC%9A%E4%B8%A4%E7%A7%8D%E3%80%8C%E7%9C%8B%E3%80%8D%E4%B8%96%E7%95%8C%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%88%E6%80%BB%E7%BB%93%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">七、ViT vs CNN：两种「看」世界的方式（总结）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9A-%E5%BB%B6%E4%BC%B8%E9%98%85%E8%AF%BB%EF%BC%88%E7%BB%99%E5%96%9C%E6%AC%A2%E6%B7%B1%E7%A9%B6%E7%9A%84%E4%BD%A0%EF%BC%89"><span class="toc-number">8.</span> <span class="toc-text">📚 延伸阅读（给喜欢深究的你）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制"><img src="/image/bg_3.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="看见注意力：用可视化理解 Transformer 的 Attention 机制"/></a><div class="content"><a class="title" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制">看见注意力：用可视化理解 Transformer 的 Attention 机制</a><time datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/food-category-introduction/" title="「食为天」雅舍谈吃">「食为天」雅舍谈吃</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南">「Linux」服务器操作指南</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/gaming-category-introduction/" title="「No Game, No Life」游戏人生">「No Game, No Life」游戏人生</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/memoir-category-introduction/" title="「童年，在人间，我的大学」">「童年，在人间，我的大学」</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/image/bg_3.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
