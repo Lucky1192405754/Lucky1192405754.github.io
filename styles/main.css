@@ -82,7 +82,7 @@ rgba(255, 225, 255, 0.6));
     border-radius: 8px;
 }
 
-/* 文章标题前装饰：使用纯 CSS 竖线，避免 Font Awesome 图标缺字显示为乱码 */
+/* 文章标题前装饰：渐变弧线菱形，取 Gemini 风格的柔和标识感 */
 .container h1::before,
 .container h2::before,
 .container h3::before,
@@ -94,11 +94,14 @@ rgba(255, 225, 255, 0.6));
     position: absolute;
     top: 50%;
     left: 0;
-    width: 5px;
-    height: 1em;
-    transform: translateY(-50%);
-    background: linear-gradient(180deg, #f47466 0%, #d6336c 100%);
-    border-radius: 999px;
+    width: 14px;
+    height: 14px;
+    transform: translateY(-50%) rotate(45deg);
+    border-radius: 4px;
+    background:
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.18) 34%, rgba(255, 255, 255, 0) 54%),
+        linear-gradient(135deg, #ffd6ee 0%, #f58b8b 26%, #d6336c 58%, #7b61ff 100%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.55) inset, 0 8px 18px rgba(214, 51, 108, 0.18);
     font-family: initial !important;
     font-weight: 400 !important;
     pointer-events: none;
@@ -110,7 +113,69 @@ rgba(255, 225, 255, 0.6));
 .container h4:hover::before,
 .container h5:hover::before,
 .container h6:hover::before {
-    background: linear-gradient(180deg, #ff8a7a 0%, #c92c66 100%);
+    background:
+        radial-gradient(circle at 30% 25%, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.22) 34%, rgba(255, 255, 255, 0) 56%),
+        linear-gradient(135deg, #ffe3f4 0%, #ff9b9b 24%, #df3e77 56%, #6f6bff 100%);
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.62) inset, 0 10px 22px rgba(214, 51, 108, 0.24);
+}
+
+/* 评论区卡片：柔和渐变包裹层，提升 GitHub 评论嵌入的整体观感 */
+#post-comment {
+    margin-top: 2.6rem;
+    padding: 1.1rem 1.15rem 1.2rem;
+    background: linear-gradient(135deg, rgba(255, 246, 251, 0.96), rgba(243, 248, 255, 0.96));
+    border: 1px solid rgba(214, 51, 108, 0.14);
+    border-radius: 22px;
+    box-shadow: 0 14px 34px rgba(214, 51, 108, 0.09);
+    backdrop-filter: blur(8px);
+}
+
+#post-comment .comment-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+#post-comment .comment-head .comment-headline {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #7a0e4b;
+    letter-spacing: 0.02em;
+}
+
+#post-comment .comment-head .comment-headline::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    transform: rotate(45deg);
+    border-radius: 4px;
+    background:
+        radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.15) 36%, rgba(255, 255, 255, 0) 56%),
+        linear-gradient(135deg, #ffd6ee 0%, #f58b8b 28%, #d6336c 58%, #7b61ff 100%);
+    box-shadow: 0 6px 14px rgba(214, 51, 108, 0.16);
+}
+
+#post-comment .utterances {
+    max-width: 100% !important;
+    margin-top: 0.2rem;
+}
+
+#post-comment .utterances-frame {
+    border-radius: 16px;
+}
+
+[data-theme=dark] #post-comment {
+    background: linear-gradient(135deg, rgba(29, 34, 54, 0.92), rgba(41, 35, 63, 0.92));
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.28);
+}
+
+[data-theme=dark] #post-comment .comment-head .comment-headline {
+    color: #ffdceb;
 }
 /*文章页面*/
 /* .layout>#post {
