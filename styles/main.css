@@ -81,6 +81,37 @@ rgba(255, 225, 255, 0.6));
     background-color: #3eb8be;
     border-radius: 8px;
 }
+
+/* 文章标题前装饰：使用纯 CSS 竖线，避免 Font Awesome 图标缺字显示为乱码 */
+.container h1::before,
+.container h2::before,
+.container h3::before,
+.container h4::before,
+.container h5::before,
+.container h6::before {
+    content: '' !important;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 5px;
+    height: 1em;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #f47466 0%, #d6336c 100%);
+    border-radius: 999px;
+    font-family: initial !important;
+    font-weight: 400 !important;
+    pointer-events: none;
+}
+
+.container h1:hover::before,
+.container h2:hover::before,
+.container h3:hover::before,
+.container h4:hover::before,
+.container h5:hover::before,
+.container h6:hover::before {
+    background: linear-gradient(180deg, #ff8a7a 0%, #c92c66 100%);
+}
 /*文章页面*/
 /* .layout>#post {
     background: linear-gradient(-45deg, rgba(225, 255, 252, 0.8), 
