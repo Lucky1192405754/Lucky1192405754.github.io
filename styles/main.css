@@ -1,9 +1,13 @@
-/* 鱼塘固定宽度 */
-canvas:not(#ribbon-canvas), #web_bg {
+/* 鱼塘固定宽度：只作用于页脚鱼塘 canvas，避免误伤正文交互画布和全屏背景 */
+#footer canvas:not(#ribbon-canvas) {
     margin-bottom: -0.5rem;
     display: block;
     width: 100%;
-    height: 160px
+    height: 160px;
+}
+
+#web_bg {
+    display: block;
 }
  
 /* 鱼塘渐变色 */
@@ -59,12 +63,12 @@ rgba(255, 225, 255, 0.6));
     rgba(225, 255, 251, 0.9), 
     rgba(255, 225, 255, 0.6));
 }
-/* 侧边栏目录最新文章卡片渐变色 */
+/* 侧边栏目录/最新文章/分类/标签/归档/网站信息卡片渐变色 */
 #aside-content>.sticky_layout>.card-widget{
-    background: linear-gradient(-45deg, rgba(230, 8, 208, 0.6), 
-    rgba(123, 103, 223, 0.9), 
-    rgba(59, 139, 165, 0.9), 
-    rgba(15, 26, 109, 0.6));
+    background: linear-gradient(-45deg, rgba(255, 225, 245, 0.6), 
+    rgba(255, 225, 225, 0.9), 
+    rgba(225, 255, 251, 0.9), 
+    rgba(255, 225, 255, 0.6));
 }
 [data-theme=dark] #aside-content>.sticky_layout>.card-widget{
     background: linear-gradient(-45deg, rgba(255, 225, 245, 0.6), 
