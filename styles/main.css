@@ -252,6 +252,44 @@ rgba(255, 225, 255, 0.6));
 [data-theme=dark] #aside-content .auto-announcement__section-title {
     color: #ffdceb;
 }
+
+/* pyecharts 交互图嵌入容器 */
+.attn-iframe-shell {
+    margin: 1.8rem 0 2.2rem;
+    border: 1px solid rgba(214, 51, 108, 0.12);
+    border-radius: 22px;
+    overflow: hidden;
+    background: linear-gradient(135deg, rgba(255, 248, 252, 0.96), rgba(245, 248, 255, 0.96));
+    box-shadow: 0 16px 36px rgba(214, 51, 108, 0.08);
+}
+
+.attn-iframe-shell iframe {
+    display: block;
+    width: 100%;
+    min-height: 680px;
+    border: 0;
+    background: transparent;
+}
+
+.attn-iframe-shell--compact iframe {
+    min-height: 620px;
+}
+
+[data-theme=dark] .attn-iframe-shell {
+    border-color: rgba(255, 255, 255, 0.08);
+    background: linear-gradient(135deg, rgba(25, 30, 48, 0.96), rgba(33, 28, 54, 0.96));
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+}
+
+@media screen and (max-width: 768px) {
+    .attn-iframe-shell iframe {
+        min-height: 520px;
+    }
+
+    .attn-iframe-shell--compact iframe {
+        min-height: 480px;
+    }
+}
 /*文章页面*/
 /* .layout>#post {
     background: linear-gradient(-45deg, rgba(225, 255, 252, 0.8), 
