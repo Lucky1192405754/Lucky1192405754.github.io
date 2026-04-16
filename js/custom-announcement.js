@@ -1,5 +1,11 @@
 (function () {
   const DATA_URL = '/announcement-data.json';
+  const FEATURED_ACHIEVEMENT = {
+    badge: '科研成果',
+    title: '[AAAI-2026] 细粒度运动生成 FineXtrol',
+    link: 'https://ojs.aaai.org/index.php/AAAI/article/view/37845'
+  };
+
 
   function escapeHtml(value) {
     return String(value || '')
@@ -51,14 +57,23 @@
       `
       : '';
 
+    const featuredHtml = `
+      <a class="auto-announcement__featured" href="${escapeHtml(FEATURED_ACHIEVEMENT.link)}" target="_blank" rel="noopener noreferrer">
+        <span class="auto-announcement__badge auto-announcement__badge--featured">${escapeHtml(FEATURED_ACHIEVEMENT.badge)}</span>
+        <span class="auto-announcement__featured-title">${escapeHtml(FEATURED_ACHIEVEMENT.title)}</span>
+      </a>
+    `;
+
     el.innerHTML = `
       <div class="auto-announcement__inner">
         ${weatherHtml}
+        ${featuredHtml}
         <div class="auto-announcement__section-title">${escapeHtml(data.labels?.headlines || '今日摘要')}</div>
         ${buildHeadlineList(data.headlines)}
         <div class="auto-announcement__meta">更新于 ${escapeHtml(formatTime(data.generatedAt))}</div>
       </div>
     `;
+
     el.dataset.loaded = 'true';
   }
 
