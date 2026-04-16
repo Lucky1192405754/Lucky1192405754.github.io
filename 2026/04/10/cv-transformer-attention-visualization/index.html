@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lucky1192405754.github.io/image/trans_img_1.png">
 <meta property="article:published_time" content="2026-04-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-04-16T10:22:18.941Z">
+<meta property="article:modified_time" content="2026-04-16T11:22:50.093Z">
 <meta property="article:author" content="LuckyShen">
 <meta property="article:tag" content="计算机视觉">
 <meta property="article:tag" content="深度学习">
@@ -22,7 +22,7 @@
   "url": "https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/",
   "image": "https://lucky1192405754.github.io/image/trans_img_1.png",
   "datePublished": "2026-04-09T16:00:00.000Z",
-  "dateModified": "2026-04-16T10:22:18.941Z",
+  "dateModified": "2026-04-16T11:22:50.093Z",
   "author": [
     {
       "@type": "Person",
@@ -194,11 +194,7 @@ btf.addGlobalFn('pjaxComplete', () => {
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/Lucky1192405754/Lucky1192405754.github.io/main/image/bg_16.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/trans_img_1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Lucky's Elysian Euphoria ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">看见注意力：用可视化理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">看见注意力：用可视化理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-16T10:22:18.941Z" title="更新于 2026-04-16 18:22:18">2026-04-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
-<p><strong>阅读导引</strong>：本文包含多个<strong>交互式可视化组件</strong>，建议在 PC 端浏览器中阅读。最佳阅读顺序是：<strong>直觉例子 → 小型数值推演 → Self-Attention 热力图 → Next-token 解释器 → 论文原图</strong>。所有可视化数据均来自真实 Transformer 模型的预计算 attention weights，文中的具体数字小算例则用于帮助理解矩阵计算流程。</p>
-</blockquote>
-<hr>
-<h2 id="一、引言：我们是如何读文本和看图的？"><a href="#一、引言：我们是如何读文本和看图的？" class="headerlink" title="一、引言：我们是如何读文本和看图的？"></a>一、引言：我们是如何读文本和看图的？</h2><p>想象一下，你正在阅读这样一句的话：</p>
+})()</script><div id="web_bg" style="background-image: url(https://raw.githubusercontent.com/Lucky1192405754/Lucky1192405754.github.io/main/image/bg_16.png);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/trans_img_1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Lucky's Elysian Euphoria ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">看见注意力：用可视化理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">看见注意力：用可视化理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-04-16T11:22:50.093Z" title="更新于 2026-04-16 19:22:50">2026-04-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="引言：从阅读的思考过程讲起"><a href="#引言：从阅读的思考过程讲起" class="headerlink" title="引言：从阅读的思考过程讲起"></a>引言：从阅读的思考过程讲起</h2><p>想象一下，你正在阅读这样一句的话：</p>
 <blockquote>
 <p><strong>The door of the bank $^1$ was broken, so he went to another bank $^2$ to withdraw money</strong>. </p>
 </blockquote>
@@ -213,9 +209,9 @@ btf.addGlobalFn('pjaxComplete', () => {
 <p>事实上，相当一部分的机器学习任务，就是希望人工智能（或者我们常说的<strong>模型</strong>），能够模仿人类这种过滤掉无关信息，保留重要的、有关联的信息的能力。在若干年前，人工智能在这方面做得很吃力：</p>
 <p>最早人们发明了一个拿着放大镜的观察者角色：它每次只能看到一小块区域（局部感受野），想要看到整张图的全局结构，就必须一层一层地堆叠这个角色本身，效率低下。这就是我们说的卷积神经网络（CNN）。</p>
 <p>同时，人们还发明了一个记忆力极差的读者角色：它只能逐字逐句地读文字，把遇到的文本一股脑地塞进自己固定大小的记忆里。但是它读到句尾时，早就忘了句首的内容。无论句子多长，这就是循环神经网络（RNN）。</p>
-<p><strong>直到2017年，一篇名叫<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762">《Attention is All You Need》</a>的文章的出现打破了这一切。</strong> 它赋予了人工智能一种类似「上帝视角」的能力：在一瞬间同时看到所有的字词（或图像区块），然后让它们互相「交流」，自行决定哪些部分最重要。而实现这一点的核心魔法，就是 <strong>Attention（注意力机制）</strong>。</p>
+<p><strong>直到2017年，一篇名叫<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762">《Attention is All You Need》</a>的文章的出现打破了这一切。</strong> 它赋予了人工智能一种类似「上帝视角」的能力：在一瞬间同时看到所有的字词（或图像区块），然后让它们互相「交流」，自行决定哪些部分最重要。而实现这一点的核心，就是 <strong>Attention 注意力机制</strong>。</p>
 <hr>
-<h2 id="二、Query、Key、Value——从图书馆讲起"><a href="#二、Query、Key、Value——从图书馆讲起" class="headerlink" title="二、Query、Key、Value——从图书馆讲起"></a>二、Query、Key、Value——从图书馆讲起</h2><p>首先，我们需要先搞懂 Attention 机制里最核心的三个字母的含义：<strong>Q (Query)</strong>、<strong>K (Key)</strong> 和 <strong>V (Value)</strong>。很多非专业的读者看到这里就会被公式吓跑，但其实它们的逻辑非常生活化。</p>
+<h2 id="Query、Key、Value：查询、键、值"><a href="#Query、Key、Value：查询、键、值" class="headerlink" title="Query、Key、Value：查询、键、值"></a>Query、Key、Value：查询、键、值</h2><p>首先，我们需要先搞懂 Attention 机制里最核心的三个字母的含义：<strong>Q (Query)</strong>、<strong>K (Key)</strong> 和 <strong>V (Value)</strong>。很多非专业的读者看到这里就会被公式吓跑，但其实它们的逻辑非常生活化。</p>
 <p>让我们再通过一个案例来理解，假设某一天你来到了图书馆，你的任务是，<strong>要在图书馆里找寻相关资料，然后写一篇关于「苹果公司」的论文。</strong></p>
 <p>这时候我们会同时经过下面三个历程：</p>
 <ol>
@@ -232,7 +228,7 @@ btf.addGlobalFn('pjaxComplete', () => {
 <p>上面的这个过程，实际上就是 <strong>Attention机制</strong> 中最核心的三个元素：查询向量、键和值的运作逻辑。如果用严谨的数学语言表达，就能得到这个著名的公式：</p>
 <script type="math/tex; mode=display">
 \text{Attention}(Q, K, V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V</script><p><em>(注：除以 $\sqrt{d_k}$ 只是为了防止高维空间中点积值过大导致 softmax 梯度消失，导致模型「脑死」无法学习。)</em></p>
-<p>初看这个矩阵相乘的公式可能会觉得有些抽象，但只要结合我们刚才「图书馆查资料」的经历，公式里的每个符号和步骤就都变得有血有肉了：</p>
+<p>下面是对这个计算过程的具体解释：</p>
 <ol>
 <li><p><strong>$QK^T$（计算相关性打分）</strong>：</p>
 <ul>
@@ -254,7 +250,7 @@ btf.addGlobalFn('pjaxComplete', () => {
 </ul>
 </li>
 </ol>
-<h3 id="一个真的带数字的迷你算例"><a href="#一个真的带数字的迷你算例" class="headerlink" title="一个真的带数字的迷你算例"></a>一个真的带数字的迷你算例</h3><p>上面的图书馆比喻帮助我们理解了直觉，但如果你想进一步建立一种「工程师的手感」，最好还是亲手看一遍具体数字。下面我们故意构造一个<strong>极小的 toy example</strong>。注意：这些数值是为了教学演示而简化的，不是某个真实模型直接吐出来的原始参数。</p>
+<h3 id="一个算例"><a href="#一个算例" class="headerlink" title="一个算例"></a>一个算例</h3><p>下面通造一个<strong>具体的数值计算例子</strong>来了解注意力机制具体是怎么计算的。</p>
 <p>假设现在只有 <strong>1 个查询词</strong>，它的 Query 向量是：</p>
 <script type="math/tex; mode=display">
 Q = \begin{bmatrix} 1.2 & 0.3 \end{bmatrix}</script><p>句子里一共有 3 个可被关注的词，它们对应的 Key 和 Value 分别是：</p>
@@ -303,7 +299,7 @@ QK^T = \begin{bmatrix} 1.2 & 0.3 \end{bmatrix}
 <p>所以，公式运算返回的最终值，是一个<strong>经过全局上下文“滋润”和“重塑”后的全新向量</strong>。这个新向量不再是字典里冰冷的“bank（银行/河岸）”这一层普通含义，而是被赋予了强烈语境的：<strong>“这是一个有大门、可以提取货币的金融机构”</strong>。</p>
 <p>这正是注意力机制让 AI 真正做到「理解上下文」的底层物理真相。</p>
 <hr>
-<h2 id="三、Self-Attention-可视化：一句话如何「看」自己"><a href="#三、Self-Attention-可视化：一句话如何「看」自己" class="headerlink" title="三、Self-Attention 可视化：一句话如何「看」自己"></a>三、Self-Attention 可视化：一句话如何「看」自己</h2><p>理解了 Q、K、V 的概念之后，我们回到最开始那个「bank」的句子：</p>
+<h2 id="Self-Attention-自注意力机制"><a href="#Self-Attention-自注意力机制" class="headerlink" title="Self-Attention 自注意力机制"></a>Self-Attention 自注意力机制</h2><p>理解了 Q、K、V 的概念之后，我们回到最开始那个「bank」的句子：</p>
 <blockquote>
 <p><strong>The door of the bank was broken, so he went to another bank to withdraw money.</strong></p>
 </blockquote>
@@ -323,347 +319,78 @@ QK^T = \begin{bmatrix} 1.2 & 0.3 \end{bmatrix}
 <p>💡 <strong>交互指南</strong>：</p>
 <ul>
 <li>点击或悬停矩阵中的单元格，可以查看词与词之间具体的「注意力强度」。</li>
-<li>点击上方的「切换注意力头」，观察模型是如何从不同维度理解这句话的。</li>
+<li>点击右上角的保存图标，可以直接导出当前热力图。</li>
 </ul>
 </blockquote>
-<div class="attn-demo-wrapper">
+<p>&gt;</p>
+<blockquote>
+<p><strong>下面这块就是博客前端实际加载的 <code>pyecharts</code> 版本。</strong> 如果主题或浏览器拦截了嵌入内容，也可以直接点下方链接在新窗口打开。</p>
+</blockquote>
+<div class="pyecharts-embed-card">
 <style>
-.attn-demo-wrapper {
-  margin: 2rem 0;
+.pyecharts-embed-card {
+  margin: 1rem 0 1.6rem;
+  padding: 14px 16px;
+  border: 1px solid #ebe6ff;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fcfbff 0%, #f7f5ff 100%);
 }
-.attn-controls {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-bottom: 1rem;
-  align-items: center;
-}
-.attn-btn {
-  padding: 6px 14px;
-  border: 1.5px solid #e91e8c;
-  border-radius: 20px;
-  background: transparent;
-  color: #e91e8c;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-}
-.attn-btn:hover, .attn-btn.active {
-  background: #e91e8c;
-  color: white;
-}
-.attn-section-title {
+.pyecharts-embed-note {
   font-size: 13px;
-  color: #888;
-  margin-right: 6px;
-}
-#attn-canvas-container {
-  position: relative;
-  overflow-x: auto;
-}
-#attn-canvas {
-  display: block;
-  height: auto !important;
-  max-width: none;
-}
-#attn-tooltip {
-  position: fixed;
-  background: rgba(0,0,0,0.82);
-  color: #fff;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 12px;
-  pointer-events: none;
-  display: none;
-  z-index: 9999;
-  white-space: nowrap;
-}
-.attn-legend {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 10px;
-  font-size: 12px;
   color: #666;
+  margin-bottom: 10px;
 }
-.legend-bar {
-  width: 160px;
-  height: 12px;
-  border-radius: 4px;
-  background: linear-gradient(to right, #fff0f5, #e91e8c);
-  border: 1px solid #eee;
+.pyecharts-embed-frame {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  background: #fff;
+  overflow: hidden;
+  display: block;
+}
+.pyecharts-embed-frame.self {
+  height: 760px;
+}
+.pyecharts-embed-frame.cross {
+  height: 700px;
+}
+.pyecharts-embed-frame.vit {
+  height: 820px;
+}
+.pyecharts-embed-actions {
+  margin-top: 10px;
+  font-size: 13px;
+}
+.pyecharts-embed-actions a {
+  color: #7c3aed;
+  text-decoration: none;
+  font-weight: 600;
 }
 </style>
-
-<div class="attn-controls">
-  <span class="attn-section-title">注意力头：</span>
-  <button class="attn-btn active" onclick="switchHead(0)">Head 1</button>
-  <button class="attn-btn" onclick="switchHead(1)">Head 2</button>
-  <button class="attn-btn" onclick="switchHead(2)">Head 3</button>
-  <button class="attn-btn" onclick="switchHead(3)">Head 4</button>
-  <button class="attn-btn" onclick="switchHead(4)">Head 5</button>
-  <button class="attn-btn" onclick="switchHead(5)">Head 6</button>
+<div class="pyecharts-embed-note">`Self-Attention` 热力图可视化</div>
+<iframe class="pyecharts-embed-frame self" src="/projects/attention-pyecharts/self-attention.html" loading="lazy" title="Self-Attention pyecharts 可视化"></iframe>
+<div class="pyecharts-embed-actions"><a href="/projects/attention-pyecharts/self-attention.html" target="_blank" rel="noopener">新窗口打开图表</a></div>
 </div>
-<div id="attn-canvas-container">
-  <canvas id="attn-canvas" width="560" height="560"></canvas>
-</div>
-<div class="attn-legend">
-  <span>注意力强度：低</span>
-  <div class="legend-bar"></div>
-  <span>高</span>
-</div>
-<div id="attn-tooltip"></div>
 
-<script>
-(function(){
-  // 真实 BERT-base 推理后提取的 attention weights 示例数据
-  // 句子: ["猫", "坐", "在", "垫", "子", "上", "。"]
-  const tokens = ["[CLS]", "猫", "坐", "在", "垫", "子", "上", "。", "[SEP]"];
-  const N = tokens.length;
 
-  // 6个注意力头的预计算数据（来自BERT-base layer6的真实权重，已归一化）
-  // 每行代表该token对其他token的注意力分布
-  const headData = [
-    // Head 1: 倾向于关注句法近邻和自身
-    [
-      [0.42,0.12,0.08,0.07,0.07,0.07,0.08,0.06,0.03],
-      [0.11,0.38,0.16,0.09,0.08,0.07,0.06,0.04,0.01],
-      [0.08,0.18,0.35,0.13,0.09,0.07,0.06,0.03,0.01],
-      [0.07,0.10,0.15,0.32,0.14,0.10,0.07,0.04,0.01],
-      [0.06,0.08,0.09,0.14,0.33,0.15,0.09,0.05,0.01],
-      [0.06,0.07,0.08,0.10,0.16,0.32,0.13,0.07,0.01],
-      [0.06,0.06,0.07,0.08,0.09,0.14,0.37,0.12,0.01],
-      [0.05,0.05,0.06,0.07,0.08,0.10,0.15,0.42,0.02],
-      [0.35,0.08,0.07,0.07,0.07,0.07,0.08,0.10,0.11],
-    ],
-    // Head 2: 倾向于关注[CLS]和[SEP]（句子级语义）
-    [
-      [0.55,0.06,0.05,0.05,0.05,0.05,0.06,0.06,0.07],
-      [0.48,0.14,0.07,0.06,0.06,0.06,0.05,0.05,0.03],
-      [0.46,0.09,0.12,0.08,0.07,0.07,0.05,0.04,0.02],
-      [0.44,0.08,0.10,0.14,0.09,0.07,0.05,0.02,0.01],
-      [0.43,0.07,0.08,0.11,0.15,0.09,0.05,0.01,0.01],
-      [0.42,0.07,0.07,0.08,0.12,0.16,0.06,0.01,0.01],
-      [0.41,0.06,0.06,0.07,0.08,0.12,0.17,0.02,0.01],
-      [0.39,0.06,0.05,0.06,0.07,0.09,0.14,0.12,0.02],
-      [0.20,0.07,0.07,0.08,0.08,0.09,0.12,0.18,0.11],
-    ],
-    // Head 3: 关注语义依存（动词关注名词宾语）
-    [
-      [0.22,0.14,0.12,0.10,0.10,0.10,0.10,0.09,0.03],
-      [0.10,0.20,0.22,0.12,0.11,0.10,0.09,0.05,0.01],
-      [0.08,0.28,0.18,0.16,0.12,0.09,0.06,0.02,0.01],
-      [0.07,0.12,0.14,0.19,0.22,0.14,0.08,0.03,0.01],
-      [0.07,0.11,0.12,0.22,0.18,0.16,0.09,0.04,0.01],
-      [0.06,0.09,0.10,0.14,0.24,0.20,0.12,0.04,0.01],
-      [0.06,0.08,0.09,0.10,0.12,0.24,0.25,0.05,0.01],
-      [0.05,0.06,0.07,0.08,0.09,0.12,0.20,0.31,0.02],
-      [0.28,0.07,0.07,0.08,0.08,0.09,0.12,0.16,0.05],
-    ],
-    // Head 4: 关注位置后一个token（向前看）
-    [
-      [0.18,0.42,0.12,0.08,0.07,0.05,0.04,0.03,0.01],
-      [0.10,0.18,0.44,0.12,0.07,0.05,0.02,0.01,0.01],
-      [0.08,0.10,0.18,0.45,0.11,0.05,0.02,0.01,0.00],
-      [0.07,0.08,0.10,0.17,0.46,0.09,0.02,0.01,0.00],
-      [0.06,0.07,0.08,0.11,0.18,0.44,0.04,0.01,0.01],
-      [0.05,0.06,0.07,0.08,0.11,0.19,0.41,0.02,0.01],
-      [0.04,0.05,0.06,0.07,0.08,0.12,0.20,0.36,0.02],
-      [0.04,0.04,0.05,0.06,0.07,0.09,0.14,0.44,0.07],
-      [0.30,0.06,0.06,0.07,0.07,0.08,0.11,0.18,0.07],
-    ],
-    // Head 5: 关注位置前一个token（向后看）
-    [
-      [0.38,0.14,0.10,0.09,0.08,0.08,0.07,0.05,0.01],
-      [0.42,0.16,0.12,0.10,0.08,0.06,0.04,0.01,0.01],
-      [0.12,0.44,0.18,0.10,0.07,0.05,0.03,0.01,0.00],
-      [0.08,0.12,0.46,0.17,0.09,0.05,0.02,0.01,0.00],
-      [0.07,0.08,0.12,0.48,0.14,0.07,0.03,0.01,0.00],
-      [0.06,0.07,0.08,0.12,0.49,0.12,0.04,0.01,0.01],
-      [0.05,0.06,0.07,0.08,0.12,0.50,0.10,0.01,0.01],
-      [0.04,0.05,0.06,0.07,0.08,0.12,0.48,0.08,0.02],
-      [0.26,0.06,0.07,0.08,0.08,0.10,0.14,0.18,0.03],
-    ],
-    // Head 6: 均匀分布（信息汇聚头）
-    [
-      [0.14,0.12,0.12,0.11,0.11,0.11,0.11,0.10,0.08],
-      [0.11,0.14,0.13,0.12,0.11,0.11,0.11,0.10,0.07],
-      [0.11,0.13,0.14,0.13,0.12,0.11,0.10,0.09,0.07],
-      [0.11,0.12,0.13,0.14,0.13,0.12,0.11,0.08,0.06],
-      [0.11,0.11,0.12,0.13,0.14,0.13,0.12,0.08,0.06],
-      [0.11,0.11,0.11,0.12,0.13,0.14,0.13,0.09,0.06],
-      [0.11,0.10,0.11,0.11,0.12,0.13,0.15,0.11,0.06],
-      [0.10,0.09,0.10,0.10,0.11,0.12,0.14,0.18,0.06],
-      [0.12,0.09,0.09,0.10,0.10,0.11,0.13,0.17,0.09],
-    ]
-  ];
-
-  const headDescriptions = [
-    "Head 1：局部依存头 — 主要关注相邻位置，捕捉句法近邻关系",
-    "Head 2：全局语义头 — 大量注意力聚集于[CLS]，负责整句语义",
-    "Head 3：语义依存头 — 动词关注宾语，捕捉深层语义依存",
-    "Head 4：前向扫描头 — 每个token主要关注其下一个token",
-    "Head 5：后向扫描头 — 每个token主要关注其上一个token",
-    "Head 6：信息汇聚头 — 近似均匀分布，收集全局上下文"
-  ];
-
-  let currentHead = 0;
-  let selectedRow = -1;
-
-  const canvas = document.getElementById('attn-canvas');
-  const ctx = canvas.getContext('2d');
-  const tooltip = document.getElementById('attn-tooltip');
-
-  const CELL = 56, PAD = 80;
-  const W = PAD + N * CELL + 20;
-  const H = PAD + N * CELL + 40;
-  const DPR = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.style.width = `${W}px`;
-  canvas.style.height = `${H}px`;
-  canvas.width = Math.round(W * DPR);
-  canvas.height = Math.round(H * DPR);
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-  ctx.imageSmoothingEnabled = true;
-
-  function hexToRgb(hex) {
-    const r = parseInt(hex.slice(1,3),16);
-    const g = parseInt(hex.slice(3,5),16);
-    const b = parseInt(hex.slice(5,7),16);
-    return [r,g,b];
-  }
-
-  function lerpColor(t) {
-    // white -> deep pink (#e91e8c)
-    const r = Math.round(255 - t * (255 - 233));
-    const g = Math.round(240 - t * (240 - 30));
-    const b = Math.round(245 - t * (245 - 140));
-    return `rgb(${r},${g},${b})`;
-  }
-
-  function drawMatrix(head, highlightRow) {
-    ctx.clearRect(0, 0, W, H);
-    const data = headData[head];
-
-    // 背景
-    ctx.fillStyle = '#fafafa';
-    ctx.fillRect(0, 0, W, H);
-
-    // 绘制格子
-    for (let i = 0; i < N; i++) {
-      for (let j = 0; j < N; j++) {
-        const val = data[i][j];
-        const x = PAD + j * CELL;
-        const y = PAD + i * CELL;
-
-        // 高亮选中行
-        const isHighlight = (highlightRow === i);
-        ctx.fillStyle = lerpColor(isHighlight ? val * 1.1 : val * 0.85);
-        ctx.fillRect(x+1, y+1, CELL-2, CELL-2);
-
-        if (isHighlight) {
-          ctx.strokeStyle = '#e91e8c';
-          ctx.lineWidth = 1.5;
-          ctx.strokeRect(x+1.5, y+1.5, CELL-3, CELL-3);
-        }
-
-        // 数值文字（仅高亮行显示）
-        if (isHighlight && val >= 0.08) {
-          ctx.fillStyle = val > 0.3 ? '#fff' : '#333';
-          ctx.font = 'bold 11px monospace';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(val.toFixed(2), x + CELL/2, y + CELL/2);
-        }
-      }
-    }
-
-    // X轴标签（列 = Key）
-    ctx.fillStyle = '#555';
-    ctx.font = '13px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    for (let j = 0; j < N; j++) {
-      ctx.fillText(tokens[j], PAD + j * CELL + CELL/2, PAD - 6);
-    }
-
-    // Y轴标签（行 = Query）
-    ctx.textAlign = 'right';
-    ctx.textBaseline = 'middle';
-    for (let i = 0; i < N; i++) {
-      const isHL = highlightRow === i;
-      ctx.fillStyle = isHL ? '#e91e8c' : '#555';
-      ctx.font = isHL ? 'bold 13px sans-serif' : '13px sans-serif';
-      ctx.fillText(tokens[i], PAD - 8, PAD + i * CELL + CELL/2);
-    }
-
-    // 轴说明
-    ctx.fillStyle = '#999';
-    ctx.font = '11px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('Key (被关注)', PAD + N*CELL/2, 14);
-    ctx.save();
-    ctx.translate(14, PAD + N*CELL/2);
-    ctx.rotate(-Math.PI/2);
-    ctx.fillText('Query (发出关注)', 0, 0);
-    ctx.restore();
-
-    // 描述文字
-    ctx.fillStyle = '#666';
-    ctx.font = '12px sans-serif';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'top';
-    ctx.fillText(headDescriptions[head], PAD, PAD + N*CELL + 10);
-  }
-
-  window.switchHead = function(h) {
-    currentHead = h;
-    selectedRow = -1;
-    document.querySelectorAll('.attn-btn').forEach((b,i) => {
-      b.classList.toggle('active', i === h);
-    });
-    drawMatrix(h, -1);
-  };
-
-  canvas.addEventListener('mousemove', function(e) {
-    const rect = canvas.getBoundingClientRect();
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    const col = Math.floor((mx - PAD) / CELL);
-    const row = Math.floor((my - PAD) / CELL);
-    if (row >= 0 && row < N && col >= 0 && col < N) {
-      selectedRow = row;
-      drawMatrix(currentHead, row);
-      const val = headData[currentHead][row][col];
-      tooltip.style.display = 'block';
-      tooltip.style.left = (e.clientX + 14) + 'px';
-      tooltip.style.top = (e.clientY - 10) + 'px';
-      tooltip.textContent = `"${tokens[row]}" → "${tokens[col]}"  注意力: ${(val*100).toFixed(1)}%`;
-    } else {
-      tooltip.style.display = 'none';
-      if (selectedRow !== -1) { selectedRow = -1; drawMatrix(currentHead, -1); }
-    }
-  });
-
-  canvas.addEventListener('mouseleave', function() {
-    tooltip.style.display = 'none';
-    selectedRow = -1;
-    drawMatrix(currentHead, -1);
-  });
-
-  drawMatrix(0, -1);
-})();
-</script>
-<p>&lt;/div&gt;</p>
 <blockquote>
 <p><strong>观察建议</strong>：切换到 Head 4 和 Head 5，你会看到截然不同的规律——分别呈现明显的上对角线和下对角线。这揭示了多头注意力的核心价值：<strong>不同的头就像是不同领域的专家，它们学到了不同的语言规律</strong>，最终将各自的结论汇总，形成对整句话丰富的理解。</p>
 </blockquote>
 <hr>
-<h2 id="四、拼图的完整样貌：Transformer-架构大解密"><a href="#四、拼图的完整样貌：Transformer-架构大解密" class="headerlink" title="四、拼图的完整样貌：Transformer 架构大解密"></a>四、拼图的完整样貌：Transformer 架构大解密</h2><p>体验完 Self-Attention 的交互动画后，我们现在来拼上完整的拼图——光有一颗「注意力」的心脏，机器是无法真正读懂语言的。Transformer 还需要一整套精密配合的系统。</p>
+<h2 id="从-Attention-到-Transformer"><a href="#从-Attention-到-Transformer" class="headerlink" title="从 Attention 到 Transformer"></a>从 Attention 到 Transformer</h2><p>Transformer 是一种神经网络架构，它从根本上改变了人工智能的实现方式。Transformer 最初于 2017 年在开创性论文 <a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1706.03762">《Attention is All You Need》</a>中提出 ，此后便成为深度学习模型的首选架构，为 OpenAI 的GPT、Meta 的Llama和 Google 的 Gemini等文本生成模型提供动力。除了文本生成之外，Transformer 还应用于音频生成、图像识别 蛋白质结构预测、游戏领域等，展现了其在众多领域的广泛应用。</p>
+<p>从根本上讲，Transformer 模型实现了根据用户输入的内容，预测下一个所需token的功能。以文本为例，用户在和大模型对话时，给定用户输入的文本提示 模型预测最有可能紧随其后的下一个词元（一个单词或单词的一部分）是什么？Transformer 的核心创新和强大之处在于其使用了自注意力机制，这使得它们能够处理整个文本序列，并比以往的架构更有效地捕捉长程依赖关系。</p>
 <p>让我们先直接看一眼原论文（Vaswani et al., 2017）里的那张经典架构图，这张图把 Transformer 的全貌凝固在了一张图里：</p>
 <p><img src="/image/transformer.png" alt="Transformer 完整架构图，截自《Attention Is All You Need》(Vaswani et al., 2017)"></p>
-<blockquote>
-<p>别被这张图吓到——它其实非常有条理。图的<strong>左侧</strong>是「编码器（Encoder）」，负责读懂输入；图的<strong>右侧</strong>是「解码器（Decoder）」，负责生成输出（比如翻译后的文字）。我们这篇文章重点关注左侧的编码器，因为它是理解和看图的核心。</p>
-</blockquote>
+<p>图的<strong>左侧</strong>是「编码器（Encoder）」，负责读懂输入；图的<strong>右侧</strong>是「解码器（Decoder）」，负责生成输出（比如翻译后的文字）。</p>
+<p>虽然结构图看着复杂，但是来说，每个 Transformer 模型都由以下三个关键组件构成：</p>
+<ol>
+<li><p><strong>词嵌入（Embedding）</strong>：文本输入被分割成称为词元的更小单元，词元可以是单词或子词。这些词元被转换成称为词嵌入的数值向量，词嵌入能够捕捉单词的语义含义</p>
+</li>
+<li><p><strong>Transformer模块（灰色框中的N个）</strong>：是模型的基本构建模块，用于处理和转换输入数据。每个模块包含：<strong>(1)（多头）注意力机制（Multi-Head Attention）</strong>是Transformer模块的核心组件。它允许词元之间进行通信，捕获上下文信息和词语之间的关系。在这里，每个头都负责关注一种特定的属性，从而产生独立的输出。<strong>(2)多层感知器（MLP）层</strong>是一个前馈网络，它独立地处理每个词元。注意力层的目标是在词元之间传递信息，而MLP的目标是细化每个词元的表示。</p>
+</li>
+<li><p><strong>输出概率（Output Probability）</strong>：最后的线性层和 softmax 层将处理后的嵌入转换为概率，使模型能够预测序列中的下一个标记</p>
+</li>
+</ol>
 <p>现在我们从下往上，顺着这张图逐层拆解：</p>
 <h3 id="1-输入嵌入-位置编码（Input-Embedding-Positional-Encoding）"><a href="#1-输入嵌入-位置编码（Input-Embedding-Positional-Encoding）" class="headerlink" title="1. 输入嵌入 + 位置编码（Input Embedding + Positional Encoding）"></a>1. 输入嵌入 + 位置编码（Input Embedding + Positional Encoding）</h3><p>在这张图的最底部，你会看到「Inputs → Input Embedding → Positional Encoding」的流程。这是 Transformer 处理文字的第一关。</p>
 <p>先来说<strong>输入嵌入（Input Embedding）</strong>。计算机不懂「bank」这个英文词，更不懂「银行」这两个汉字。我们需要一本巨大的「密码本」（词嵌入矩阵），把每一个词翻译成一串由 512 个数字组成的向量。这就像是给每个词制作了一张「数字身份证」，里面编码了这个词的基本语义信息（是名词还是动词？是表示实体还是动作？）。</p>
@@ -690,7 +417,7 @@ X_{bank}^{(6)} = E_{bank}^{(6)} + P_{pos=4}^{(6)} = [0.94,\; 0.89,\; 1.28,\; 1.4
 <li>再经过 FFN：$10 \times 512 \rightarrow 10 \times 2048 \rightarrow 10 \times 512$</li>
 </ul>
 <p>这一串维度变化，其实就是 Transformer 架构图里那些箭头在真实计算中的「尺寸语言」：<strong>10 表示序列长度，512 表示每个 token 的语义表示宽度，10×10 的注意力矩阵则表示“句子里每个词如何看待所有其他词”。</strong></p>
-<h3 id="2-多头注意力（Multi-Head-Attention）：组建专家委员会"><a href="#2-多头注意力（Multi-Head-Attention）：组建专家委员会" class="headerlink" title="2. 多头注意力（Multi-Head Attention）：组建专家委员会"></a>2. 多头注意力（Multi-Head Attention）：组建专家委员会</h3><p>位置编码之后，数据就进入了图中核心的「Multi-Head Attention」模块。</p>
+<h3 id="2-多头注意力（Multi-Head-Attention）"><a href="#2-多头注意力（Multi-Head-Attention）" class="headerlink" title="2. 多头注意力（Multi-Head Attention）"></a>2. 多头注意力（Multi-Head Attention）</h3><p>位置编码之后，数据就进入了图中核心的「Multi-Head Attention」模块。</p>
 <p>我们在第三章演示 Self-Attention 时用了 6 个不同的注意力头，你应该观察到了每个头的关注点都大相径庭。这个现象并不是偶然——这正是 Transformer 设计者有意为之的。</p>
 <p>来看原论文对 Multi-Head Attention 结构的专项图解：</p>
 <p><img src="/image/Multi-Head Attention.png" alt="Multi-Head Attention 结构，截自《Attention Is All You Need》(Vaswani et al., 2017)"></p>
@@ -710,488 +437,65 @@ X_{bank}^{(6)} = E_{bank}^{(6)} + P_{pos=4}^{(6)} = [0.94,\; 0.89,\; 1.28,\; 1.4
 \text{FFN}(x) = \max(0,\; xW_1 + b_1)\,W_2 + b_2</script><p>如果说 Multi-Head Attention 是让所有词「互相交流、汇聚全局信息」，那 FFN 就是让每个词「回到工位，独立消化、提炼自己吸收到的信息」。这两个步骤交替出现，让模型既能看到全局，又能深化每个局部的表示。</p>
 <p>这整个编码器层（Multi-Head Attention → Add&amp;Norm → FFN → Add&amp;Norm）在原论文中被堆叠了 $N=6$ 次——就是架构图左侧那个大方框上写的「×N」。每一层都让词向量携带更丰富、更抽象的语义，到了第 6 层，「bank」这个词已经从一个孤立的词汇，变成了一个深度融合了「门坏了、取钱、金融机构」等全部语境信息的高维向量。</p>
 <hr>
-<h2 id="五、从注意力到下一个词：博客版-Transformer-Explainer"><a href="#五、从注意力到下一个词：博客版-Transformer-Explainer" class="headerlink" title="五、从注意力到下一个词：博客版 Transformer Explainer"></a>五、从注意力到下一个词：博客版 Transformer Explainer</h2><p>上面这些图更多是在解释「注意力矩阵长什么样」，但如果你真正去用 GPT 一类模型，最关心的问题通常是：<strong>它为什么会在这一刻更倾向于输出某个词？</strong> 这就需要把 attention、残差、MLP 和最终 logits 串起来看。</p>
-<p>Georgia Tech PoloClub 的 <code>transformer-explainer</code> 做了一件很了不起的事：它把完整的 GPT-2 前端推理过程可视化了出来。不过对一篇静态博客来说，直接把整套 ONNX 模型搬进来并不划算——下载体积大、首次打开慢、移动端也不够友好。因此我把其中最适合阅读的部分重新压缩成了一个<strong>预计算案例驱动的轻量解释器</strong>：保留 token、layer/head 快照、query 行 attention 和 top-k 候选分布，让你仍然能观察「模型为何选这个词」。</p>
-<blockquote>
-<p>💡 <strong>交互指南</strong>：</p>
+<h2 id="Transformer-如何看图？——ViT"><a href="#Transformer-如何看图？——ViT" class="headerlink" title="Transformer 如何看图？——ViT"></a>Transformer 如何看图？——ViT</h2><p>一开始，大家都以为 Transformer 只能用来处理文字。直到 2020 年，<strong>ViT (Vision Transformer)</strong> 横空出世，人们惊讶地发现：<strong>原来图片也能被当成句子来读！</strong></p>
+<p><strong>怎么把图片变成句子呢？</strong> 答案是「切块」。</p>
+<p>让我们先从一个直觉性的问题出发：如果你要用 Transformer 来识别一张猫的照片，你面临的第一个挑战是什么？</p>
+<p>答案是：Transformer 的输入是一个序列（一串 token），但一张图片是一个二维的像素网格，而不是一串有序的单词。如果你把每一个像素都当作一个 token，一张 $224 \times 224$ 的图片就会产生 50176 个 token——Self-Attention 的计算量是序列长度的平方，这根本无法承受。</p>
+<p>ViT 的解决方案优雅而直接：<strong>把图片切成互不重叠的小方块（Patch），每个方块当作一个 token</strong>。</p>
+<p>看看原论文（Dosovitskiy et al., 2020）的核心示意图：</p>
+<p><img src="/image/ViT.png" alt="ViT 模型结构，截自《An Image is Worth 16×16 Words》(Dosovitskiy et al., 2020)"></p>
+<h3 id="1-从二维图像到一维序列：ViT-到底做了什么"><a href="#1-从二维图像到一维序列：ViT-到底做了什么" class="headerlink" title="1. 从二维图像到一维序列：ViT 到底做了什么"></a>1. 从二维图像到一维序列：ViT 到底做了什么</h3><p>设输入图像为 $x \in \mathbb{R}^{H \times W \times C}$，Patch 边长为 $P$。那么整张图像会被切成</p>
+<script type="math/tex; mode=display">
+N = \frac{HW}{P^2}</script><p>个 Patch。对于 ViT-B/16 来说，常见输入是 $224 \times 224 \times 3$，因此：</p>
+<script type="math/tex; mode=display">
+N = \frac{224 \times 224}{16^2} = 196</script><p>也就是说，一张图最后会变成 <strong>196 个视觉 token</strong>。每个 Patch 的原始形状是 $16 \times 16 \times 3$，展平后维度为：</p>
+<script type="math/tex; mode=display">
+16 \times 16 \times 3 = 768</script><p>接下来，ViT 不会直接拿这个 768 维像素向量做分类，而是通过一个可学习的线性映射矩阵 $E \in \mathbb{R}^{(P^2 C) \times D}$，把每个 Patch 投影到统一的隐藏维度 $D$ 上：</p>
+<script type="math/tex; mode=display">
+\mathbf{z}_p^i = \mathbf{x}_p^i E</script><p>其中 $\mathbf{x}_p^i$ 表示第 $i$ 个 Patch 展平后的向量，$\mathbf{z}_p^i \in \mathbb{R}^{D}$ 就是第 $i$ 个视觉 token。你可以把这一步理解为：<strong>先把局部像素块压成一个“可供 Transformer 阅读的词向量”。</strong></p>
+<h3 id="2-CLS-Token、位置编码与编码器堆叠"><a href="#2-CLS-Token、位置编码与编码器堆叠" class="headerlink" title="2. [CLS] Token、位置编码与编码器堆叠"></a>2. <code>[CLS]</code> Token、位置编码与编码器堆叠</h3><p>和 BERT 一样，ViT 会在 196 个 Patch token 前面再拼接一个额外的 <code>[CLS]</code> token，用它来汇总整张图的全局信息。于是进入编码器之前，序列长度不再是 196，而是：</p>
+<script type="math/tex; mode=display">
+196 + 1 = 197</script><p>初始输入序列可以写成：</p>
+<script type="math/tex; mode=display">
+\mathbf{z}_0 = [\mathbf{x}_{cls}; \mathbf{z}_p^1; \mathbf{z}_p^2; \dots; \mathbf{z}_p^N] + \mathbf{E}_{pos}</script><p>这里的 $\mathbf{E}_{pos}$ 是位置编码。因为 Transformer 本身只会处理“序列里的元素关系”，并不知道某个 Patch 位于图像左上角还是右下角，所以必须显式加入位置信息。</p>
+<p>进入第 $\ell$ 层编码器后，ViT 的计算和标准 Transformer 完全一致：</p>
+<script type="math/tex; mode=display">
+\mathbf{z}_\ell' = \operatorname{MSA}(\operatorname{LN}(\mathbf{z}_{\ell-1})) + \mathbf{z}_{\ell-1}</script><script type="math/tex; mode=display">
+\mathbf{z}_\ell = \operatorname{MLP}(\operatorname{LN}(\mathbf{z}_\ell')) + \mathbf{z}_\ell'</script><p>这两步分别对应：</p>
+<ol>
+<li><strong>多头自注意力</strong>：让每个 Patch 直接和其他所有 Patch 建立关系；</li>
+<li><strong>前馈网络</strong>：对每个位置做独立的非线性变换；</li>
+<li><strong>残差连接 + LayerNorm</strong>：保证训练稳定，同时保留原始信息流。</li>
+</ol>
+<p>经过多层编码器之后，最终取出 <code>[CLS]</code> 对应的向量送入分类头：</p>
+<script type="math/tex; mode=display">
+\hat{y} = \operatorname{Head}(\mathbf{z}_L^{cls})</script><p>这时的 $\mathbf{z}_L^{cls}$，就不再是一个“空白占位符”，而是<strong>融合了整张图所有关键信息的全局摘要向量</strong>。</p>
+<h3 id="3-用一张猫图走完整个流程"><a href="#3-用一张猫图走完整个流程" class="headerlink" title="3. 用一张猫图走完整个流程"></a>3. 用一张猫图走完整个流程</h3><p>假设输入是一张 <strong>$224 \times 224$ 的猫咪图片</strong>，并采用 ViT-B/16：</p>
 <ul>
-<li>先切换上方的案例，观察不同 prompt 的语义走势。</li>
-<li>再点击 <code>L0 / H0</code> 到 <code>L11 / H7</code>，感受浅层到深层 attention 的收缩过程。</li>
-<li>最后点击 prompt 里的某个 token 或矩阵左侧的 Query 行，查看它最依赖哪些上下文位置，以及这会如何影响下一个词的概率。</li>
+<li>图像先被切成 <strong>14 × 14</strong> 个 Patch，总计 <strong>196 块</strong>；</li>
+<li>每个 Patch 被展平成一个 <strong>768 维向量</strong>；</li>
+<li>经过线性投影后，每块 Patch 都被映射到模型隐藏空间；</li>
+<li>最前面额外拼接一个 <code>[CLS]</code> token，于是输入序列形状变成 <strong>$197 \times D$</strong>；</li>
+<li>经过多层 Self-Attention 后，猫耳朵、眼睛、躯干、背景这些区域的信息会不断相互交换；</li>
+<li>最终 <code>[CLS]</code> token 聚合到“这是一只猫”所需的全局判别信息，并送入分类头输出类别概率。</li>
 </ul>
-</blockquote>
-<div id="tfx-lite-demo" class="tfx-lite-demo"></div>
-<script src="/js/transformer-explainer-lite.js"></script>
-
-这个版本并不试图「原样复制」一个研究原型，而是更适合科普阅读：**加载更快、信息密度更高、解释链条更短**。你可以把它理解成：我们不是把整个实验室搬到博客里，而是把最关键的观测窗口保留下来，让读者在几分钟内抓住 Transformer 做 next-token prediction 的核心脉络。
-
----
-
-## 六、跨界魔法：图像版的 Attention（Vision Transformer / ViT）
-
-一开始，大家都以为 Transformer 只能用来处理文字。直到 2020 年，**ViT (Vision Transformer)** 横空出世，人们惊讶地发现：**原来图片也能被当成句子来读！**
-
-**怎么把图片变成句子呢？** 答案是「切块」。
-
-让我们先从一个直觉性的问题出发：如果你要用 Transformer 来识别一张猫的照片，你面临的第一个挑战是什么？
-
-答案是：Transformer 的输入是一个序列（一串 token），但一张图片是一个二维的像素网格，而不是一串有序的单词。如果你把每一个像素都当作一个 token，一张 $224 \times 224$ 的图片就会产生 50176 个 token——Self-Attention 的计算量是序列长度的平方，这根本无法承受。
-
-ViT 的解决方案优雅而直接：**把图片切成互不重叠的小方块（Patch），每个方块当作一个 token**。
-
-看看原论文（Dosovitskiy et al., 2020）的核心示意图：
-
-![ViT 模型结构，截自《An Image is Worth 16×16 Words》(Dosovitskiy et al., 2020)](/image/ViT.png)
-
-### 1. 从二维图像到一维序列：ViT 到底做了什么
-
-设输入图像为 $x \in \mathbb{R}^{H \times W \times C}$，Patch 边长为 $P$。那么整张图像会被切成
-
-$$
-N = \frac{HW}{P^2}
-$$
-
-个 Patch。对于 ViT-B/16 来说，常见输入是 $224 \times 224 \times 3$，因此：
-
-$$
-N = \frac{224 \times 224}{16^2} = 196
-$$
-
-也就是说，一张图最后会变成 **196 个视觉 token**。每个 Patch 的原始形状是 $16 \times 16 \times 3$，展平后维度为：
-
-$$
-16 \times 16 \times 3 = 768
-$$
-
-接下来，ViT 不会直接拿这个 768 维像素向量做分类，而是通过一个可学习的线性映射矩阵 $E \in \mathbb{R}^{(P^2 C) \times D}$，把每个 Patch 投影到统一的隐藏维度 $D$ 上：
-
-$$
-\mathbf{z}_p^i = \mathbf{x}_p^i E
-$$
-
-其中 $\mathbf{x}_p^i$ 表示第 $i$ 个 Patch 展平后的向量，$\mathbf{z}_p^i \in \mathbb{R}^{D}$ 就是第 $i$ 个视觉 token。你可以把这一步理解为：**先把局部像素块压成一个“可供 Transformer 阅读的词向量”。**
-
-### 2. `[CLS]` Token、位置编码与编码器堆叠
-
-和 BERT 一样，ViT 会在 196 个 Patch token 前面再拼接一个额外的 `[CLS]` token，用它来汇总整张图的全局信息。于是进入编码器之前，序列长度不再是 196，而是：
-
-$$
-196 + 1 = 197
-$$
-
-初始输入序列可以写成：
-
-$$
-\mathbf{z}_0 = [\mathbf{x}_{cls}; \mathbf{z}_p^1; \mathbf{z}_p^2; \dots; \mathbf{z}_p^N] + \mathbf{E}_{pos}
-$$
-
-这里的 $\mathbf{E}_{pos}$ 是位置编码。因为 Transformer 本身只会处理“序列里的元素关系”，并不知道某个 Patch 位于图像左上角还是右下角，所以必须显式加入位置信息。
-
-进入第 $\ell$ 层编码器后，ViT 的计算和标准 Transformer 完全一致：
-
-$$
-\mathbf{z}_\ell' = \operatorname{MSA}(\operatorname{LN}(\mathbf{z}_{\ell-1})) + \mathbf{z}_{\ell-1}
-$$
-
-$$
-\mathbf{z}_\ell = \operatorname{MLP}(\operatorname{LN}(\mathbf{z}_\ell')) + \mathbf{z}_\ell'
-$$
-
-这两步分别对应：
-
-1. **多头自注意力**：让每个 Patch 直接和其他所有 Patch 建立关系；
-2. **前馈网络**：对每个位置做独立的非线性变换；
-3. **残差连接 + LayerNorm**：保证训练稳定，同时保留原始信息流。
-
-经过多层编码器之后，最终取出 `[CLS]` 对应的向量送入分类头：
-
-$$
-\hat{y} = \operatorname{Head}(\mathbf{z}_L^{cls})
-$$
-
-这时的 $\mathbf{z}_L^{cls}$，就不再是一个“空白占位符”，而是**融合了整张图所有关键信息的全局摘要向量**。
-
-### 3. 用一张猫图走完整个流程
-
-假设输入是一张 **$224 \times 224$ 的猫咪图片**，并采用 ViT-B/16：
-
-- 图像先被切成 **14 × 14** 个 Patch，总计 **196 块**；
-- 每个 Patch 被展平成一个 **768 维向量**；
-- 经过线性投影后，每块 Patch 都被映射到模型隐藏空间；
-- 最前面额外拼接一个 `[CLS]` token，于是输入序列形状变成 **$197 \times D$**；
-- 经过多层 Self-Attention 后，猫耳朵、眼睛、躯干、背景这些区域的信息会不断相互交换；
-- 最终 `[CLS]` token 聚合到“这是一只猫”所需的全局判别信息，并送入分类头输出类别概率。
-
-这个过程和 CNN 很不一样。CNN 更像是先看边缘、再看纹理、最后再逐步拼出整体；而 ViT 从第一层开始就允许“猫耳朵”直接和“猫眼睛”“躯干轮廓”“背景区域”建立联系。因此它天然更适合表达**全局依赖**，尤其是在大规模预训练条件下，这种能力会非常强。
-
-### 4. 从代码角度看 Patch Embedding
-
-如果你从工程实现角度理解 ViT，最关键的一步其实是 `Patch Embedding`。在 PyTorch 里，它常常直接写成一个步长等于卷积核大小的卷积：
-
+<p>这个过程和 CNN 很不一样。CNN 更像是先看边缘、再看纹理、最后再逐步拼出整体；而 ViT 从第一层开始就允许“猫耳朵”直接和“猫眼睛”“躯干轮廓”“背景区域”建立联系。因此它天然更适合表达<strong>全局依赖</strong>，尤其是在大规模预训练条件下，这种能力会非常强。</p>
+<h3 id="4-从代码角度看-Patch-Embedding"><a href="#4-从代码角度看-Patch-Embedding" class="headerlink" title="4. 从代码角度看 Patch Embedding"></a>4. 从代码角度看 Patch Embedding</h3><p>如果你从工程实现角度理解 ViT，最关键的一步其实是 <code>Patch Embedding</code>。在 PyTorch 里，它常常直接写成一个步长等于卷积核大小的卷积：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"></span><br><span class="line">img = torch.randn(<span class="number">1</span>, <span class="number">3</span>, <span class="number">224</span>, <span class="number">224</span>)</span><br><span class="line">patch_embed = nn.Conv2d(<span class="number">3</span>, <span class="number">768</span>, kernel_size=<span class="number">16</span>, stride=<span class="number">16</span>)</span><br><span class="line"></span><br><span class="line">x = patch_embed(img)                 <span class="comment"># [1, 768, 14, 14]</span></span><br><span class="line">x = x.flatten(<span class="number">2</span>).transpose(<span class="number">1</span>, <span class="number">2</span>)     <span class="comment"># [1, 196, 768]</span></span><br><span class="line">cls = nn.Parameter(torch.zeros(<span class="number">1</span>, <span class="number">1</span>, <span class="number">768</span>))</span><br><span class="line"></span><br><span class="line">x = torch.cat([cls.expand(x.size(<span class="number">0</span>), -<span class="number">1</span>, -<span class="number">1</span>), x], dim=<span class="number">1</span>)  <span class="comment"># [1, 197, 768]</span></span><br></pre></td></tr></table></figure>
-
-这段代码背后的含义非常重要：**ViT 并不是“先用卷积提特征，再用 Transformer 做补充”**，而是在最开始仅借用卷积的张量切块能力，把图像变成 Patch 序列；后续真正负责全局建模的主体，仍然是 Transformer 编码器本身。
-
-接下来，我们再把这个抽象流程落回到可视化上。下面展示的是 ViT 模型在做决策时，那个总结全图的 `[CLS]` token 对 196 个图像方块的注意力分布。你可以把它理解为：**模型在形成全局判别结论时，究竟优先参考了哪些区域。**
-
-
-
-
-
-
-
-<div class="vit-attn-wrapper">
-<style>
-.vit-attn-wrapper { margin: 2rem 0; }
-.vit-scene-selector { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 1rem; }
-.vit-btn {
-  padding: 6px 16px;
-  border: 1.5px solid #7c3aed;
-  border-radius: 20px;
-  background: transparent;
-  color: #7c3aed;
-  cursor: pointer;
-  font-size: 12px;
-  transition: all 0.2s;
-}
-.vit-btn:hover, .vit-btn.active {
-  background: #7c3aed;
-  color: white;
-}
-.vit-canvas-row {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  overflow-x: auto;
-}
-.vit-canvas-col { text-align: center; }
-.vit-canvas-col canvas {
-  height: auto !important;
-  max-width: none;
-  display: block;
-  margin: 0 auto;
-}
-.vit-canvas-label {
-  font-size: 12px;
-  color: #888;
-  margin-top: 6px;
-}
-.vit-head-row {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 1rem;
-}
-.vit-head-canvas { border-radius: 4px; }
-.vit-desc {
-  margin-top: 10px;
-  padding: 10px 14px;
-  background: #f8f4ff;
-  border-left: 3px solid #7c3aed;
-  border-radius: 0 8px 8px 0;
-  font-size: 13px;
-  color: #444;
-}
-</style>
-
-<div class="vit-scene-selector">
-  <span style="font-size:13px;color:#888;align-self:center;">选择场景：</span>
-  <button class="vit-btn active" onclick="switchVitScene(0)">🐱 猫咪</button>
-  <button class="vit-btn" onclick="switchVitScene(1)">🏙️ 城市街景</button>
-  <button class="vit-btn" onclick="switchVitScene(2)">🌺 花朵特写</button>
+<p>这段代码背后的含义非常重要：<strong>ViT 并不是“先用卷积提特征，再用 Transformer 做补充”</strong>，而是在最开始仅借用卷积的张量切块能力，把图像变成 Patch 序列；后续真正负责全局建模的主体，仍然是 Transformer 编码器本身。</p>
+<p>接下来，我们再把这个抽象流程落回到可视化上。下面展示的是 ViT 模型在做决策时，那个总结全图的 <code>[CLS]</code> token 对 196 个图像方块的注意力分布。你可以把它理解为：<strong>模型在形成全局判别结论时，究竟优先参考了哪些区域。</strong></p>
+<div class="pyecharts-embed-card">
+<div class="pyecharts-embed-note">`ViT Patch Attention` 热力图（`pyecharts` 嵌入版）</div>
+<iframe class="pyecharts-embed-frame vit" src="/projects/attention-pyecharts/vit-attention.html" loading="lazy" title="ViT pyecharts 可视化"></iframe>
+<div class="pyecharts-embed-actions"><a href="/projects/attention-pyecharts/vit-attention.html" target="_blank" rel="noopener">新窗口打开图表</a></div>
 </div>
 
-<div class="vit-canvas-row">
-  <div class="vit-canvas-col">
-    <canvas id="vit-original" width="224" height="224" style="border-radius:8px;border:1px solid #eee;"></canvas>
-    <div class="vit-canvas-label">原始图像（模拟）</div>
-  </div>
-  <div class="vit-canvas-col">
-    <canvas id="vit-attn-map" width="224" height="224" style="border-radius:8px;border:1px solid #eee;"></canvas>
-    <div class="vit-canvas-label">[CLS] Attention Map（平均所有头）</div>
-  </div>
-  <div class="vit-canvas-col">
-    <canvas id="vit-overlay" width="224" height="224" style="border-radius:8px;border:1px solid #eee;"></canvas>
-    <div class="vit-canvas-label">叠加可视化</div>
-  </div>
-</div>
 
-<div style="margin-top:1rem;font-size:13px;color:#888;">各注意力头的分布（点击查看描述）：</div>
-<div class="vit-head-row" id="vit-heads-row"></div>
-<div class="vit-desc" id="vit-scene-desc">ViT 在识别猫咪时，[CLS] token 的注意力集中在猫的头部和躯干区域，几乎不关注背景。</div>
-
-
-<script>
-(function(){
-  // 三种场景的预计算 ViT attention 数据 (14x14 grid = 196 patches)
-  // 数据基于 ViT-B/16 典型场景推理的注意力模式，以高斯核模拟真实分布
-
-  function makeGaussian(cx, cy, sigmaX, sigmaY, amp, size=14) {
-    const grid = [];
-    for(let i=0;i<size;i++){
-      const row=[];
-      for(let j=0;j<size;j++){
-        row.push(amp * Math.exp(-((j-cx)**2/(2*sigmaX**2) + (i-cy)**2/(2*sigmaY**2))));
-      }
-      grid.push(row);
-    }
-    return grid;
-  }
-
-  function addGrids(grids) {
-    const size = grids[0].length;
-    const result = Array.from({length:size}, ()=>new Array(size).fill(0));
-    for(const g of grids) for(let i=0;i<size;i++) for(let j=0;j<size;j++) result[i][j]+=g[i][j];
-    return result;
-  }
-
-  function normalizeGrid(grid) {
-    let mx=0;
-    for(const row of grid) for(const v of row) if(v>mx) mx=v;
-    return grid.map(row=>row.map(v=>v/mx));
-  }
-
-  function softmaxGrid(grid) {
-    const flat = grid.flat();
-    const maxV = Math.max(...flat);
-    const exp = flat.map(v=>Math.exp(v-maxV));
-    const sum = exp.reduce((a,b)=>a+b,0);
-    const normed = exp.map(v=>v/sum);
-    const size = grid.length;
-    const result=[];
-    for(let i=0;i<size;i++) result.push(normed.slice(i*size,(i+1)*size));
-    return result;
-  }
-
-  const scenes = [
-    {
-      name: "猫咪",
-      desc: "ViT 在识别猫咪时，[CLS] token 的注意力集中在猫的头部和躯干区域，几乎不关注背景。这说明 ViT 已学会像人类一样聚焦于主体对象。",
-      // 模拟猫在图像中央偏上的位置
-      bgColor: [[220,200,180],[180,160,140]],
-      drawBg: function(ctx, size) {
-        // 绘制模拟猫图像
-        const g = ctx.createRadialGradient(size*0.45,size*0.35,size*0.05, size*0.45,size*0.4,size*0.42);
-        g.addColorStop(0,'#f5deb3'); g.addColorStop(1,'#8b6914');
-        ctx.fillStyle='#b0c4de'; ctx.fillRect(0,0,size,size);
-        ctx.fillStyle=g; ctx.beginPath();
-        ctx.ellipse(size*0.45,size*0.45,size*0.28,size*0.35,0,0,Math.PI*2); ctx.fill();
-        ctx.fillStyle='#8b6914';
-        ctx.beginPath(); ctx.ellipse(size*0.45,size*0.28,size*0.18,size*0.16,0,0,Math.PI*2); ctx.fill();
-        // 耳朵
-        ctx.beginPath(); ctx.moveTo(size*0.31,size*0.22); ctx.lineTo(size*0.25,size*0.12); ctx.lineTo(size*0.38,size*0.19); ctx.fill();
-        ctx.beginPath(); ctx.moveTo(size*0.58,size*0.22); ctx.lineTo(size*0.64,size*0.12); ctx.lineTo(size*0.52,size*0.19); ctx.fill();
-        // 眼睛
-        ctx.fillStyle='#2ecc71';
-        ctx.beginPath(); ctx.ellipse(size*0.38,size*0.28,size*0.04,size*0.03,0,0,Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(size*0.52,size*0.28,size*0.04,size*0.03,0,0,Math.PI*2); ctx.fill();
-        ctx.fillStyle='#111';
-        ctx.beginPath(); ctx.ellipse(size*0.38,size*0.28,size*0.015,size*0.025,0,0,Math.PI*2); ctx.fill();
-        ctx.beginPath(); ctx.ellipse(size*0.52,size*0.28,size*0.015,size*0.025,0,0,Math.PI*2); ctx.fill();
-      },
-      heads: [
-        normalizeGrid(addGrids([makeGaussian(6,5,1.8,2.2,1.0), makeGaussian(6,7,2.0,2.5,0.4)])),
-        normalizeGrid(addGrids([makeGaussian(6,4,1.2,1.5,1.0), makeGaussian(7,5,1.0,1.2,0.6)])),
-        normalizeGrid(addGrids([makeGaussian(5,4,2.5,3.0,1.0), makeGaussian(7,4,2.0,2.5,0.8)])),
-        normalizeGrid(addGrids([makeGaussian(4,3,1.5,1.8,1.0), makeGaussian(8,3,1.5,1.5,0.9)])),// 耳朵位置
-        normalizeGrid(addGrids([makeGaussian(6,5,3.0,3.0,1.0), makeGaussian(2,12,1.5,1.5,0.3)])),
-        normalizeGrid(addGrids([makeGaussian(5,3,2.0,1.5,1.0), makeGaussian(7,3,2.0,1.5,0.9), makeGaussian(6,6,1.5,1.5,0.5)])),
-      ],
-      headDesc: ["头部聚焦","眼睛区域","躯干全局","双耳特写","主体+角落","面部三点"]
-    },
-    {
-      name: "城市街景",
-      desc: "面对复杂街景，不同 head 分工明显：部分头关注行人，部分头关注建筑轮廓，部分头关注路面。多头机制让模型同时理解场景中的多种语义成分。",
-      drawBg: function(ctx, size) {
-        ctx.fillStyle='#87ceeb'; ctx.fillRect(0,0,size,size*0.4);
-        ctx.fillStyle='#808080'; ctx.fillRect(0,size*0.55,size,size*0.45);
-        // 建筑
-        ctx.fillStyle='#a0a0a0'; ctx.fillRect(0,size*0.1,size*0.25,size*0.6);
-        ctx.fillStyle='#b0b0b0'; ctx.fillRect(size*0.3,size*0.15,size*0.2,size*0.55);
-        ctx.fillStyle='#c0c0c0'; ctx.fillRect(size*0.6,size*0.05,size*0.4,size*0.65);
-        // 窗户
-        ctx.fillStyle='#ffffcc';
-        for(let r=0;r<4;r++) for(let c=0;c<2;c++) {
-          ctx.fillRect(size*(0.03+c*0.1),size*(0.15+r*0.12),size*0.07,size*0.08);
-          ctx.fillRect(size*(0.63+c*0.12),size*(0.1+r*0.12),size*0.08,size*0.07);
-        }
-        // 行人（简单矩形）
-        ctx.fillStyle='#2c3e50'; ctx.fillRect(size*0.42,size*0.5,size*0.05,size*0.18);
-        ctx.fillStyle='#e74c3c'; ctx.fillRect(size*0.72,size*0.48,size*0.05,size*0.18);
-      },
-      heads: [
-        normalizeGrid(addGrids([makeGaussian(6,8,1.5,2.0,1.0), makeGaussian(10,8,1.5,2.0,0.7)])), // 行人
-        normalizeGrid(addGrids([makeGaussian(2,4,2.0,3.0,1.0), makeGaussian(10,3,3.0,3.0,0.8)])), // 建筑
-        normalizeGrid(addGrids([makeGaussian(7,12,4.0,1.5,1.0)])), // 路面
-        normalizeGrid(addGrids([makeGaussian(7,2,5.0,1.5,1.0)])), // 天空
-        normalizeGrid(addGrids([makeGaussian(3,2,1.5,2.0,0.9), makeGaussian(11,2,1.5,2.0,1.0)])), // 建筑边缘
-        normalizeGrid(addGrids([makeGaussian(7,7,4.0,4.0,1.0)])), // 全局
-      ],
-      headDesc: ["行人检测","建筑区域","路面范围","天空背景","建筑边缘","全局场景"]
-    },
-    {
-      name: "花朵特写",
-      desc: "对花朵特写图像，ViT 的注意力高度集中在花瓣纹理和花蕊区域，展示了 ViT 对精细纹理的捕捉能力——这与 CNN 局部感受野的特征提取方式有本质区别。",
-      drawBg: function(ctx, size) {
-        const g = ctx.createRadialGradient(size*0.5,size*0.5,0,size*0.5,size*0.5,size*0.5);
-        g.addColorStop(0,'#2d5a27'); g.addColorStop(1,'#4a7c59');
-        ctx.fillStyle=g; ctx.fillRect(0,0,size,size);
-        // 花瓣
-        const colors=['#ff6b9d','#ff8fab','#ffb3c1','#ff4d6d','#ff758c'];
-        for(let i=0;i<5;i++){
-          const angle = (i/5)*Math.PI*2;
-          const ex = size*0.5 + Math.cos(angle)*size*0.28;
-          const ey = size*0.5 + Math.sin(angle)*size*0.28;
-          const pg=ctx.createRadialGradient(ex,ey,2,ex,ey,size*0.22);
-          pg.addColorStop(0,colors[i]); pg.addColorStop(1,'#ff4d6d88');
-          ctx.fillStyle=pg;
-          ctx.beginPath(); ctx.ellipse(ex,ey,size*0.18,size*0.12,angle,0,Math.PI*2); ctx.fill();
-        }
-        // 花蕊
-        const cg=ctx.createRadialGradient(size*0.5,size*0.5,2,size*0.5,size*0.5,size*0.12);
-        cg.addColorStop(0,'#fff176'); cg.addColorStop(1,'#fbc02d');
-        ctx.fillStyle=cg; ctx.beginPath();
-        ctx.arc(size*0.5,size*0.5,size*0.1,0,Math.PI*2); ctx.fill();
-      },
-      heads: [
-        normalizeGrid(addGrids([makeGaussian(7,7,1.5,1.5,1.0)])), // 花蕊
-        normalizeGrid(addGrids([makeGaussian(7,3,2.0,1.8,1.0), makeGaussian(11,7,1.8,2.0,0.9), makeGaussian(7,11,2.0,1.8,0.8), makeGaussian(3,7,1.8,2.0,0.9), makeGaussian(10,10,1.5,1.5,0.7)])), // 五片花瓣
-        normalizeGrid(addGrids([makeGaussian(7,7,3.5,3.5,1.0)])), // 花朵整体
-        normalizeGrid(addGrids([makeGaussian(7,7,1.0,1.0,1.0), makeGaussian(7,3,1.5,1.2,0.6), makeGaussian(11,7,1.2,1.5,0.5)])), // 花蕊+近邻
-        normalizeGrid(addGrids([makeGaussian(1,1,2.0,2.0,0.8), makeGaussian(12,1,2.0,2.0,0.8), makeGaussian(1,12,2.0,2.0,0.8), makeGaussian(12,12,2.0,2.0,1.0)])), // 背景叶子
-        normalizeGrid(addGrids([makeGaussian(7,7,5.0,5.0,1.0)])), // 全局
-      ],
-      headDesc: ["花蕊精准","五瓣分布","整体形状","中心+近邻","叶子背景","全局感受"]
-    }
-  ];
-
-  let currentScene = 0;
-
-  function drawOriginal(scene) {
-    const canvas = document.getElementById('vit-original');
-    const ctx = canvas.getContext('2d');
-    scene.drawBg(ctx, 224);
-    // 绘制14x14网格
-    ctx.strokeStyle='rgba(255,255,255,0.25)';
-    ctx.lineWidth=0.5;
-    for(let i=0;i<=14;i++){
-      ctx.beginPath(); ctx.moveTo(i*16,0); ctx.lineTo(i*16,224); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0,i*16); ctx.lineTo(224,i*16); ctx.stroke();
-    }
-  }
-
-  function avgHeads(heads) {
-    const size=14;
-    const result=Array.from({length:size},()=>new Array(size).fill(0));
-    for(const h of heads) for(let i=0;i<size;i++) for(let j=0;j<size;j++) result[i][j]+=h[i][j]/heads.length;
-    return result;
-  }
-
-  function drawAttnMap(canvas, grid, colorFn) {
-    const ctx = canvas.getContext('2d');
-    const size = canvas.width;
-    const patchSize = size / 14;
-    ctx.clearRect(0,0,size,size);
-    for(let i=0;i<14;i++) for(let j=0;j<14;j++){
-      const v = grid[i][j];
-      ctx.fillStyle = colorFn(v);
-      ctx.fillRect(j*patchSize, i*patchSize, patchSize, patchSize);
-    }
-  }
-
-  function vitColormap(v) {
-    // 黑→蓝→青→绿→黄→红 (viridis-like)
-    const stops = [
-      [0,   [68,1,84]],
-      [0.25,[59,82,139]],
-      [0.5, [33,145,140]],
-      [0.75,[94,201,98]],
-      [1.0, [253,231,37]]
-    ];
-    for(let i=0;i<stops.length-1;i++){
-      if(v>=stops[i][0] && v<=stops[i+1][0]){
-        const t=(v-stops[i][0])/(stops[i+1][0]-stops[i][0]);
-        const c0=stops[i][1], c1=stops[i+1][1];
-        return `rgb(${Math.round(c0[0]+(c1[0]-c0[0])*t)},${Math.round(c0[1]+(c1[1]-c0[1])*t)},${Math.round(c0[2]+(c1[2]-c0[2])*t)})`;
-      }
-    }
-    return 'rgb(253,231,37)';
-  }
-
-  function drawOverlay(scene) {
-    const oc = document.getElementById('vit-overlay');
-    const ctx = oc.getContext('2d');
-    ctx.clearRect(0,0,224,224);
-    // 先画原图
-    scene.drawBg(ctx, 224);
-    // 叠加 attention
-    const avg = normalizeGrid(avgHeads(scene.heads));
-    for(let i=0;i<14;i++) for(let j=0;j<14;j++){
-      const v=avg[i][j];
-      // 透明度映射
-      const alpha = v * 0.72;
-      const rgb = v > 0.6 ? '255,80,80' : v>0.35 ? '255,180,0' : '0,80,255';
-      ctx.fillStyle=`rgba(${rgb},${alpha})`;
-      ctx.fillRect(j*16,i*16,16,16);
-    }
-  }
-
-  function drawAllHeads(scene) {
-    const row = document.getElementById('vit-heads-row');
-    row.innerHTML='';
-    scene.heads.forEach((h,idx)=>{
-      const div=document.createElement('div');
-      div.style.textAlign='center';
-      const c=document.createElement('canvas');
-      c.className='vit-head-canvas';
-      c.width=84; c.height=84;
-      c.title=scene.headDesc[idx];
-      c.style.border='1px solid #ddd';
-      c.style.cursor='pointer';
-      div.appendChild(c);
-      const label=document.createElement('div');
-      label.style.fontSize='10px'; label.style.color='#888'; label.style.marginTop='3px';
-      label.textContent=`H${idx+1}: ${scene.headDesc[idx]}`;
-      div.appendChild(label);
-      row.appendChild(div);
-
-      const hctx=c.getContext('2d');
-      const up=normalizeGrid(h);
-      const ps=84/14;
-      for(let i=0;i<14;i++) for(let j=0;j<14;j++){
-        hctx.fillStyle=vitColormap(up[i][j]);
-        hctx.fillRect(j*ps,i*ps,ps,ps);
-      }
-
-      c.addEventListener('click',()=>{
-        document.getElementById('vit-scene-desc').textContent =
-          `Head ${idx+1}「${scene.headDesc[idx]}」：${scene.desc}`;
-        drawAttnMap(document.getElementById('vit-attn-map'), normalizeGrid(h), vitColormap);
-      });
-    });
-  }
-
-  window.switchVitScene = function(idx) {
-    currentScene = idx;
-    document.querySelectorAll('.vit-btn').forEach((b,i)=>b.classList.toggle('active',i===idx));
-    const scene = scenes[idx];
-    drawOriginal(scene);
-    drawAttnMap(document.getElementById('vit-attn-map'), normalizeGrid(avgHeads(scene.heads)), vitColormap);
-    drawOverlay(scene);
-    drawAllHeads(scene);
-    document.getElementById('vit-scene-desc').textContent = scene.desc;
-  };
-
-  switchVitScene(0);
-})();
-</script>
-<p>&lt;/div&gt;</p>
 <blockquote>
-<p><strong>颜色说明</strong>：Attention Map 使用了从深紫（表示几乎没注意）到亮黄（表示高度聚焦）的渐变色系。你可以点击下方各个注意力头的缩略图，看看不同的专家（Head）分别关注了画面的哪里。你会发现，CNN 那种「一点一点扩大视野」的做法被彻底颠覆了，ViT 可以在第一眼就直接捕捉到全局中最重要的特征。</p>
+<p><strong>说明</strong>：你可以直接在图表底部切换不同场景，观察 [CLS] 对各个 Patch 的关注分布。</p>
 </blockquote>
 <hr>
-<h2 id="七、跨模态对话：图像与文字如何「看对眼」（Cross-Attention）"><a href="#七、跨模态对话：图像与文字如何「看对眼」（Cross-Attention）" class="headerlink" title="七、跨模态对话：图像与文字如何「看对眼」（Cross-Attention）"></a>七、跨模态对话：图像与文字如何「看对眼」（Cross-Attention）</h2><p>既然文字可以用 Attention，图片也可以用 Attention，那我们能不能让<strong>文字和图片互相理解</strong>呢？</p>
+<h2 id="Cross-Attention：交叉注意力机制"><a href="#Cross-Attention：交叉注意力机制" class="headerlink" title="Cross-Attention：交叉注意力机制"></a>Cross-Attention：交叉注意力机制</h2><p>既然文字可以用 Attention，图片也可以用 Attention，那我们能不能让<strong>文字和图片互相理解</strong>呢？</p>
 <p>让我们从一个你可能听说过的 AI 产品来引入这个话题。</p>
 <p>假设你打开一个 AI 图像搜索引擎，输入「<strong>一只在阳光下打盹的橘猫</strong>」，系统立刻在数百万张图片里精准地返回了你想要的结果——甚至你从没标注过这些图片。这背后，藏着一个叫做 <strong>CLIP（Contrastive Language-Image Pre-Training）</strong> 的模型。</p>
 <p>CLIP 由 OpenAI 于 2021 年发布，它的核心能力是：<strong>让文字和图片生活在同一个「意义空间」里</strong>。具体做法是，在大规模互联网图文对数据上，训练两个编码器——一个用 Transformer 处理文本，一个用 ViT 处理图像——同时让配对的图文在向量空间中尽可能靠近，让不配对的尽可能远离。</p>
@@ -1209,212 +513,19 @@ $$
 </ul>
 <p>也就是说，文字作为「提问者」，图像作为「回答者」，文字向图像的每个区域发问：「你和我说的内容有多相关？」图像则按照自己各区域的特征来应答。公式与标准 Attention 完全相同，只是 Q 和 K/V 的来源分属两个模态：</p>
 <script type="math/tex; mode=display">
-\text{CrossAttn}(Q_{\text{text}},\; K_{\text{image}},\; V_{\text{image}}) = \text{softmax}\!\left(\frac{Q_{\text{text}}\, K_{\text{image}}^T}{\sqrt{d_k}}\right) V_{\text{image}}</script><p>下面的交互演示就是 Cross-Attention 的直观展现：当你点击左侧文字描述中的不同词时，右侧图片上会出现实时的热力图，展示该词对图像各区域的「注意力权重」——这正是模型在问：「这个词，对应的是图片里的哪个地方？」</p>
-<div class="cross-attn-wrapper">
-<style>
-.cross-attn-wrapper { margin: 2rem 0; }
-.cross-flex { display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start; }
-.cross-panel {
-  flex: 1; min-width: 260px;
-  background: #fafafa;
-  border: 1px solid #eee;
-  border-radius: 12px;
-  padding: 16px;
-}
-.cross-panel h4 { margin: 0 0 12px; font-size: 14px; color: #333; }
-.cross-token {
-  display: inline-block;
-  padding: 4px 10px;
-  margin: 3px;
-  border-radius: 16px;
-  border: 2px solid transparent;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  transition: all 0.2s;
-  background: #f0f0f0;
-  color: #333;
-}
-.cross-token:hover { border-color: #e91e8c; }
-.cross-token.selected { background: #e91e8c; color: white; border-color: #e91e8c; }
-.cross-canvas-wrapper { position: relative; }
-#cross-image-canvas { border-radius: 8px; border: 1px solid #eee; display: block; height: auto !important; max-width: none; }
-.cross-hint { font-size: 12px; color: #999; margin-top: 8px; }
-#cross-score-bar {
-  margin-top: 12px;
-  font-size: 12px;
-  color: #555;
-}
-.score-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
-.score-name { width: 60px; text-align: right; color: #666; font-size: 11px; }
-.score-fill { height: 8px; border-radius: 4px; background: #e91e8c; transition: width 0.3s; }
-.score-val { font-size: 11px; color: #999; min-width: 32px; }
-</style>
-
-<div class="cross-flex">
-  <div class="cross-panel">
-    <h4>🔤 文本 Token（点击选择）</h4>
-    <div id="cross-tokens"></div>
-    <div id="cross-score-bar"></div>
-  </div>
-  <div class="cross-panel">
-    <h4>🖼️ 图像区域的响应（Cross-Attention）</h4>
-    <div class="cross-canvas-wrapper">
-      <canvas id="cross-image-canvas" width="252" height="252"></canvas>
-    </div>
-    <div class="cross-hint">← 颜色越红 = 文本 token 对该图像区域的注意力越高</div>
-  </div>
+\text{CrossAttn}(Q_{\text{text}},\; K_{\text{image}},\; V_{\text{image}}) = \text{softmax}\!\left(\frac{Q_{\text{text}}\, K_{\text{image}}^T}{\sqrt{d_k}}\right) V_{\text{image}}</script><p>下面这块保留的是最基础的 <code>pyecharts</code> 版 Cross-Attention 热力图。你可以直接在图表底部切换不同 token，观察文本对图像区域的关注如何变化。</p>
+<div class="pyecharts-embed-card">
+<div class="pyecharts-embed-note">`Cross-Attention` 热力图（`pyecharts` 嵌入版）</div>
+<iframe class="pyecharts-embed-frame cross" src="/projects/attention-pyecharts/cross-attention.html" loading="lazy" title="Cross-Attention pyecharts 可视化"></iframe>
+<div class="pyecharts-embed-actions"><a href="/projects/attention-pyecharts/cross-attention.html" target="_blank" rel="noopener">新窗口打开图表</a></div>
 </div>
 
-<script>
-(function(){
-  // 模拟 CLIP 风格的 Cross-Attention 数据
-  // 场景：一只橘猫坐在窗边
-  // 文本: "一只橘色的猫坐在窗边"
-  const textTokens = ["一只", "橘色", "的", "猫", "坐", "在", "窗边"];
 
-  // 每个 token 对 7x7 图像区域的注意力（基于语义）
-  // 图像布局：左下=猫身体，中上=猫头，右中=窗户
-  function mg(cx,cy,sx,sy,a,s=7){return makeGaussian2(cx,cy,sx,sy,a,s);}
-  function makeGaussian2(cx,cy,sigmaX,sigmaY,amp,size){
-    const g=[];
-    for(let i=0;i<size;i++){
-      const r=[];
-      for(let j=0;j<size;j++) r.push(amp*Math.exp(-((j-cx)**2/(2*sigmaX**2)+(i-cy)**2/(2*sigmaY**2))));
-      g.push(r);
-    }
-    return g;
-  }
-  function addG(gs){
-    const s=gs[0].length,r=Array.from({length:s},()=>new Array(s).fill(0));
-    for(const g of gs) for(let i=0;i<s;i++) for(let j=0;j<s;j++) r[i][j]+=g[i][j];
-    return r;
-  }
-  function normG(g){let m=0;for(const r of g)for(const v of r)if(v>m)m=v;return g.map(r=>r.map(v=>v/m));}
-
-  // 7x7区域: [col,row] 0-6
-  // 猫头: (3,1), 猫身: (2,3)(3,4)(2,5), 窗户: (5,2)(6,3)(5,4), 背景: (0,*)(1,*)
-  const tokenAttnMaps = {
-    "一只": normG(addG([mg(3,1,1.2,1.0,1.0), mg(2.5,4,1.5,1.5,0.8)])),
-    "橘色": normG(addG([mg(2.5,4,1.5,2.0,1.0), mg(3,1,1.0,0.8,0.6)])),
-    "的":   normG(addG([mg(3.5,3.5,2.5,2.5,0.4), mg(0,3,1.0,2.0,0.3)])), // 弱注意力
-    "猫":   normG(addG([mg(3,1,1.5,1.2,1.0), mg(2.5,3.5,1.8,2.0,0.9)])),
-    "坐":   normG(addG([mg(2.5,4.5,1.5,1.5,1.0), mg(3,5.5,1.0,0.8,0.7)])),
-    "在":   normG(addG([mg(3.5,3.5,2.0,2.0,0.35), mg(5.5,3,1.0,1.5,0.3)])),
-    "窗边": normG(addG([mg(5.5,2.5,0.8,1.5,1.0), mg(6,4,0.6,1.5,0.8)])),
-  };
-
-  // 预计算每个token对各区域的得分（用于柱状图）
-  const regionNames = ["猫头","猫身","窗户","背景"];
-  const regionMasks = [ // [row,col] pairs
-    [[1,3],[0,3],[1,2],[1,4]],  // 猫头
-    [[3,2],[4,3],[5,2],[4,2]],  // 猫身
-    [[2,5],[3,6],[4,5],[3,5]],  // 窗户
-    [[0,0],[1,0],[2,0],[3,0]],  // 背景
-  ];
-
-  function getRegionScore(attnMap, mask) {
-    return mask.reduce((s,[r,c])=>s+attnMap[r][c],0)/mask.length;
-  }
-
-  let selectedToken = "猫";
-
-  function drawScene(ctx, size) {
-    const ps = size/7;
-    // 背景
-    ctx.fillStyle='#87ceeb'; ctx.fillRect(0,0,size,size*0.5);
-    ctx.fillStyle='#8b7355'; ctx.fillRect(0,size*0.5,size,size*0.5);
-    // 窗户 (右侧)
-    ctx.fillStyle='#add8e6';
-    ctx.fillRect(size*5/7, size*1/7, size*2/7, size*4/7);
-    ctx.strokeStyle='#8b4513'; ctx.lineWidth=3;
-    ctx.strokeRect(size*5/7, size*1/7, size*2/7, size*4/7);
-    ctx.beginPath(); ctx.moveTo(size*6/7,size*1/7); ctx.lineTo(size*6/7,size*5/7); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(size*5/7,size*3/7); ctx.lineTo(size,size*3/7); ctx.stroke();
-    // 猫
-    ctx.fillStyle='#d2691e';
-    ctx.beginPath(); ctx.ellipse(size*3/7,size*4/7,size*0.18,size*0.22,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(size*3/7,size*1.5/7,size*0.14,size*0.12,0,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#b8860b';
-    ctx.beginPath(); ctx.moveTo(size*2.3/7,size*1.2/7); ctx.lineTo(size*2.0/7,size*0.5/7); ctx.lineTo(size*2.6/7,size*1.0/7); ctx.fill();
-    ctx.beginPath(); ctx.moveTo(size*3.7/7,size*1.2/7); ctx.lineTo(size*4.0/7,size*0.5/7); ctx.lineTo(size*3.4/7,size*1.0/7); ctx.fill();
-    ctx.fillStyle='#2ecc71';
-    ctx.beginPath(); ctx.ellipse(size*2.7/7,size*1.5/7,size*0.03,size*0.025,0,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(size*3.3/7,size*1.5/7,size*0.03,size*0.025,0,0,Math.PI*2); ctx.fill();
-    // 网格线
-    ctx.strokeStyle='rgba(255,255,255,0.2)'; ctx.lineWidth=0.5;
-    for(let i=0;i<=7;i++){
-      ctx.beginPath(); ctx.moveTo(i*ps,0); ctx.lineTo(i*ps,size); ctx.stroke();
-      ctx.beginPath(); ctx.moveTo(0,i*ps); ctx.lineTo(size,i*ps); ctx.stroke();
-    }
-  }
-
-  function renderCrossAttn() {
-    const canvas = document.getElementById('cross-image-canvas');
-    const ctx = canvas.getContext('2d');
-    const size = 252, ps = size/7;
-    ctx.clearRect(0,0,size,size);
-    drawScene(ctx, size);
-
-    // 叠加attention热力图
-    const attn = tokenAttnMaps[selectedToken];
-    for(let i=0;i<7;i++) for(let j=0;j<7;j++){
-      const v=attn[i][j];
-      const alpha = v*0.65;
-      const r=Math.round(255*v), g=Math.round(80*(1-v)), b=Math.round(80*(1-v));
-      ctx.fillStyle=`rgba(${r},${g},${b},${alpha})`;
-      ctx.fillRect(j*ps, i*ps, ps, ps);
-    }
-
-    // 高亮边框
-    for(let i=0;i<7;i++) for(let j=0;j<7;j++){
-      const v=attn[i][j];
-      if(v>0.7){
-        ctx.strokeStyle=`rgba(255,50,50,${v})`;
-        ctx.lineWidth=2;
-        ctx.strokeRect(j*ps+1,i*ps+1,ps-2,ps-2);
-      }
-    }
-
-    // 更新柱状图
-    const scoreBar = document.getElementById('cross-score-bar');
-    const scores = regionMasks.map((mask,i)=>({name:regionNames[i],val:getRegionScore(attn,mask)}));
-    const maxS = Math.max(...scores.map(s=>s.val));
-    scoreBar.innerHTML = '<div style="font-size:12px;color:#555;margin-bottom:6px;">各区域注意力得分：</div>' +
-      scores.map(s=>`
-        <div class="score-row">
-          <span class="score-name">${s.name}</span>
-          <div style="flex:1;background:#f0f0f0;border-radius:4px;overflow:hidden;height:8px">
-            <div class="score-fill" style="width:${(s.val/maxS*100).toFixed(1)}%"></div>
-          </div>
-          <span class="score-val">${(s.val*100).toFixed(1)}%</span>
-        </div>`).join('');
-  }
-
-  // 渲染token按钮
-  const tokensDiv = document.getElementById('cross-tokens');
-  textTokens.forEach(t=>{
-    const btn = document.createElement('span');
-    btn.className='cross-token' + (t===selectedToken?' selected':'');
-    btn.textContent=t;
-    btn.onclick=()=>{
-      selectedToken=t;
-      document.querySelectorAll('.cross-token').forEach(b=>b.classList.remove('selected'));
-      btn.classList.add('selected');
-      renderCrossAttn();
-    };
-    tokensDiv.appendChild(btn);
-  });
-
-  renderCrossAttn();
-})();
-</script>
-<p>&lt;/div&gt;</p>
 <blockquote>
-<p><strong>操作提示</strong>：点击左侧不同的文字 token，右侧图像上的热力图会实时更新。你会惊奇地发现，当点击「猫」时，热力图精准覆盖了猫的身体；点击「窗边」时，注意力立刻转移到了右侧的窗户上。这就仿佛是 AI 真正「听懂」了你的话，并且在图片里「找」到了对应的东西。</p>
+<p><strong>说明</strong>：你可以直接在图表底部切换不同 token，查看文本对图像区域的关注变化。</p>
 </blockquote>
 <hr>
-<h2 id="八、ViT-vs-CNN：两种「看」世界的方式（总结）"><a href="#八、ViT-vs-CNN：两种「看」世界的方式（总结）" class="headerlink" title="八、ViT vs CNN：两种「看」世界的方式（总结）"></a>八、ViT vs CNN：两种「看」世界的方式（总结）</h2><p>到这里，我们已经完整体验了 Transformer 在自然语言处理和计算机视觉中的魔法。最后，我们用一张通俗的表格，来对比一下传统的 CNN 和今天的主角 ViT：</p>
+<h2 id="ViT-vs-CNN"><a href="#ViT-vs-CNN" class="headerlink" title="ViT vs CNN"></a>ViT vs CNN</h2><p>到这里，我们已经完整体验了 Transformer 在自然语言处理和计算机视觉中的魔法。最后，我们用一张通俗的表格，来对比一下传统的 CNN 和今天的主角 ViT：</p>
 <div class="table-container">
 <table>
 <thead>
@@ -1456,19 +567,17 @@ $$
 <p><strong>总结：</strong> Transformer 及其衍生出的各种架构（ViT、GPT等），之所以能够掀起一场波澜壮阔的 AI 革命，正是因为它摒弃了人类强加的各种「规则和捷径」，转而采用了一种极其简单却又无限贴近本质的方式：<strong>把所有的信息（文字或图片方块）放在一起，让它们自己决定谁和谁最相关。</strong></p>
 <p>希望这篇文章里的交互动画和通俗比喻，能让你在没有沉重理论包袱的情况下，直观感受到 Transformer 冰冷代码背后的数学之美。</p>
 <hr>
-<h2 id="📚-相关论文"><a href="#📚-相关论文" class="headerlink" title="📚 相关论文"></a>📚 相关论文</h2><ol>
-<li><strong>《Attention Is All You Need》</strong> (Vaswani et al., 2017) — 传奇的开端，Transformer 的原始论文。</li>
-<li><strong>《An Image is Worth 16x16 Words》</strong> (Dosovitskiy et al., 2020) — ViT 的原始论文，证明了图片真的能切成方块当成文字读。</li>
-<li><strong>《Learning Transferable Visual Models From Natural Language Supervision》</strong> (Radford et al., 2021) — 著名图文匹配模型 CLIP 的论文，Cross-Attention 在跨模态领域的巅峰应用。</li>
-<li><strong>BERTviz</strong> — 一个强大的开源交互式 Attention 可视化工具库。</li>
-<li><strong>PoloClub Transformer Explainer</strong> — Georgia Tech 团队打造的 GPT-2 可解释交互项目，也是本文轻量版解释器的主要灵感来源。</li>
+<h2 id="📚-参考资料"><a href="#📚-参考资料" class="headerlink" title="📚 参考资料"></a>📚 参考资料</h2><ol>
+<li><strong>《Attention Is All You Need》</strong> (Vaswani et al., 2017)</li>
+<li><strong>《An Image is Worth 16x16 Words》</strong> (Dosovitskiy et al., 2020)</li>
+<li><strong>《Learning Transferable Visual Models From Natural Language Supervision》</strong> (Radford et al., 2021) </li>
+<li><strong>PoloClub Transformer Explainer</strong></li>
 </ol>
 <hr>
-<p><em>（注：本文所有可视化模块均基于真实 Transformer 模型的预计算数据，使用原生 Canvas 与原生 DOM 方式渲染；其中 next-token 解释器参考了 Georgia Tech PoloClub 的 <code>transformer-explainer</code> 设计思路。）</em></p>
 </article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/">https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Lucky's Elysian Euphoria ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/">深度学习</a><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a><a class="post-meta__tags" href="/tags/Attention/">Attention</a><a class="post-meta__tags" href="/tags/%E5%8F%AF%E8%A7%86%E5%8C%96/">可视化</a></div><div class="post-share"><div class="social-share" data-image="/image/trans_img_1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2026/04/09/travel-category-introduction/" title="「万里路」叩问山水"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">「万里路」叩问山水</div></div><div class="info-2"><div class="info-item-1">行者无疆 “读万卷书，行万里路。” ——董其昌  不不不，这里没那么多高深的道理，也没有什么无病呻吟 只是我单纯太宅了，去过的地方少之又少，而物以稀为贵，因此去过的地方都值得记录一下   这个栏目的内容🚧 施工中…TO BE DONE   一些碎碎念小时候其实很喜欢余秋雨先生的散文。 从《文化苦旅》到《行者无疆》，《借我一生》，再到《山居笔记》，余秋雨先生可谓是讲文笔绑在了轮胎上，走到哪，想到哪，写到哪。 这诚然很浪漫，但我依旧希望旅途能够随性，快乐，不必为眼前的废墟惋惜，也不必为触不可及的美好疲于奔命。  为什么要爬山？因为山就在那里 —— 乔治·马洛里‌ </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「CV」看得见的计算机视觉</div></div><div class="info-2"><div class="info-item-1">栏目愿景🚧欢迎来到 「看得见的计算机视觉」！ 这是一个正在构建中的计算机视觉基础理论教程系列。我希望打造一个类似 Dive into Deep Learning 的交互式学习资源，让抽象的深度学习算法变得可见、可感、可交互。  设计理念本栏目将着重介绍计算机视觉的一些理论基础，围绕可视化的内容构建对于领域专业名词、模型架构、具体应用的刻画和介绍。  🎨 可视化优先看见，才能理解。本栏目的核心特色：  🖼️ 动态图示：用动画展示算法的执行过程 🎮 交互演示：可调节参数、实时观察效果 📊 三维可视化：从不同维度理解高维数据 💡 直觉先行：先建立直觉，再引入数学  📐 数学友好不回避数学，但我相信我的描述能让你接受繁琐的公式：  关键公式配有几何解释 推导过程分步骤可视化 提供代码实现与数学公式的对照 理论支撑实验，结果验证理论    互动方式本栏目计划逐步引入以下交互形式：  🎛️ 参数调节器：拖动滑块，实时观察算法效果 🎨 图像上传器：用自己的图片测试算法 📝 代码演练场：边学边写，即时反馈 🧪 实验对比器：并排对比不同方法的效果   当前进度🚧...</div></div></div></a><a class="pagination-related" href="/2026/04/05/text-to-motion-generation-survey/" title="文本到动作生成（Text-to-Motion）任务综述"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-05</div><div class="info-item-2">文本到动作生成（Text-to-Motion）任务综述</div></div><div class="info-2"><div class="info-item-1">摘要文本到动作生成（Text-to-Motion Generation）旨在根据自然语言描述自动合成符合语义的人体运动序列（通常为三维关节轨迹或 SMPL 等参数化人体模型的姿态序列）。该任务连接语言与动作两种模态，在虚拟现实、游戏动画、体育分析、人机交互与辅助内容创作等领域具有广泛应用前景。本文从问题形式化、运动表示与数据集、评价方式、方法谱系以及开放问题等方面对该任务进行结构化梳理。  1. 任务定义与问题表述1.1 输入与输出 输入：一段自然语言文本 $t$，可描述动作类型（如「行走」「挥手」）、风格（如「疲惫地」「欢快地」）、方向、节奏或与物体的交互关系等。 输出：一段时序人体运动 $M = {m_1, m_2, \ldots, m_T}$，其中每个时间步 $m_i$ 可为关节角、全局根节点轨迹与局部姿态、或 SMPL/SMPL-X 的 pose 与 shape 参数等。  1.2 形式化目标在给定文本 $t$ 的条件下，学习条件分布 $p(M \mid...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/image/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">LuckyShen</div><div class="author-info-description">Welcome to Lucky's Blog</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">10</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Lucky1192405754"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content"><div id="auto-announcement" class="auto-announcement" aria-live="polite">
   <div class="auto-announcement__loading">正在加载今日摘要...</div>
 </div>
-</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80%EF%BC%9A%E6%88%91%E4%BB%AC%E6%98%AF%E5%A6%82%E4%BD%95%E8%AF%BB%E6%96%87%E6%9C%AC%E5%92%8C%E7%9C%8B%E5%9B%BE%E7%9A%84%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、引言：我们是如何读文本和看图的？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Query%E3%80%81Key%E3%80%81Value%E2%80%94%E2%80%94%E4%BB%8E%E5%9B%BE%E4%B9%A6%E9%A6%86%E8%AE%B2%E8%B5%B7"><span class="toc-number">2.</span> <span class="toc-text">二、Query、Key、Value——从图书馆讲起</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%9C%9F%E7%9A%84%E5%B8%A6%E6%95%B0%E5%AD%97%E7%9A%84%E8%BF%B7%E4%BD%A0%E7%AE%97%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">一个真的带数字的迷你算例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81Self-Attention-%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%9A%E4%B8%80%E5%8F%A5%E8%AF%9D%E5%A6%82%E4%BD%95%E3%80%8C%E7%9C%8B%E3%80%8D%E8%87%AA%E5%B7%B1"><span class="toc-number">3.</span> <span class="toc-text">三、Self-Attention 可视化：一句话如何「看」自己</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%8B%BC%E5%9B%BE%E7%9A%84%E5%AE%8C%E6%95%B4%E6%A0%B7%E8%B2%8C%EF%BC%9ATransformer-%E6%9E%B6%E6%9E%84%E5%A4%A7%E8%A7%A3%E5%AF%86"><span class="toc-number">4.</span> <span class="toc-text">四、拼图的完整样貌：Transformer 架构大解密</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BE%93%E5%85%A5%E5%B5%8C%E5%85%A5-%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%EF%BC%88Input-Embedding-Positional-Encoding%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">1. 输入嵌入 + 位置编码（Input Embedding + Positional Encoding）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%EF%BC%88Multi-Head-Attention%EF%BC%89%EF%BC%9A%E7%BB%84%E5%BB%BA%E4%B8%93%E5%AE%B6%E5%A7%94%E5%91%98%E4%BC%9A"><span class="toc-number">4.2.</span> <span class="toc-text">2. 多头注意力（Multi-Head Attention）：组建专家委员会</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9C%E4%B8%8E-Add-amp-Norm%EF%BC%88FFN-%E6%AE%8B%E5%B7%AE%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">3. 前馈网络与 Add &amp; Norm（FFN + 残差连接）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%94%E3%80%81%E4%BB%8E%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%88%B0%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%AF%8D%EF%BC%9A%E5%8D%9A%E5%AE%A2%E7%89%88-Transformer-Explainer"><span class="toc-number">5.</span> <span class="toc-text">五、从注意力到下一个词：博客版 Transformer Explainer</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%83%E3%80%81%E8%B7%A8%E6%A8%A1%E6%80%81%E5%AF%B9%E8%AF%9D%EF%BC%9A%E5%9B%BE%E5%83%8F%E4%B8%8E%E6%96%87%E5%AD%97%E5%A6%82%E4%BD%95%E3%80%8C%E7%9C%8B%E5%AF%B9%E7%9C%BC%E3%80%8D%EF%BC%88Cross-Attention%EF%BC%89"><span class="toc-number">6.</span> <span class="toc-text">七、跨模态对话：图像与文字如何「看对眼」（Cross-Attention）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">6.0.1.</span> <span class="toc-text">🔤 文本 Token（点击选择）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">6.0.2.</span> <span class="toc-text">🖼️ 图像区域的响应（Cross-Attention）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%AB%E3%80%81ViT-vs-CNN%EF%BC%9A%E4%B8%A4%E7%A7%8D%E3%80%8C%E7%9C%8B%E3%80%8D%E4%B8%96%E7%95%8C%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%88%E6%80%BB%E7%BB%93%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">八、ViT vs CNN：两种「看」世界的方式（总结）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9A-%E7%9B%B8%E5%85%B3%E8%AE%BA%E6%96%87"><span class="toc-number">8.</span> <span class="toc-text">📚 相关论文</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制"><img src="/image/trans_img_1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="看见注意力：用可视化理解 Transformer 的 Attention 机制"/></a><div class="content"><a class="title" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制">看见注意力：用可视化理解 Transformer 的 Attention 机制</a><time datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉">「CV」看得见的计算机视觉</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/food-category-introduction/" title="「食为天」雅舍谈吃">「食为天」雅舍谈吃</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/gaming-category-introduction/" title="「No Game, No Life」游戏人生">「No Game, No Life」游戏人生</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南">「Linux」服务器操作指南</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/image/trans_img_1.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%95%E8%A8%80%EF%BC%9A%E4%BB%8E%E9%98%85%E8%AF%BB%E7%9A%84%E6%80%9D%E8%80%83%E8%BF%87%E7%A8%8B%E8%AE%B2%E8%B5%B7"><span class="toc-number">1.</span> <span class="toc-text">引言：从阅读的思考过程讲起</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Query%E3%80%81Key%E3%80%81Value%EF%BC%9A%E6%9F%A5%E8%AF%A2%E3%80%81%E9%94%AE%E3%80%81%E5%80%BC"><span class="toc-number">2.</span> <span class="toc-text">Query、Key、Value：查询、键、值</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%97%E4%BE%8B"><span class="toc-number">2.1.</span> <span class="toc-text">一个算例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Self-Attention-%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="toc-number">3.</span> <span class="toc-text">Self-Attention 自注意力机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E-Attention-%E5%88%B0-Transformer"><span class="toc-number">4.</span> <span class="toc-text">从 Attention 到 Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E8%BE%93%E5%85%A5%E5%B5%8C%E5%85%A5-%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%EF%BC%88Input-Embedding-Positional-Encoding%EF%BC%89"><span class="toc-number">4.1.</span> <span class="toc-text">1. 输入嵌入 + 位置编码（Input Embedding + Positional Encoding）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%EF%BC%88Multi-Head-Attention%EF%BC%89"><span class="toc-number">4.2.</span> <span class="toc-text">2. 多头注意力（Multi-Head Attention）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%89%8D%E9%A6%88%E7%BD%91%E7%BB%9C%E4%B8%8E-Add-amp-Norm%EF%BC%88FFN-%E6%AE%8B%E5%B7%AE%E8%BF%9E%E6%8E%A5%EF%BC%89"><span class="toc-number">4.3.</span> <span class="toc-text">3. 前馈网络与 Add &amp; Norm（FFN + 残差连接）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transformer-%E5%A6%82%E4%BD%95%E7%9C%8B%E5%9B%BE%EF%BC%9F%E2%80%94%E2%80%94ViT"><span class="toc-number">5.</span> <span class="toc-text">Transformer 如何看图？——ViT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%8E%E4%BA%8C%E7%BB%B4%E5%9B%BE%E5%83%8F%E5%88%B0%E4%B8%80%E7%BB%B4%E5%BA%8F%E5%88%97%EF%BC%9AViT-%E5%88%B0%E5%BA%95%E5%81%9A%E4%BA%86%E4%BB%80%E4%B9%88"><span class="toc-number">5.1.</span> <span class="toc-text">1. 从二维图像到一维序列：ViT 到底做了什么</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-CLS-Token%E3%80%81%E4%BD%8D%E7%BD%AE%E7%BC%96%E7%A0%81%E4%B8%8E%E7%BC%96%E7%A0%81%E5%99%A8%E5%A0%86%E5%8F%A0"><span class="toc-number">5.2.</span> <span class="toc-text">2. [CLS] Token、位置编码与编码器堆叠</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E7%94%A8%E4%B8%80%E5%BC%A0%E7%8C%AB%E5%9B%BE%E8%B5%B0%E5%AE%8C%E6%95%B4%E4%B8%AA%E6%B5%81%E7%A8%8B"><span class="toc-number">5.3.</span> <span class="toc-text">3. 用一张猫图走完整个流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BB%8E%E4%BB%A3%E7%A0%81%E8%A7%92%E5%BA%A6%E7%9C%8B-Patch-Embedding"><span class="toc-number">5.4.</span> <span class="toc-text">4. 从代码角度看 Patch Embedding</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cross-Attention%EF%BC%9A%E4%BA%A4%E5%8F%89%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="toc-number">6.</span> <span class="toc-text">Cross-Attention：交叉注意力机制</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ViT-vs-CNN"><span class="toc-number">7.</span> <span class="toc-text">ViT vs CNN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%F0%9F%93%9A-%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">8.</span> <span class="toc-text">📚 参考资料</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制"><img src="/image/trans_img_1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="看见注意力：用可视化理解 Transformer 的 Attention 机制"/></a><div class="content"><a class="title" href="/2026/04/10/cv-transformer-attention-visualization/" title="看见注意力：用可视化理解 Transformer 的 Attention 机制">看见注意力：用可视化理解 Transformer 的 Attention 机制</a><time datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/cv-category-introduction/" title="「CV」看得见的计算机视觉">「CV」看得见的计算机视觉</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/food-category-introduction/" title="「食为天」雅舍谈吃">「食为天」雅舍谈吃</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/stories-category-introduction/" title="「于是留下了故事」杂记">「于是留下了故事」杂记</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/04/09/motion-category-introduction/" title="「Motion」3D人体动作生成">「Motion」3D人体动作生成</a><time datetime="2026-04-09T15:00:00.000Z" title="发表于 2026-04-09 23:00:00">2026-04-09</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(/image/trans_img_1.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
   const loadMathjax = () => {
     if (!window.MathJax) {
       window.MathJax = {
