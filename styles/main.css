@@ -177,6 +177,81 @@ rgba(255, 225, 255, 0.6));
 [data-theme=dark] #post-comment .comment-head .comment-headline {
     color: #ffdceb;
 }
+
+/* 自动摘要公告：保持轻量、紧凑且适合侧边栏阅读 */
+#aside-content .auto-announcement {
+    font-size: 0.92rem;
+    line-height: 1.65;
+}
+
+#aside-content .auto-announcement__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+#aside-content .auto-announcement__weather {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    align-items: center;
+}
+
+#aside-content .auto-announcement__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.08rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(214, 51, 108, 0.12);
+    color: #a51755;
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+#aside-content .auto-announcement__weather-text,
+#aside-content .auto-announcement__meta,
+#aside-content .auto-announcement__loading,
+#aside-content .auto-announcement__empty {
+    color: var(--font-color);
+    opacity: 0.8;
+}
+
+#aside-content .auto-announcement__section-title {
+    font-weight: 700;
+    color: #7a0e4b;
+}
+
+#aside-content .auto-announcement__list {
+    margin: 0;
+    padding-left: 1.1rem;
+}
+
+#aside-content .auto-announcement__item + .auto-announcement__item {
+    margin-top: 0.45rem;
+}
+
+#aside-content .auto-announcement__item a {
+    color: var(--font-color);
+    text-decoration: none;
+}
+
+#aside-content .auto-announcement__item a:hover {
+    color: var(--theme-color);
+    text-decoration: underline;
+}
+
+#aside-content .auto-announcement__meta {
+    font-size: 0.78rem;
+}
+
+[data-theme=dark] #aside-content .auto-announcement__badge {
+    background: rgba(255, 220, 235, 0.16);
+    color: #ffdceb;
+}
+
+[data-theme=dark] #aside-content .auto-announcement__section-title {
+    color: #ffdceb;
+}
 /*文章页面*/
 /* .layout>#post {
     background: linear-gradient(-45deg, rgba(225, 255, 252, 0.8), 
