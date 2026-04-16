@@ -1,6 +1,6 @@
 (function () {
   var VIDEO_ID = 'site-bg-video';
-  var VIDEO_SRC = '/image/4K-Moving-Stars-Live-Wallpaper.mp4';
+  var VIDEO_SRC = '/image/starfield_2k_loop.mp4';
   var FALLBACK_CLASS = 'video-disabled';
   var resizeTimer = null;
 
