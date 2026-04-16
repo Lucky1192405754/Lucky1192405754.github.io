@@ -457,7 +457,7 @@
           <div>
             <div class="tfx-lite-eyebrow">Precomputed Transformer Explainer</div>
             <h4>在一篇博客里，把 Transformer 的“下一词预测”压缩成一个可读、可点、可解释的科研面板</h4>
-            <p>这不是在线跑 600MB 模型，而是从 Georgia Tech `transformer-explainer` 的真实 GPT-2 案例里提取出最有解释力的快照，再重组为适合 Hexo 的轻量交互版。</p>
+            <p>这不是在线跑 600MB 模型，而是从 Georgia Tech <code>transformer-explainer</code> 的真实 GPT-2 案例里提取出最有解释力的快照，再重组为适合 Hexo 的轻量交互版。</p>
           </div>
           <div class="tfx-lite-meta-card">
             <div class="tfx-lite-meta-label">当前最高概率候选</div>
