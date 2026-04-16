@@ -1237,6 +1237,65 @@ rgba(24,40,72,.16));
     }
 }
 
+/* ========== 文章卡片封面左右交替显示 ========== */
+/* Butterfly 主题文章卡片布局 */
+.recent-post-item {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+}
+
+/* 奇数行：封面在左，内容在右（默认） */
+.recent-post-item:nth-child(odd) {
+    flex-direction: row;
+}
+
+/* 偶数行：封面在右，内容在左 */
+.recent-post-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+
+/* 封面图片样式优化 */
+.recent-post-item .post_cover {
+    flex: 0 0 45%;
+    overflow: hidden;
+}
+
+.recent-post-item .post_cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.recent-post-item:hover .post_cover img {
+    transform: scale(1.05);
+}
+
+/* 文章信息区域 */
+.recent-post-item .recent-post-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem 2rem;
+}
+
+/* 移动端：恢复单列布局 */
+@media screen and (max-width: 768px) {
+    .recent-post-item,
+    .recent-post-item:nth-child(odd),
+    .recent-post-item:nth-child(even) {
+        flex-direction: column;
+    }
+
+    .recent-post-item .post_cover {
+        flex: 0 0 auto;
+        height: 200px;
+    }
+}
+
+
 
 
 
