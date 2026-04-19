@@ -8,24 +8,89 @@
 
 #web_bg {
     display: block;
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: #020617;
+}
+
+
+#web_bg::before,
+#web_bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* 覆盖 Butterfly 暗色模式默认的 #web_bg:before 深色遮罩 */
+#web_bg::before {
+    z-index: 1;
+    background: transparent !important;
+}
+
+/* 视频模式下仅保留轻微遮罩，避免整站几乎纯黑 */
+#web_bg:not(.video-disabled)::after {
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.08), rgba(2, 6, 23, 0.24));
+}
+
+/* 视频失效时，恢复更深一点的兜底遮罩 */
+#web_bg.video-disabled::after {
+    z-index: 2;
+    background: linear-gradient(180deg, rgba(2, 6, 23, 0.26), rgba(2, 6, 23, 0.58));
+}
+
+
+.site-bg-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+#web_bg.video-disabled .site-bg-video,
+#ribbon-canvas,
+#fluttering_ribbon {
+    display: none !important;
 }
  
 /* 鱼塘渐变色 */
 body{
  overflow-x: hidden;
+ background: #020617;
 }
+
 #footer {
  height:160px;
  background: linear-gradient(
   135deg,
-  rgba(23, 23, 116, 0.2),
-  rgba(28, 181, 224, 0.2)
+  rgba(8, 15, 40, 0.55),
+  rgba(18, 65, 111, 0.4)
  );
 }
+
 #footer #footer-wrap,
 #footer-wrap a {
  color: #000;
 }
+[data-theme=dark] #footer #footer-wrap,
+[data-theme=dark] #footer-wrap a {
+ color: #e2e8f0;
+}
+
 #footer #footer-wrap {
  z-index: 1;
 }
@@ -36,6 +101,7 @@ body{
  height: 100%;
  width: 100vw;
 }
+
  
 /* 侧边栏卡片：统一作者卡 / 公告 / 最新文章等视觉 */
 #aside-content .card-widget {
@@ -949,13 +1015,14 @@ rgba(24,40,72,.2));
 
 .academic-home__meta li {
     display: grid;
-    grid-template-columns: 138px 1fr;
+    grid-template-columns: minmax(112px, 138px) minmax(0, 1fr);
     gap: 0.8rem;
     padding: 0.95rem 1rem;
     border-radius: 18px;
     background: rgba(248, 250, 252, 0.92);
     border: 1px solid rgba(148, 163, 184, 0.14);
 }
+
 
 .academic-home__meta strong {
     color: #0f172a;
@@ -965,17 +1032,19 @@ rgba(24,40,72,.2));
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%;
 }
 
 .academic-home__profile img {
     width: 100%;
-    max-width: 360px;
+    max-width: min(100%, 340px);
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 28px;
     align-self: center;
     box-shadow: 0 18px 40px rgba(99, 102, 241, 0.14);
 }
+
 
 .academic-home__profile-card {
     padding: 1.35rem 1.4rem;
@@ -1205,7 +1274,31 @@ rgba(24,40,72,.2));
     color: #e0e7ff;
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 1180px) {
+    .layout.hide-aside:has(.academic-home) {
+        max-width: min(1160px, calc(100vw - 20px));
+    }
+
+    .layout.hide-aside:has(.academic-home) > div:first-child:not(.nc) {
+        padding: 44px 28px;
+    }
+
+    .academic-home__hero {
+        grid-template-columns: minmax(0, 1.12fr) minmax(240px, 0.78fr);
+        gap: 1.35rem;
+        padding: 2rem;
+    }
+
+    .academic-home__name {
+        font-size: clamp(2.05rem, 3.8vw, 3.2rem);
+    }
+
+    .academic-home__profile img {
+        max-width: min(100%, 300px);
+    }
+}
+
+@media screen and (max-width: 1080px) {
     .academic-home__hero,
     .academic-home__section--split,
     .academic-home__publication {
@@ -1216,6 +1309,11 @@ rgba(24,40,72,.2));
     .academic-home__section,
     .academic-home__panel {
         padding: 1.45rem;
+    }
+
+    .academic-home__profile {
+        max-width: 360px;
+        margin: 0 auto;
     }
 
     .academic-home__meta li,
@@ -1229,6 +1327,7 @@ rgba(24,40,72,.2));
 }
 
 @media screen and (max-width: 768px) {
+
     .academic-home__name {
         display: block;
         font-size: 2.18rem;
