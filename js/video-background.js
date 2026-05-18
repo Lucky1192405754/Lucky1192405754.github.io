@@ -1,7 +1,7 @@
 (function () {
   var VIDEO_ID = 'site-bg-video';
   var VIDEO_SOURCES = [
-    '/image/starfield_10s_preview.mp4',
+    '/image/starfield_2k_loop.mp4',
     '/image/starfield_1080p_compat.mp4'
   ];
   var FALLBACK_CLASS = 'video-disabled';
@@ -66,7 +66,7 @@
     }
 
     bg.classList.remove(FALLBACK_CLASS);
-    bg.style.backgroundImage = 'none';
+    bg.style.backgroundImage = "url('" + FALLBACK_IMAGE + "')";
 
     if (document.getElementById(VIDEO_ID)) return;
 
