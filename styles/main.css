@@ -1156,10 +1156,10 @@ rgba(24,40,72,.2));
 .academic-home__name {
     display: flex;
     align-items: baseline;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 0.42em;
     margin: 0.55rem 0 1rem;
-    font-size: clamp(2.25rem, 4.1vw, 3.65rem);
+    font-size: clamp(1.9rem, 3.35vw, 3.65rem);
     line-height: 1.08;
     color: #0f172a;
     letter-spacing: -0.03em;
@@ -1526,12 +1526,8 @@ rgba(24,40,72,.2));
     }
 
     .academic-home__name {
-        font-size: clamp(2.05rem, 3.8vw, 3.2rem);
-        gap: 0.28em;
-    }
-
-    .academic-home__name-zh {
-        margin-top: 0.12rem;
+        font-size: clamp(1.72rem, 3.05vw, 2.72rem);
+        gap: 0.22em;
     }
 
     .academic-home__profile img {
