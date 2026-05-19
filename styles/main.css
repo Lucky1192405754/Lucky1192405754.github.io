@@ -1510,7 +1510,7 @@ rgba(24,40,72,.2));
     color: #e0e7ff;
 }
 
-@media screen and (max-width: 1180px) {
+@media screen and (max-width: 1280px) {
     .layout.hide-aside:has(.academic-home) {
         max-width: min(1160px, calc(100vw - 20px));
     }
@@ -1520,18 +1520,18 @@ rgba(24,40,72,.2));
     }
 
     .academic-home__hero {
-        grid-template-columns: minmax(0, 1.12fr) minmax(240px, 0.78fr);
-        gap: 1.35rem;
+        grid-template-columns: minmax(0, 1.08fr) minmax(230px, 0.8fr);
+        gap: 1.2rem;
         padding: 2rem;
     }
 
     .academic-home__name {
-        font-size: clamp(1.72rem, 3.05vw, 2.72rem);
-        gap: 0.22em;
+        font-size: clamp(1.54rem, 2.55vw, 2.42rem);
+        gap: 0.18em;
     }
 
     .academic-home__profile img {
-        max-width: min(100%, 300px);
+        max-width: min(100%, 292px);
     }
 }
 
