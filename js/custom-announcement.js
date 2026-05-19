@@ -28,6 +28,26 @@
     }).format(date);
   }
 
+  function getWeatherEmoji(description) {
+    const text = String(description || '').toLowerCase();
+    if (/thunder|storm/.test(text)) return '⛈️';
+    if (/snow|sleet|ice/.test(text)) return '❄️';
+    if (/rain|drizzle|shower/.test(text)) return '🌦️';
+    if (/fog|mist|haze/.test(text)) return '🌫️';
+    if (/wind|breezy|gust/.test(text)) return '🌬️';
+    if (/cloud|overcast/.test(text)) return '☁️';
+    if (/sun|clear/.test(text)) return '☀️';
+    return '🌤️';
+  }
+
+  function buildWeatherMeta(weather) {
+    const items = [];
+    if (weather.feelsLikeC) items.push(`<span class="auto-announcement__pill">体感 ${escapeHtml(weather.feelsLikeC)}°C</span>`);
+    if (weather.humidity) items.push(`<span class="auto-announcement__pill">湿度 ${escapeHtml(weather.humidity)}%</span>`);
+    if (!items.length) return '';
+    return `<div class="auto-announcement__weather-meta">${items.join('')}</div>`;
+  }
+
   function buildHeadlineList(items) {
     if (!Array.isArray(items) || !items.length) {
       return '<div class="auto-announcement__empty">今日头条暂时不可用</div>';
@@ -36,10 +56,15 @@
     return `
       <ol class="auto-announcement__list">
         ${items
-          .map((item) => {
+          .map((item, index) => {
             const title = escapeHtml(item.title);
             const link = escapeHtml(item.link || '#');
-            return `<li class="auto-announcement__item"><a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a></li>`;
+            return `
+              <li class="auto-announcement__item">
+                <span class="auto-announcement__item-index">${index + 1}</span>
+                <a href="${link}" target="_blank" rel="noopener noreferrer">${title}</a>
+              </li>
+            `;
           })
           .join('')}
       </ol>
@@ -50,17 +75,27 @@
     const weather = data.weather;
     const weatherHtml = weather
       ? `
-        <div class="auto-announcement__weather">
-          <span class="auto-announcement__badge">${escapeHtml(data.labels?.weather || '天气')}</span>
-          <span class="auto-announcement__weather-text">${escapeHtml(weather.city)} ${escapeHtml(weather.tempC)}°C · ${escapeHtml(weather.description)}</span>
-        </div>
+        <section class="auto-announcement__panel auto-announcement__panel--weather">
+          <div class="auto-announcement__panel-head">
+            <span class="auto-announcement__badge">${escapeHtml(data.labels?.weather || '天气')}</span>
+            <span class="auto-announcement__weather-emoji" aria-hidden="true">${getWeatherEmoji(weather.description)}</span>
+          </div>
+          <div class="auto-announcement__weather-main">
+            <span class="auto-announcement__weather-city">${escapeHtml(weather.city)}</span>
+            <span class="auto-announcement__weather-temp">${escapeHtml(weather.tempC)}°C</span>
+          </div>
+          <div class="auto-announcement__weather-text">${escapeHtml(weather.description)}</div>
+          ${buildWeatherMeta(weather)}
+        </section>
       `
       : '';
 
     const featuredHtml = `
-      <a class="auto-announcement__featured" href="${escapeHtml(FEATURED_ACHIEVEMENT.link)}" target="_blank" rel="noopener noreferrer">
-        <span class="auto-announcement__badge auto-announcement__badge--featured">${escapeHtml(FEATURED_ACHIEVEMENT.badge)}</span>
-        <span class="auto-announcement__featured-title">${escapeHtml(FEATURED_ACHIEVEMENT.title)}</span>
+      <a class="auto-announcement__panel auto-announcement__panel--featured auto-announcement__featured" href="${escapeHtml(FEATURED_ACHIEVEMENT.link)}" target="_blank" rel="noopener noreferrer">
+        <div class="auto-announcement__panel-head">
+          <span class="auto-announcement__badge auto-announcement__badge--featured">${escapeHtml(FEATURED_ACHIEVEMENT.badge)}</span>
+        </div>
+        <div class="auto-announcement__featured-title">${escapeHtml(FEATURED_ACHIEVEMENT.title)}</div>
       </a>
     `;
 
@@ -68,8 +103,12 @@
       <div class="auto-announcement__inner">
         ${weatherHtml}
         ${featuredHtml}
-        <div class="auto-announcement__section-title">${escapeHtml(data.labels?.headlines || '今日摘要')}</div>
-        ${buildHeadlineList(data.headlines)}
+        <section class="auto-announcement__panel auto-announcement__panel--headlines">
+          <div class="auto-announcement__section-title-row">
+            <div class="auto-announcement__section-title">${escapeHtml(data.labels?.headlines || '今日摘要')}</div>
+          </div>
+          ${buildHeadlineList(data.headlines)}
+        </section>
         <div class="auto-announcement__meta">更新于 ${escapeHtml(formatTime(data.generatedAt))}</div>
       </div>
     `;

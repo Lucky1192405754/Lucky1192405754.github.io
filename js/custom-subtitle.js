@@ -1,13 +1,42 @@
-// 等 DOM ready 或者在 <head> 里尽量早地执行
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.subtitle && Array.isArray(window.subtitle.sub)) {
-    // Fisher–Yates Shuffle
-    for (let i = window.subtitle.sub.length - 1; i > 0; i--) {
+(function () {
+  function shuffleCopy(items) {
+    const result = items.slice();
+    for (let i = result.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [window.subtitle.sub[i], window.subtitle.sub[j]] = [
-        window.subtitle.sub[j],
-        window.subtitle.sub[i],
-      ];
+      [result[i], result[j]] = [result[j], result[i]];
     }
+    return result;
   }
-});
+
+  function patchTypedSubtitle(target) {
+    if (!target || target.__subtitleRandomPatched) return target;
+    if (typeof target.init !== 'function') return target;
+
+    const originalInit = target.init;
+    target.init = function (strings) {
+      const randomized = Array.isArray(strings) ? shuffleCopy(strings) : strings;
+      return originalInit.call(this, randomized);
+    };
+    target.__subtitleRandomPatched = true;
+    return target;
+  }
+
+  if (window.typedJSFn) {
+    patchTypedSubtitle(window.typedJSFn);
+    return;
+  }
+
+  let storedValue;
+  Object.defineProperty(window, 'typedJSFn', {
+    configurable: true,
+    enumerable: true,
+    get() {
+      return storedValue;
+    },
+    set(value) {
+      storedValue = patchTypedSubtitle(value);
+      delete window.typedJSFn;
+      window.typedJSFn = storedValue;
+    }
+  });
+})();

@@ -889,6 +889,199 @@ rgba(24,40,72,.2));
     color: #9fb0d2;
 }
 
+/* 公告卡片 */
+.auto-announcement {
+    color: #d7deef;
+}
+
+.auto-announcement__loading,
+.auto-announcement__empty {
+    padding: 0.15rem 0.05rem;
+    color: #b8c3dc;
+    line-height: 1.8;
+}
+
+.auto-announcement__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.95rem;
+}
+
+.auto-announcement__panel {
+    padding: 0.95rem 1rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.auto-announcement__panel-head,
+.auto-announcement__section-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+
+.auto-announcement__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 28px;
+    padding: 0.2rem 0.68rem;
+    border-radius: 999px;
+    background: rgba(85, 204, 216, 0.14);
+    color: #88edf6;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+}
+
+.auto-announcement__badge--featured {
+    background: rgba(129, 140, 248, 0.16);
+    color: #bac5ff;
+}
+
+.auto-announcement__weather-emoji {
+    font-size: 1.2rem;
+    line-height: 1;
+    filter: drop-shadow(0 4px 10px rgba(255, 200, 90, 0.12));
+}
+
+.auto-announcement__weather-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.8rem;
+    margin-top: 0.7rem;
+}
+
+.auto-announcement__weather-city {
+    color: #f3f6ff;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.auto-announcement__weather-temp {
+    color: #8ce7f5;
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.auto-announcement__weather-text {
+    margin-top: 0.28rem;
+    color: #b8c3dc;
+    line-height: 1.6;
+}
+
+.auto-announcement__weather-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.72rem;
+}
+
+.auto-announcement__pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0.15rem 0.62rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #cad4ea;
+    font-size: 0.76rem;
+}
+
+.auto-announcement__featured {
+    display: block;
+    text-decoration: none !important;
+    transition: transform 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.auto-announcement__featured:hover {
+    transform: translateY(-1px);
+    border-color: rgba(140, 158, 255, 0.22);
+    box-shadow: 0 14px 28px rgba(13, 20, 38, 0.16);
+}
+
+.auto-announcement__featured-title,
+.auto-announcement__section-title {
+    color: #eef2ff;
+    font-weight: 700;
+    line-height: 1.65;
+}
+
+.auto-announcement__featured-title {
+    margin-top: 0.72rem;
+}
+
+.auto-announcement__section-title {
+    font-size: 0.94rem;
+    letter-spacing: 0.01em;
+}
+
+.auto-announcement__list {
+    margin: 0.8rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+}
+
+.auto-announcement__item {
+    display: grid;
+    grid-template-columns: 1.7rem minmax(0, 1fr);
+    gap: 0.7rem;
+    align-items: start;
+    padding: 0.45rem 0;
+}
+
+.auto-announcement__item + .auto-announcement__item {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.auto-announcement__item-index {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #8ce7f5;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.auto-announcement__item a {
+    color: #d5dcef !important;
+    text-decoration: none;
+    line-height: 1.78;
+    transition: color 0.18s ease;
+}
+
+.auto-announcement__item a:hover {
+    color: #ffffff !important;
+}
+
+.auto-announcement__meta {
+    padding: 0.2rem 0.1rem 0;
+    color: #99a6c5;
+    font-size: 0.78rem;
+}
+
+@media screen and (max-width: 768px) {
+    .auto-announcement__panel {
+        padding: 0.88rem 0.9rem;
+    }
+
+    .auto-announcement__weather-main {
+        align-items: center;
+    }
+}
+
 /* 学术主页：首页学术化改版 */
 .layout>#page:has(.academic-home) {
     padding: 0;
