@@ -1,12 +1,11 @@
 (function () {
   var VIDEO_ID = 'site-bg-video';
   var VIDEO_SOURCES = [
-    '/image/starfield_2k_loop.mp4',
-    '/image/starfield_1080p_compat.mp4'
+    '/image/background/starfield_2k_loop.mp4'
   ];
   var FALLBACK_CLASS = 'video-disabled';
 
-  var FALLBACK_IMAGE = '/image/bg_2.webp';
+  var FALLBACK_IMAGE = '/image/background/bg_2.webp';
   var resizeTimer = null;
 
 
@@ -79,7 +78,7 @@
     video.loop = true;
     video.playsInline = true;
     video.preload = 'auto';
-    video.poster = '/image/bg_16.webp';
+    video.poster = '/image/background/bg_16.webp';
     video.setAttribute('aria-hidden', 'true');
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
