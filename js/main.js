@@ -259,8 +259,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const createImageItem = item => {
       const alt = item.alt ? `alt="${sanitizeString(item.alt)}"` : ''
       const title = item.title ? `title="${sanitizeString(item.title)}"` : ''
+      const thumb = item.thumb || item.url
+      const original = item.url || thumb
       return `<div class="item">
-        <img src="${item.url}" data-grid-maintained-target="true" ${alt} ${title} />
+        <img src="${thumb}" data-origin-src="${original}" data-grid-maintained-target="true" ${alt} ${title} />
       </div>`
     }
 
