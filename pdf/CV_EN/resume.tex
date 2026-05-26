@@ -1,0 +1,101 @@
+% !TEX TS-program = xelatex
+% !TEX encoding = UTF-8 Unicode
+% !Mode:: "TeX:UTF-8"
+
+\documentclass{resume}
+\usepackage{linespacing_fix} % disable extra space before next section
+\usepackage{cite}
+\usepackage[colorlinks,linkcolor=blue,urlcolor=blue]{hyperref}
+\usepackage{ulem}
+
+\begin{document}
+\pagenumbering{gobble}
+
+\name{KEMING SHEN}
+\contactInfo{(+86) 131-7596-6520}{2400101005@mails.szu.edu.cn}{https://lucky1192405754.github.io/}{https://github.com/Lucky1192405754}{}
+\otherInfo{Research Interests: 3D Human Motion Generation, Computer Vision, Multimodal Models, Embodied AI, RL}{}{}{}
+
+\section{\texorpdfstring{\faGraduationCap\ EDUCATION}{EDUCATION}}
+\datedsubsection{Shenzhen University  \textperiodcentered\ M.Sc. \textperiodcentered\ GPA 90.9/100 (3.91/4.0, Rank \#3)}{2024.09 -- Present}
+\entrydetail{Research Interests: 3D Human Motion Generation, Computer Vision, Diffusion Models, Multimodal Generation\\
+Supervised by: \href{https://ai.szu.edu.cn/english/info/1073/6232.htm}{Prof. Linlin Shen}}
+
+\datedsubsection{Shenzhen University  \textperiodcentered\ B.Eng. \textperiodcentered\ GPA 87.7/100 (3.96/4.5, Rank \#7)}{2020.09 -- 2024.06}
+\entrydetail{B.Eng. in Computer Science and Technology, Software Engineering (Tencent Cloud Artificial Intelligence Elite Class)\\
+Supervised by: \href{https://ai.szu.edu.cn/english/info/1073/6232.htm}{Prof. Linlin Shen}}
+
+\section{\texorpdfstring{\faGlobe\ ENGLISH PROFICIENCY}{ENGLISH PROFICIENCY}}
+\begin{itemize}
+  \item \textbf{IELTS: 7.0} (L 7.5 / R 7.5 / W 7.0 / S 5.5), \textbf{CET-6}
+\end{itemize}
+
+\section{\texorpdfstring{\faCogs\ SKILLS}{SKILLS}}
+\begin{itemize}
+  \item \textbf{Programming Languages:} Proficient in C/C++, Python, C\#, and JavaScript.
+  \item \textbf{Deep Learning:} Hands-on experience with PyTorch, TensorFlow, and OpenCV.
+  \item \textbf{Linux Server Clusters:} Experienced in Linux server cluster administration and maintenance, with substantial involvement in server operations, management, and coordination.
+  \item \textbf{Agentic AI:} Hands-on experience with tools such as Claude Code, Codex, CodeBuddy, and Antigravity, including experience designing and developing Agent Skills.
+\end{itemize}
+
+\section{\texorpdfstring{\faFileText\ SELECTED PUBLICATIONS}{SELECTED PUBLICATIONS}}
+\datedline{{\textbf{[AAAI'26]}} \textperiodcentered\ \textbf{FineXtrol: Controllable Motion Generation via Fine-Grained Text}}{}
+\entrydetail{\textbf{\uline{Keming Shen}}, Bizhu Wu, Junliang Chen, Xiaoqin Wang, Linlin Shen \ [\href{https://arxiv.org/abs/2511.18927}{\faFilePdfO\ Paper Link}]}
+\begin{itemize}
+  \item Proposed FineXtrol, a controllable motion generation framework that replaces costly coordinate-sequence control with user-friendly fine-grained textual control signals.
+  \item Designed a hierarchical contrastive learning module to improve the text encoder's discriminative ability for fine-grained motion descriptions, thereby enhancing generation quality.
+  \item Experiments on the HumanML3D test set demonstrate strong performance in precise multi-body-part control and usability, indicating strong potential for downstream applications.
+\end{itemize}
+
+\datedline{\textbf{[CVPR'25]} \textperiodcentered\ MG-MotionLLM: A Unified Framework for Motion Comprehension and Generation across Multiple Granularities}{}
+\entrydetail{Bizhu Wu, Jinheng Xie, \textbf{\uline{Keming Shen}}, Zhe Kong, Jianfeng Ren, Ruibin Bai, Rong Qu, Linlin Shen \ [\href{https://arxiv.org/abs/2504.02478}{\faFilePdfO\ Paper Link}]}
+\begin{itemize}
+  \item Proposed MG-MotionLLM, a unified framework that jointly models motion comprehension and generation tasks across multiple granularities.
+  \item Developed a multi-granularity training scheme with auxiliary tasks to capture motion-related features at different granularity levels and strengthen comprehensive motion understanding.
+  \item The model supports a range of new downstream tasks, including fine-grained motion editing, and enables cross-task generalization within a single unified model.
+\end{itemize}
+
+\datedline{\textbf{[NeurIPS'26 (Under Review)]} \textperiodcentered\ Ciallo: Coordinated and Controllable 3D Talking Avatar with Holistic \& Fine-Grained Face-Body Space}{}
+\entrydetail{Yuhang Guo, \textbf{\uline{Keming Shen}}, Kaijun Deng, Siyang Song, Zehai Niu, Jinbao Wang, Linlin Shen \ [\href{https://openreview.net/attachment?id=AR3C3ya1i1&name=pdf}{\faFilePdfO\ Paper Link}]}
+\begin{itemize}
+  \item Proposed Ciallo, the first 3D talking avatar framework to unify gesture and facial expression generation at the representation level within a shared space.
+  \item Designed a fine-grained body-part motion modeling strategy with spatiotemporally aware textual feature injection to enable coordinated and controllable motion generation for specific body parts.
+  \item Built a scalable 3D talking avatar dataset from in-the-wild videos by combining a monocular tracker with VLM-based video understanding.
+\end{itemize}
+
+\newpage
+\section{\texorpdfstring {\faFlask  \ PROJECTS}{PROJECTS}}
+\begin{itemize}
+  \item MotionSurf: An Agent-Skills-driven system for automated paper retrieval and understanding in human motion generation.
+  \item ActNow: A lightweight demo for text-driven motion generation built with Gradio and FineXtrol.
+  \item Linly-Talker++: A real-time conversational digital avatar system powered by advanced TTS models and large language models.
+\end{itemize}
+
+\section{\texorpdfstring {\faTrophy \ COMPETITION }{COMPETITION}}
+\begin{itemize}
+  \item Team Excellence Award (Top 10), IJCAI 2025 Deepfake Detection, Localization, and Explainability Challenge (Generative Large Model Security Track)
+  \item Gold Award (Top 10), 2025 Shenzhen University ``Liyuan Challenge'' Innovation and Entrepreneurship Competition, Entrepreneurship Track
+  \item First Prize, Guangdong Province, China Undergraduate Mathematical Contest in Modeling
+\end{itemize}
+
+\section{\texorpdfstring {\faLightbulbO \ PATENT}{PATENT}}
+\begin{itemize}
+  \item A Method for Estimating the Effective Detection Distance of Cameras for Poultry Object Detection\\
+  \textit{Patent No. 202311785633.3}
+\end{itemize}
+
+\section{\texorpdfstring{\faCommentsO \ SERVICE}{SERVICE}}
+\begin{itemize}
+  \item Reviewer for ICCV 2025 and AAAI 2026 in human motion modeling and computer vision.
+\end{itemize}
+
+\section{\texorpdfstring{\faStar \ HONORS \& AWARDS}{Honors \& AWARDS}}
+\begin{itemize}
+  \item 2022 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} Star of Innovation and Entrepreneurship
+  \item 2024 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} Outstanding Undergraduate Graduate (University Level)
+  \item 2024 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} Outstanding Undergraduate Thesis among Top 100 Graduating Projects
+  \item 2024 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} Featured Student Interview, CSSE, SZU
+  \item 2024 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} Student Representative in Undergraduate Admissions Video, CSSE, SZU
+  \item 2024 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} First-Class Graduate Scholarship (Special Prize)
+  \item 2025 \hspace{0.5cm} Shenzhen University \hspace{0.5cm} First-Class Graduate Scholarship
+\end{itemize}
+\end{document}
