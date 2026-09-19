@@ -1,0 +1,384 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux服务器长任务管理：tmux、日志与断线恢复 | Keming's Eutopia ♪</title><meta name="author" content="LuckyShen"><meta name="copyright" content="LuckyShen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="说明 tmux 保留远端会话的原理，整理长任务启动、日志记录、离开与恢复、组合键和正常终止流程，并区分 nohup 与作业调度器的适用范围。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器长任务管理：tmux、日志与断线恢复">
+<meta property="og:url" content="https://lucky1192405754.github.io/2026/09/20/linux-tmux-long-tasks/index.html">
+<meta property="og:site_name" content="Keming&#39;s Eutopia ♪">
+<meta property="og:description" content="说明 tmux 保留远端会话的原理，整理长任务启动、日志记录、离开与恢复、组合键和正常终止流程，并区分 nohup 与作业调度器的适用范围。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lucky1192405754.github.io/image/linux-server-series/tmux-cover.png">
+<meta property="article:published_time" content="2026-09-20T03:40:00.000Z">
+<meta property="article:modified_time" content="2026-09-19T17:49:27.280Z">
+<meta property="article:author" content="LuckyShen">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="SSH">
+<meta property="article:tag" content="tmux">
+<meta property="article:tag" content="日志">
+<meta property="article:tag" content="任务管理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lucky1192405754.github.io/image/linux-server-series/tmux-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux服务器长任务管理：tmux、日志与断线恢复",
+  "url": "https://lucky1192405754.github.io/2026/09/20/linux-tmux-long-tasks/",
+  "image": "https://lucky1192405754.github.io/image/linux-server-series/tmux-cover.png",
+  "datePublished": "2026-09-20T03:40:00.000Z",
+  "dateModified": "2026-09-19T17:49:27.280Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "LuckyShen",
+      "url": "https://lucky1192405754.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/KM.webp"><link rel="canonical" href="https://lucky1192405754.github.io/2026/09/20/linux-tmux-long-tasks/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d307051884df6e49bb73adb7336b2992";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux服务器长任务管理：tmux、日志与断线恢复',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script src="/js/default-dark-mode.js"></script><link rel="stylesheet" href="/styles/main.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/image/background/bg_2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar_2.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/linux-server-series/tmux-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Keming's Eutopia ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux服务器长任务管理：tmux、日志与断线恢复</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux服务器长任务管理：tmux、日志与断线恢复</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-20T03:40:00.000Z" title="发表于 2026-09-20 11:40:00">2026-09-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T17:49:27.280Z" title="更新于 2026-09-20 01:49:27">2026-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CLinux%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">「Linux」服务器操作指南</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>训练、数据处理和批量实验往往运行数小时。SSH 连接只负责当前的远程交互，不能作为任务持续运行的保证。tmux 将任务所在的终端保留在服务器上，使连接中断与任务执行彼此分离；日志则记录任务输出，便于重新登录后判断进度与错误。</p>
+<p>本文以 Linux 服务器上的 Bash 为例，介绍从启动到结束的一套完整流程。远程连接与开发环境可先参考 <a href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南">面向Linux服务器的Coding指南</a>。</p>
+<span id="more"></span>
+<h2 id="1-tmux-为什么能保留任务"><a href="#1-tmux-为什么能保留任务" class="headerlink" title="1 tmux 为什么能保留任务"></a>1 tmux 为什么能保留任务</h2><h3 id="1-1-SSH-连接与远端终端"><a href="#1-1-SSH-连接与远端终端" class="headerlink" title="1.1 SSH 连接与远端终端"></a>1.1 SSH 连接与远端终端</h3><p>直接通过 SSH 打开的交互终端与该连接关联。连接断开后，终端可能挂断，Shell 及其任务可能收到挂断信号或被清理。具体行为取决于 Shell、任务启动方式和服务器策略，不能仅凭“命令已经开始执行”判断它会继续运行。</p>
+<p>tmux 在服务器上运行一个后台 <strong>server 进程</strong>，由它管理会话和各个窗格的伪终端。通过 SSH 执行 <code>tmux attach</code> 时，启动的是连接到这个 server 的 <strong>client</strong>；键盘输入和屏幕输出通过 client 转交。</p>
+<p>这里的 server 与 client 都运行在 Linux 服务器上，是 tmux 内部的进程角色，不是分别指 Linux 服务器和个人电脑。SSH 断开通常只使 client 离开，任务所使用的伪终端仍由 tmux server 保持。架构见 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux/wiki/Getting-Started">tmux 官方入门说明</a>。</p>
+<h3 id="1-2-会话、窗口与窗格"><a href="#1-2-会话、窗口与窗格" class="headerlink" title="1.2 会话、窗口与窗格"></a>1.2 会话、窗口与窗格</h3><p>tmux 使用三层结构组织终端：</p>
+<ul>
+<li><strong>会话（session）</strong>：一组工作上下文，例如一次实验 <code>train-demo</code>。</li>
+<li><strong>窗口（window）</strong>：会话中的终端页，适合区分训练、日志和监控。</li>
+<li><strong>窗格（pane）</strong>：窗口分屏后的一个区域，各自拥有独立的终端和前台程序。</li>
+</ul>
+<p>离开会话称为 <strong>detach</strong>，只断开交互入口。重新附着称为 <strong>attach</strong>，显示原有终端，既不会重新启动训练，也不会自动重复之前的命令。</p>
+<h3 id="1-3-持续运行的边界"><a href="#1-3-持续运行的边界" class="headerlink" title="1.3 持续运行的边界"></a>1.3 持续运行的边界</h3><p>tmux 不保存进程的可恢复快照。服务器重启、tmux server 被终止、系统回收用户进程、任务内存耗尽或程序自身退出，都可能结束任务。模型 checkpoint、断点下载和异常重试仍需由实际程序实现。</p>
+<p>PC 断网不一定影响远端计算；服务器短时断网时，完全依赖本地文件的计算也可能继续。但持续调用 API、访问网络存储或下载数据的任务，仍依赖对应网络服务。</p>
+<p>如果服务器通过 SSH 反向转发借用 PC 的代理，PC 休眠后这条出口也会消失。<strong>tmux 保留进程，无法保留已经断开的 PC 代理通道。</strong> 联网方式见 <a href="/2026/09/20/linux_proxy/" title="Linux服务器代理联网指南：Clash与Mihomo">Linux服务器代理联网指南：Clash与Mihomo</a>。</p>
+<h2 id="2-普通账户准备-tmux"><a href="#2-普通账户准备-tmux" class="headerlink" title="2 普通账户准备 tmux"></a>2 普通账户准备 tmux</h2><p>先在服务器检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">command</span> -v tmux</span><br><span class="line">tmux -V</span><br></pre></td></tr></table></figure>
+<p>已有 tmux 时可以直接使用。集群若采用环境模块，可先查看 <code>module avail</code>，再按实际提供的模块名称加载；并非所有服务器都有 <code>module</code> 命令。</p>
+<p>已有 Conda 且允许从 conda-forge 安装软件时，可以将工具放在独立环境中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda create -n terminal-tools -c conda-forge tmux</span><br><span class="line">conda activate terminal-tools</span><br><span class="line">tmux -V</span><br></pre></td></tr></table></figure>
+<p>之后重新登录，需要再次激活该环境才能找到其中的 tmux。进入会话后可以切换到项目自己的 Python 环境，不必把训练依赖安装到 <code>terminal-tools</code>。包来源见 <a target="_blank" rel="noopener" href="https://anaconda.org/conda-forge/tmux">conda-forge tmux</a>。</p>
+<p>没有可用模块或 Conda 时，可联系管理员提供 tmux，或按 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux/wiki/Installing">官方安装说明</a>在个人目录构建。源码编译还依赖编译器、libevent 与终端库，不宜把 <code>sudo apt install</code> 作为普通账户的默认方案。</p>
+<h2 id="3-一次长任务的完整流程"><a href="#3-一次长任务的完整流程" class="headerlink" title="3 一次长任务的完整流程"></a>3 一次长任务的完整流程</h2><h3 id="3-1-创建会话"><a href="#3-1-创建会话" class="headerlink" title="3.1 创建会话"></a>3.1 创建会话</h3><p>SSH 登录到实际运行任务的服务器后执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line">tmux <span class="built_in">ls</span></span><br><span class="line">tmux new -s train-demo</span><br></pre></td></tr></table></figure>
+<p>第一次使用时，<code>tmux ls</code> 提示没有运行中的 server 是正常情况。若已存在 <code>train-demo</code>，直接使用 <code>tmux attach -t train-demo</code>；不要因重复名称报错就结束原会话。</p>
+<p>进入后，终端底部通常会出现 tmux 状态栏。下文项目路径和 <code>train.py</code> 均为示例，分别替换为已有项目目录和实际任务入口。</p>
+<h3 id="3-2-在会话内确认项目环境"><a href="#3-2-在会话内确认项目环境" class="headerlink" title="3.2 在会话内确认项目环境"></a>3.2 在会话内确认项目环境</h3><p>在 tmux 内执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/projects/demo</span><br><span class="line"><span class="built_in">source</span> .venv/bin/activate</span><br><span class="line">python -c <span class="string">&#x27;import sys; print(sys.executable)&#x27;</span></span><br></pre></td></tr></table></figure>
+<p><code>.venv</code> 应事先创建。使用 Conda 项目环境时，将激活命令替换为 <code>conda activate 项目环境名</code>，无需同时激活两套环境。创建与检查方法见 <a href="/2026/09/20/linux-python-environments/" title="Linux服务器Python环境管理：venv、Conda与依赖复现">Linux服务器Python环境管理与依赖复现</a>。</p>
+<p>已经存在的窗格不会自动获得另一个 SSH 终端新设置的环境变量。调整代理、Python 环境或设备选择后，应在真正启动任务的窗格内确认并应用设置。</p>
+<h3 id="3-3-记录日志并启动"><a href="#3-3-记录日志并启动" class="headerlink" title="3.3 记录日志并启动"></a>3.3 记录日志并启动</h3><p>以下命令在同一个 tmux 窗格中逐条执行。先建立带时间戳的日志路径：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p logs</span><br><span class="line">log_file=<span class="string">&quot;logs/train-<span class="subst">$(date +%Y%m%d-%H%M%S)</span>-$$.log&quot;</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">&#x27;Log: %s\n&#x27;</span> <span class="string">&quot;<span class="variable">$log_file</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>随后运行已有项目的入口；项目要求的参数应追加在 <code>train.py</code> 之后、重定向符号之前：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -u train.py &gt; <span class="string">&quot;<span class="variable">$log_file</span>&quot;</span> 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+<p>命令以前台方式运行，此时不会立即出现 Shell 提示符。<code>-u</code> 减少 Python 标准输出和错误输出的缓冲；<code>&gt;</code> 写入日志，<code>2&gt;&amp;1</code> 将错误输出合并到同一个文件。命令顺序不能随意交换。</p>
+<p>这里的时间戳用于区分每次运行的<strong>日志文件名</strong>，不会为每行输出自动增加时间。需要逐行时间时，应在项目的 logging 配置中加入时间字段。</p>
+<p>输出被重定向后，训练窗口没有持续刷屏并不表示卡住。可在另一个窗口查看日志；GPU 任务同时配合 <a href="/2026/09/20/linux-gpu-monitoring/" title="Linux服务器GPU监控指南：nvidia-smi与nvitop">GPU监控与资源排查</a> 确认资源活动。</p>
+<h3 id="3-4-离开会话"><a href="#3-4-离开会话" class="headerlink" title="3.4 离开会话"></a>3.4 离开会话</h3><p>任务运行期间按 <strong><code>Ctrl+B</code>，松开，再按小写 <code>d</code></strong>。出现 detached 提示后，已经回到外层 SSH Shell；此时关闭 SSH 窗口不会主动结束 tmux 中的任务。</p>
+<p>这个操作不需要先暂停训练，也不需要给命令补上 <code>&amp;</code>。若终端暂时没有响应，可重新建立 SSH 连接检查会话，避免重复启动同一个实验。</p>
+<h3 id="3-5-重新连接与查看日志"><a href="#3-5-重新连接与查看日志" class="headerlink" title="3.5 重新连接与查看日志"></a>3.5 重新连接与查看日志</h3><p>重新 SSH 登录到<strong>同一台服务器、同一个账户</strong>后执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tmux <span class="built_in">ls</span></span><br><span class="line">tmux attach -t train-demo</span><br></pre></td></tr></table></figure>
+<p>如果旧连接仍被标记为 attached，而需要让它离开，可以执行 <code>tmux attach -d -t train-demo</code>。<code>-d</code> 会使这个会话上的其他 client 离开；多个入口原本也可以同时查看同一个会话。</p>
+<p>只查看日志时不必 attach。先列出最近日志，再将下一条命令的文件名替换为实际结果：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> -lt ~/projects/demo/logs</span><br><span class="line"><span class="built_in">tail</span> -n 100 -f ~/projects/demo/logs/实际日志文件名.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p>在这个日志终端按 <code>Ctrl+C</code>，停止的是 <code>tail</code>。训练进程在另一窗格中，不受该按键影响。查阅较长的已写入日志可以用 <code>less 日志路径</code>，按 <code>q</code> 退出。</p>
+<h3 id="3-6-结束与收尾"><a href="#3-6-结束与收尾" class="headerlink" title="3.6 结束与收尾"></a>3.6 结束与收尾</h3><p>训练自然退出后，原窗格重新出现 Shell 提示符。若需要记录退出码，紧接着运行 <code>echo $?</code>；<code>0</code> 通常表示成功，非零表示程序或信号导致了异常退出。执行其他命令后再读取 <code>$?</code>，得到的已是另一条命令的状态。</p>
+<p>提前停止时，优先使用项目支持的正常停止方式，或在<strong>训练所在窗格</strong>按 <code>Ctrl+C</code>。是否保存 checkpoint 取决于项目实现，发送中断信号本身不保证保存进度。</p>
+<p>确认任务和其他前台程序都已结束后，在空闲 Shell 中执行 <code>exit</code> 关闭该窗格；最后一个窗格退出后，默认情况下会话也随之结束。</p>
+<p><code>tmux kill-session -t train-demo</code> 会销毁整个指定会话，<code>tmux kill-server</code> 会销毁该 tmux server 管理的所有会话。它们不应作为日常“离开终端”的操作。</p>
+<h2 id="4-常用组合键"><a href="#4-常用组合键" class="headerlink" title="4 常用组合键"></a>4 常用组合键</h2><p>以下组合均以默认前缀 <code>Ctrl+B</code> 开始：先按下并松开前缀，再输入后续键。服务器已有个人配置时，前缀和绑定可能不同，可用 <code>tmux list-keys</code> 检查。</p>
+<h3 id="4-1-会话与窗口"><a href="#4-1-会话与窗口" class="headerlink" title="4.1 会话与窗口"></a>4.1 会话与窗口</h3><ul>
+<li><code>d</code>：detach，返回外层终端。</li>
+<li><code>s</code>：显示会话列表。</li>
+<li><code>c</code>：创建新窗口。</li>
+<li><code>n</code> / <code>p</code>：切换到下一个 / 上一个窗口。</li>
+<li><code>0</code>～<code>9</code>：切换到相应编号的窗口。</li>
+<li><code>w</code>：查看窗口列表。</li>
+<li><code>,</code>：重命名当前窗口，例如 <code>train</code>、<code>logs</code>、<code>gpu</code>。</li>
+</ul>
+<h3 id="4-2-分屏与切换"><a href="#4-2-分屏与切换" class="headerlink" title="4.2 分屏与切换"></a>4.2 分屏与切换</h3><ul>
+<li><code>%</code>：左右分屏。</li>
+<li><code>&quot;</code>：上下分屏。</li>
+<li>方向键：切换到对应方向的窗格。</li>
+<li><code>z</code>：临时放大当前窗格，再按一次恢复。</li>
+<li>空格：切换预设布局。</li>
+</ul>
+<p>分屏符号需要按键盘布局配合 Shift 输入。多个窗格有各自的工作目录和 Shell 状态；新窗格中应重新确认项目环境。</p>
+<h3 id="4-3-历史输出与帮助"><a href="#4-3-历史输出与帮助" class="headerlink" title="4.3 历史输出与帮助"></a>4.3 历史输出与帮助</h3><ul>
+<li><code>[</code>：进入复制模式，滚动查看历史输出；默认配置下按 <code>q</code> 退出。</li>
+<li><code>?</code>：显示按键帮助，按 <code>q</code> 返回。</li>
+<li><code>:</code>：打开 tmux 命令提示行，可输入 <code>rename-window logs</code> 等 tmux 命令。</li>
+</ul>
+<p>tmux 的历史缓冲区有大小限制，不能替代写入文件的实验日志。鼠标滚轮是否控制 tmux 历史，取决于 tmux 与终端软件的鼠标设置。</p>
+<h3 id="4-4-几个容易混淆的操作"><a href="#4-4-几个容易混淆的操作" class="headerlink" title="4.4 几个容易混淆的操作"></a>4.4 几个容易混淆的操作</h3><p><code>Ctrl+C</code> 不带 tmux 前缀，通常向当前终端的前台进程组发送中断信号；<code>Ctrl+Z</code> 通常暂停前台任务，而不是让它持续计算。误按 <code>Ctrl+Z</code> 后，可在同一 Shell 用 <code>jobs</code> 查看，再用 <code>fg</code> 恢复到前台。</p>
+<p><code>exit</code> 是退出当前 Shell，detach 是离开 tmux client。只想断开个人电脑与任务的交互时，使用 detach。</p>
+<h2 id="5-tmux、nohup-与后台执行"><a href="#5-tmux、nohup-与后台执行" class="headerlink" title="5 tmux、nohup 与后台执行"></a>5 tmux、nohup 与后台执行</h2><p>在命令末尾加 <code>&amp;</code>，只是让 Shell 在后台启动它，不能单独保证 SSH 断线后继续运行。<code>nohup</code> 则让启动的命令忽略挂断信号，但不提供可重新附着的交互终端，也不自动重启失败任务。</p>
+<p>对于不需要交互的单次脚本，可以明确重定向输入和输出后使用 nohup：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/projects/demo</span><br><span class="line"><span class="built_in">source</span> .venv/bin/activate</span><br><span class="line"><span class="built_in">mkdir</span> -p logs</span><br><span class="line">log_file=<span class="string">&quot;logs/nohup-<span class="subst">$(date +%Y%m%d-%H%M%S)</span>-$$.log&quot;</span></span><br><span class="line"><span class="built_in">nohup</span> python -u train.py &lt; /dev/null &gt; <span class="string">&quot;<span class="variable">$log_file</span>&quot;</span> 2&gt;&amp;1 &amp;</span><br><span class="line">task_pid=$!</span><br><span class="line"><span class="built_in">printf</span> <span class="string">&#x27;PID: %s\nLog: %s\n&#x27;</span> <span class="string">&quot;<span class="variable">$task_pid</span>&quot;</span> <span class="string">&quot;<span class="variable">$log_file</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>train.py</code> 仍是已有项目的入口，不应与前面的 tmux 示例同时执行同一个实验。<code>$!</code> 记录刚启动的后台进程 PID；多进程训练还可能存在启动器和子进程，不能只凭一个 PID 判断全部资源已经释放。</p>
+<p>需要断线后继续交互、切换多个终端时使用 tmux；固定脚本只需要后台执行和日志时可使用 nohup。两者均受服务器的用户进程清理策略约束，也都不能跨重启保存运行中的进程状态。</p>
+<h2 id="6-与-Slurm-等调度系统配合"><a href="#6-与-Slurm-等调度系统配合" class="headerlink" title="6 与 Slurm 等调度系统配合"></a>6 与 Slurm 等调度系统配合</h2><p>集群通常区分登录节点与计算节点。登录节点用于编辑、提交和查看任务，是否允许在其上执行计算由集群规定。登录节点上的 tmux 不会自动获得 GPU 或其他计算资源。</p>
+<p>Slurm 中常用 <code>sbatch</code> 提交批处理脚本，<code>squeue</code> 查看队列，<code>scancel</code> 取消自己的作业。分区、账户、GPU 数量和时限参数必须使用所在集群提供的值。基本流程见 <a target="_blank" rel="noopener" href="https://slurm.schedmd.com/quickstart.html">Slurm 官方用户指南</a>。</p>
+<p>已被 Slurm 接收的批处理作业通常不再依赖提交它的 SSH 连接。tmux 可以保留编辑和监控终端，但不能延长资源分配期限；交互式资源申请的存活条件还取决于集群配置和启动方式。</p>
+<h2 id="7-断线后找不到任务时"><a href="#7-断线后找不到任务时" class="headerlink" title="7 断线后找不到任务时"></a>7 断线后找不到任务时</h2><p>先确认连接到相同节点与账户，再查看 <code>tmux ls</code>、进程和日志。多节点系统即使共享主目录，也不会共享正在运行的 tmux server。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line">tmux <span class="built_in">ls</span></span><br><span class="line">ps -u <span class="string">&quot;<span class="variable">$USER</span>&quot;</span> -o pid,ppid,<span class="built_in">stat</span>,etime,cmd</span><br></pre></td></tr></table></figure>
+<p>会话存在而训练已退出时，检查日志末尾和退出原因；日志中出现连接失败，则检查任务依赖的网络出口。若进程也已消失，重新 attach 不会恢复它，只能由项目支持的 checkpoint 或续跑功能重新启动。</p>
+<p>VS Code Remote 窗口关闭与 tmux detach 也不是同一个操作。需要在编辑器里运行长任务时，可以从远端集成终端进入 tmux，再按同样流程管理；远端终端的位置说明见 <a href="/2026/09/20/linux-vscode-remote/" title="VS Code远程开发指南：Remote-SSH配置与排错">VS Code远程开发指南</a>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/09/20/linux-tmux-long-tasks/">https://lucky1192405754.github.io/2026/09/20/linux-tmux-long-tasks/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Keming's Eutopia ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/SSH/">SSH</a><a class="post-meta__tags" href="/tags/tmux/">tmux</a><a class="post-meta__tags" href="/tags/%E6%97%A5%E5%BF%97/">日志</a><a class="post-meta__tags" href="/tags/%E4%BB%BB%E5%8A%A1%E7%AE%A1%E7%90%86/">任务管理</a></div><div class="post-share"><div class="social-share" data-image="/image/linux-server-series/tmux-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/20/linux-codex-cli/" title="Linux服务器使用Codex CLI：安装、认证与自动化"><img class="cover" src="/image/linux-server-series/codex-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux服务器使用Codex CLI：安装、认证与自动化</div></div><div class="info-2"><div class="info-item-1">Codex CLI 在终端中读取项目、修改代码并调用本机工具。通过 SSH 登录 Linux 服务器后运行 Codex，文件操作和命令执行发生在服务器，模型请求也由服务器发出。 本文使用普通 Linux 账户和 Bash，示例项目位于 ~/projects/demo。远程连接与整体工作流见 面向Linux服务器的Coding指南；Claude Code 与 cc-switch 的配置见 Linux服务器安装Claude Code教程。  1 运行前需要准备什么服务器需要能够访问安装文件、认证服务与模型接口。PC 浏览器能够联网，并不代表服务器上的命令行工具已经具备相同的访问条件。 使用官方模型服务时，不需要在服务器上下载模型权重，也不要求本机 GPU 用于模型推理。项目中的测试、数据处理和训练仍会占用服务器资源。 在服务器终端检查基础工具： 12345hostnamecommand -v curlcommand -v shgit --versionuname -m 如果依赖代理，应先准备服务器可达的网络出口，再启动 Codex。代理原理与配置见...</div></div></div></a><a class="pagination-related" href="/2026/09/20/linux-python-environments/" title="Linux服务器Python环境管理：venv、Conda与依赖复现"><img class="cover" src="/image/linux-server-series/python-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux服务器Python环境管理：venv、Conda与依赖复现</div></div><div class="info-2"><div class="info-item-1">同一台 Linux 服务器可以同时存在系统 Python、Conda 环境和多个项目虚拟环境。包已经安装却无法导入，常见原因是安装时与运行时使用了不同的解释器。 本文的命令均在服务器 Bash 终端执行，示例项目目录为 ~/projects/demo。远程连接和服务器开发流程见 面向Linux服务器的Coding指南。  1 解释器、pip 与 PATHpython 是 Shell 根据命令查找规则找到的程序，通常由 PATH 中目录的先后顺序决定。pip 也是一个命令，它关联的 Python 不一定与当前 python 相同。 开始安装前，先查看实际程序位置： 12345command -v pythoncommand -v python3python3 --versionpython3 -c &quot;import sys; print(sys.executable)&quot;python3 -m pip --version 系统可能只有 python3，也可能没有为它安装 pip。输出中的路径和版本，比终端提示符是否显示环境名称更能说明实际情况。 python -m...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南"><img class="cover" src="/image/coding-linux-server-guide/linux-coding-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">面向Linux服务器的Coding指南</div></div><div class="info-2"><div class="info-item-1">Linux 服务器上的开发通常围绕一条工作流展开：通过 SSH 登录，在远端配置环境、编辑代码并运行任务，再通过日志和资源监控确认运行状态。个人电脑提供交互界面，服务器提供计算资源与存储，两者通过网络连接协作。 本文按连接、开发、AI 辅助、联网配置和任务管理的顺序整理常用操作。示例以 Windows 本机 + Linux 服务器 + Bash 为主；没有特别说明时，Linux 命令均使用普通账户执行。  各环节的完整流程与排错方法另整理为独立文章，可按当前任务查阅：  SSH 连接、密钥认证与文件传输：从首次登录到跳板机、SFTP 和连接排查。 VS Code 远程开发：远端组件、扩展、解释器、端口转发与下载配置。 Codex CLI 安装、认证与自动化：普通用户安装、项目权限、交互开发与脚本调用。 tmux、日志与断线恢复：长任务的启动、监控、恢复和结束。 Python 环境管理与依赖复现：venv、Conda、解释器定位和环境迁移。 GPU 监控与资源排查：nvidia-smi、nvitop、设备选择与常见瓶颈。 Clash 与 Mihomo...</div></div></div></a><a class="pagination-related" href="/2026/09/20/linux-ssh-connection/" title="Linux服务器SSH连接指南：密码、密钥与文件传输"><img class="cover" src="/image/linux-server-series/ssh-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">Linux服务器SSH连接指南：密码、密钥与文件传输</div></div><div class="info-2"><div class="info-item-1">SSH 在本机与服务器之间建立加密通道，支持远程登录、执行命令、传输文件和端口转发。连接参数与认证配置确定后，命令行、MobaXterm 和 VS Code 可以围绕同一台服务器协同工作。 本文以 Windows 本机 + Linux 服务器 为例。标为“本机 CMD”的命令在 Windows 命令提示符执行；标为“服务器终端”的命令在登录后的 Linux Shell 执行。完整开发流程见 面向Linux服务器的Coding指南。  1 连接前需要哪些信息 服务器地址：例如 server.example.edu，也可以是管理员提供的 IP。 SSH 端口：默认通常为 22，以实际配置为准。 用户名：本文示例为 alice。 认证方式：账号密码，或已登记到该账号的公钥。 网络入口：服务器是否要求 VPN、指定网络或跳板机。  密码与密钥认证都发生在 SSH 加密通道中。服务器是否接受密码、公钥或额外验证码，由其认证策略决定，客户端无法自行解除限制。 1.1 检查本机客户端在本机 CMD 执行： 1ssh -V 能够显示 OpenSSH 版本即可继续。若命令不存在，在...</div></div></div></a><a class="pagination-related" href="/2026/05/18/Linux-Claude-Code/" title="Linux服务器 安装Claude Code教程"><img class="cover" src="/image/Linux-Claude-Code/linux_claude.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-18</div><div class="info-item-2">Linux服务器 安装Claude Code教程</div></div><div class="info-2"><div class="info-item-1">Linux服务器 安装Claude Code教程1“ AI 不太可能取代你，但一个比你更会使用 AI 的人，可能会。 ”    ————Jensen Huang（黄仁勋） Claude Code是由Anthropic公司开发的一款AI驱动型的编程Agent命令行工具。这类产品也已经成为当代程序员代码开发不可或缺的重要工具。本文将介绍如何在 Linux 服务器上部署、配置个人Claude Code，利用CC-Switch绕过Claude Code本身的订阅需求，并且无需sudo 权限。 本文主要分成两部分：  先安装并验证 Claude Code 如果首次启动时遇到登录受限、地区限制，或者你本来就准备使用自定义 API provider，则继续安装并配置 cc-switch CLI  如果你只是想在服务器上快速把 Claude Code 跑起来，可以先看前半部分；如果你后续还需要切换 provider、配置 apikey、base_url、model，则重点看后半部分。 1 安装前准备在正式安装之前，可以先确认当前 Ubuntu 环境里至少有 bash 和...</div></div></div></a><a class="pagination-related" href="/2026/05/19/Linux-kill-zombie/" title="Linux服务器 NVIDIA显卡僵尸进程清理"><img class="cover" src="/image/Linux-kill-zombie/zombie_process.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-19</div><div class="info-item-2">Linux服务器 NVIDIA显卡僵尸进程清理</div></div><div class="info-2"><div class="info-item-1">Linux服务器 NVIDIA显卡僵尸进程清理在 Linux 服务器上跑深度学习任务时，偶尔会遇到一种比较烦人的情况：nvitop、nvidia-smi 等工具里还显示某个 GPU 上挂着进程，但真正去 kill 这个 PID 时，却提示 No such process。这类现象通常意味着你看到的已经不是一个正常运行中的计算任务，而是一次异常退出后残留下来的 GPU 占用记录，实践中经常被统称为“僵尸进程”问题。 这篇文章只介绍一个实用排查流程：先定位是哪张卡出了问题，再沿着该设备文件找到相关宿主进程，最后 kill 掉父进程或同组进程。 1 先定位是哪张显卡出现异常首先使用 nvitop、nvidia-smi 等工具，确认具体是哪张卡上挂着异常 PID。 例如下图中，可以看到 4号显卡 上出现了 PID 为 1405016 的异常进程：  如果此时你直接执行： 1kill -9 1405016 却得到： 1kill: (1405016) - No such process 那么通常说明这个 PID 本身已经不再是一个可直接操作的正常用户态进程，但它对应的 GPU...</div></div></div></a><a class="pagination-related" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南"><img class="cover" src="/image/linux-category-introduction/Linux_Front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「Linux」服务器操作指南</div></div><div class="info-2"><div class="info-item-1">Linux操作指北 为什么不写操作指南？这就像你不会在简历上写精通C语言一样。  首先，本章节并非面向寻求Linux某一教程的用户，因为我毕竟不是专业的Linux工程师。如果您真遇到了技术问题，不妨先去问问身边穿着格子衬衫的资深程序员，如果你喜欢硅基生物，也可以问问大G老师（你问我是Gemini还是ChatGPT，我说都行），大K老师，大鲸鱼老师，大豆老师等等，总之不建议在这个熵爆表的个人博客里索取答案。 作为学校实验室服务器的管理员，我只是在日常运维中积累了一些实践经验，并且为后面的管理员提供一些参考。换言之这个更像一个面向我所在的实验室的服务器管理私货，记录一些仅适用于特定场所的不一定实用的服务器操作技巧（其实就是我那些年月踩过的那些坑），如果能帮到其他与服务器打交道的朋友，那是莫大的荣幸。  内容范围🚧 施工中…TO BE...</div></div></div></a><a class="pagination-related" href="/2026/07/02/linux-kernel-update/" title="Linux服务器 系统内核升级指南"><img class="cover" src="/image/linux-kernel-update/front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-02</div><div class="info-item-2">Linux服务器 系统内核升级指南</div></div><div class="info-2"><div class="info-item-1">Linux服务器 系统内核升级指南在长期运行的 Linux 服务器上，经常会遇到应用程序要求更高版本内核的场景。尤其是当宿主机仍使用较老的发行版系统，而业务侧又依赖新版 eBPF 或较新的驱动特性时，往往必须在不整体升级系统的前提下更换内核。整个过程涉及内核包本身、glibc、编译工具链以及 NVIDIA DKMS 模块之间的多层依赖，任一环节处理不当都可能导致重启后系统无法正常进入图形界面或 GPU 驱动失效。 本文以 Ubuntu 18.04 + NVIDIA 驱动 + 目标内核 5.5.5 （升级前：4.15.0） 的实际升级过程为例，梳理内核升级涉及的核心概念、约束条件、完整执行流程以及常见问题的排查方法，供有类似需求的运维与开发人员参考。 1 Linux 内核与相关组件1.1 内核版本号的含义Linux 内核（Linux Kernel）是操作系统的核心，负责管理硬件资源（CPU、内存、磁盘、网卡、GPU 等）、调度进程并提供系统调用接口。执行 uname -r 得到的字符串即为当前运行的内核版本，例如...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-tmux-%E4%B8%BA%E4%BB%80%E4%B9%88%E8%83%BD%E4%BF%9D%E7%95%99%E4%BB%BB%E5%8A%A1"><span class="toc-text">1 tmux 为什么能保留任务</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-SSH-%E8%BF%9E%E6%8E%A5%E4%B8%8E%E8%BF%9C%E7%AB%AF%E7%BB%88%E7%AB%AF"><span class="toc-text">1.1 SSH 连接与远端终端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-%E4%BC%9A%E8%AF%9D%E3%80%81%E7%AA%97%E5%8F%A3%E4%B8%8E%E7%AA%97%E6%A0%BC"><span class="toc-text">1.2 会话、窗口与窗格</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-%E6%8C%81%E7%BB%AD%E8%BF%90%E8%A1%8C%E7%9A%84%E8%BE%B9%E7%95%8C"><span class="toc-text">1.3 持续运行的边界</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E6%99%AE%E9%80%9A%E8%B4%A6%E6%88%B7%E5%87%86%E5%A4%87-tmux"><span class="toc-text">2 普通账户准备 tmux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%80%E6%AC%A1%E9%95%BF%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%AE%8C%E6%95%B4%E6%B5%81%E7%A8%8B"><span class="toc-text">3 一次长任务的完整流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E5%88%9B%E5%BB%BA%E4%BC%9A%E8%AF%9D"><span class="toc-text">3.1 创建会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E5%9C%A8%E4%BC%9A%E8%AF%9D%E5%86%85%E7%A1%AE%E8%AE%A4%E9%A1%B9%E7%9B%AE%E7%8E%AF%E5%A2%83"><span class="toc-text">3.2 在会话内确认项目环境</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E8%AE%B0%E5%BD%95%E6%97%A5%E5%BF%97%E5%B9%B6%E5%90%AF%E5%8A%A8"><span class="toc-text">3.3 记录日志并启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-4-%E7%A6%BB%E5%BC%80%E4%BC%9A%E8%AF%9D"><span class="toc-text">3.4 离开会话</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-5-%E9%87%8D%E6%96%B0%E8%BF%9E%E6%8E%A5%E4%B8%8E%E6%9F%A5%E7%9C%8B%E6%97%A5%E5%BF%97"><span class="toc-text">3.5 重新连接与查看日志</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-6-%E7%BB%93%E6%9D%9F%E4%B8%8E%E6%94%B6%E5%B0%BE"><span class="toc-text">3.6 结束与收尾</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E5%B8%B8%E7%94%A8%E7%BB%84%E5%90%88%E9%94%AE"><span class="toc-text">4 常用组合键</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-%E4%BC%9A%E8%AF%9D%E4%B8%8E%E7%AA%97%E5%8F%A3"><span class="toc-text">4.1 会话与窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E5%88%86%E5%B1%8F%E4%B8%8E%E5%88%87%E6%8D%A2"><span class="toc-text">4.2 分屏与切换</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%8E%86%E5%8F%B2%E8%BE%93%E5%87%BA%E4%B8%8E%E5%B8%AE%E5%8A%A9"><span class="toc-text">4.3 历史输出与帮助</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-4-%E5%87%A0%E4%B8%AA%E5%AE%B9%E6%98%93%E6%B7%B7%E6%B7%86%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="toc-text">4.4 几个容易混淆的操作</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-tmux%E3%80%81nohup-%E4%B8%8E%E5%90%8E%E5%8F%B0%E6%89%A7%E8%A1%8C"><span class="toc-text">5 tmux、nohup 与后台执行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%8E-Slurm-%E7%AD%89%E8%B0%83%E5%BA%A6%E7%B3%BB%E7%BB%9F%E9%85%8D%E5%90%88"><span class="toc-text">6 与 Slurm 等调度系统配合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%96%AD%E7%BA%BF%E5%90%8E%E6%89%BE%E4%B8%8D%E5%88%B0%E4%BB%BB%E5%8A%A1%E6%97%B6"><span class="toc-text">7 断线后找不到任务时</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/image/linux-server-series/tmux-cover.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Lucky1192405754/Lucky1192405754.github.io',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script src="/js/video-background.js"></script><script src="/js/custom-announcement.js"></script><script src="/js/background-music.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

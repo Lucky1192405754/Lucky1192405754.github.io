@@ -1,0 +1,383 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>VS Code远程开发指南：Remote-SSH配置与排错 | Keming's Eutopia ♪</title><meta name="author" content="LuckyShen"><meta name="copyright" content="LuckyShen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="配置 VS Code Remote-SSH，区分本地界面与远端环境，管理 Python 解释器、Git 项目、端口转发和代理，并按连接阶段定位常见故障。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VS Code远程开发指南：Remote-SSH配置与排错">
+<meta property="og:url" content="https://lucky1192405754.github.io/2026/09/20/linux-vscode-remote/index.html">
+<meta property="og:site_name" content="Keming&#39;s Eutopia ♪">
+<meta property="og:description" content="配置 VS Code Remote-SSH，区分本地界面与远端环境，管理 Python 解释器、Git 项目、端口转发和代理，并按连接阶段定位常见故障。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lucky1192405754.github.io/image/linux-server-series/vscode-cover.png">
+<meta property="article:published_time" content="2026-09-20T03:20:00.000Z">
+<meta property="article:modified_time" content="2026-09-19T17:49:21.183Z">
+<meta property="article:author" content="LuckyShen">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="VS Code">
+<meta property="article:tag" content="开发环境">
+<meta property="article:tag" content="Remote-SSH">
+<meta property="article:tag" content="Python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lucky1192405754.github.io/image/linux-server-series/vscode-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "VS Code远程开发指南：Remote-SSH配置与排错",
+  "url": "https://lucky1192405754.github.io/2026/09/20/linux-vscode-remote/",
+  "image": "https://lucky1192405754.github.io/image/linux-server-series/vscode-cover.png",
+  "datePublished": "2026-09-20T03:20:00.000Z",
+  "dateModified": "2026-09-19T17:49:21.183Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "LuckyShen",
+      "url": "https://lucky1192405754.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/KM.webp"><link rel="canonical" href="https://lucky1192405754.github.io/2026/09/20/linux-vscode-remote/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d307051884df6e49bb73adb7336b2992";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'VS Code远程开发指南：Remote-SSH配置与排错',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script src="/js/default-dark-mode.js"></script><link rel="stylesheet" href="/styles/main.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/image/background/bg_2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar_2.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/linux-server-series/vscode-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Keming's Eutopia ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">VS Code远程开发指南：Remote-SSH配置与排错</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">VS Code远程开发指南：Remote-SSH配置与排错</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-20T03:20:00.000Z" title="发表于 2026-09-20 11:20:00">2026-09-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T17:49:21.183Z" title="更新于 2026-09-20 01:49:21">2026-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CLinux%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">「Linux」服务器操作指南</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>Remote-SSH 让 VS Code 在本机显示编辑器，同时直接操作 Linux 服务器上的代码、终端和开发环境。项目文件留在服务器，运行与调试使用服务器资源，不需要每次修改后手动上传代码。</p>
+<p>本文以 Windows 本机连接 Linux 服务器为例，围绕连接、环境选择、文件与端口访问、代理和排错展开。SSH 的密码与密钥配置见 <a href="/2026/09/20/linux-ssh-connection/" title="Linux服务器SSH连接指南：密码、密钥与文件传输">Linux服务器SSH连接指南</a>，服务器开发的整体流程见 <a href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南">面向Linux服务器的Coding指南</a>。</p>
+<span id="more"></span>
+<h2 id="1-本地界面、远端-Server-与扩展的分工"><a href="#1-本地界面、远端-Server-与扩展的分工" class="headerlink" title="1 本地界面、远端 Server 与扩展的分工"></a>1 本地界面、远端 Server 与扩展的分工</h2><p>Remote-SSH 的工作方式可以分成三部分：</p>
+<ul>
+<li><strong>本地 VS Code</strong>负责窗口、编辑器界面，以及适合在本机运行的界面扩展。</li>
+<li><strong>远端 VS Code Server</strong>在服务器用户目录中运行，提供文件、终端与远程开发服务。</li>
+<li><strong>远端扩展宿主</strong>运行需要访问服务器项目和环境的扩展，例如语言分析与调试组件。</li>
+</ul>
+<p>本机与远端组件通过 SSH 通道通信。打开远端文件夹后，保存文件会直接写入服务器；远端集成终端默认也在服务器执行命令。它不会自动维护一份相同的本地项目副本。</p>
+<p>扩展的运行位置由其类型和实现决定，不能把“本机已安装扩展”理解为“远端环境也已就绪”。这也解释了为什么本机装有 Python、Git 或某个代理服务，远端任务仍可能找不到它们。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/ssh">Remote-SSH 官方说明</a></p>
+<h2 id="2-配置并验证连接"><a href="#2-配置并验证连接" class="headerlink" title="2 配置并验证连接"></a>2 配置并验证连接</h2><h3 id="2-1-先验证命令行-SSH"><a href="#2-1-先验证命令行-SSH" class="headerlink" title="2.1 先验证命令行 SSH"></a>2.1 先验证命令行 SSH</h3><p>在 <strong>Windows 本机 CMD</strong> 中执行：</p>
+<figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh lab</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>lab</code> 来自本机 <code>%USERPROFILE%\.ssh\config</code>。密码认证可使用如下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Host lab</span><br><span class="line">    HostName server.example.edu</span><br><span class="line">    User alice</span><br><span class="line">    Port 22</span><br><span class="line">    ServerAliveInterval 30</span><br><span class="line">    ServerAliveCountMax 3</span><br></pre></td></tr></table></figure>
+<p>密钥认证在同一主机段中增加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IdentityFile ~/.ssh/id_ed25519</span><br><span class="line">IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+<p>示例地址、用户名与端口均需替换。私钥保留在本机，服务器登记对应公钥。使用带口令的私钥时，连接仍可能要求输入口令；已有本地 <code>ssh-agent</code> 可减少重复输入。跳板机则继续使用同一配置中的 <code>ProxyJump</code>。</p>
+<h3 id="2-2-连接远端窗口"><a href="#2-2-连接远端窗口" class="headerlink" title="2.2 连接远端窗口"></a>2.2 连接远端窗口</h3><p>在本机 VS Code 扩展面板安装 Microsoft 发布的 <strong>Remote - SSH</strong>（<code>ms-vscode-remote.remote-ssh</code>），然后：</p>
+<ol>
+<li>按 <code>Ctrl+Shift+P</code>，执行 <strong>Remote-SSH: Connect to Host…</strong>。</li>
+<li>选择 <code>lab</code>；首次询问平台时选择 Linux。</li>
+<li>按提示输入账号密码或私钥口令，等待远端组件安装与启动。</li>
+<li>确认窗口左下角显示 <code>SSH: lab</code>。</li>
+<li>执行 <strong>File → Open Folder</strong>，打开服务器上的项目目录，例如 <code>/home/alice/projects/demo</code>。</li>
+</ol>
+<p>密码与密钥认证使用相同的连接流程。首次部署组件或建立多个 SSH 连接时，可能重复出现认证提示。若界面一直等待却没有可见提示，在<strong>本地用户设置 JSON</strong>中合并：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;remote.SSH.showLoginTerminal&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>设置后重新连接，在登录终端中查看是否等待密码、验证码或主机指纹确认。参数用法见 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/troubleshooting#_enabling-alternate-ssh-authentication-methods">Remote-SSH 认证排障</a>。</p>
+<h3 id="2-3-确认实际执行位置"><a href="#2-3-确认实际执行位置" class="headerlink" title="2.3 确认实际执行位置"></a>2.3 确认实际执行位置</h3><p>在这个远端窗口中新建终端，执行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line"><span class="built_in">whoami</span></span><br><span class="line"><span class="built_in">pwd</span></span><br></pre></td></tr></table></figure>
+<p>输出应对应服务器及目标项目目录。若终端仍显示 Windows 路径，先检查是否打开了本地窗口，或是否手动创建了本地终端。一个 VS Code 会话中可以同时存在本地与远端窗口，应以当前窗口的连接标记为准。</p>
+<h2 id="3-安装扩展与选择-Python-环境"><a href="#3-安装扩展与选择-Python-环境" class="headerlink" title="3 安装扩展与选择 Python 环境"></a>3 安装扩展与选择 Python 环境</h2><h3 id="3-1-把扩展安装在需要的位置"><a href="#3-1-把扩展安装在需要的位置" class="headerlink" title="3.1 把扩展安装在需要的位置"></a>3.1 把扩展安装在需要的位置</h3><p>远端窗口的扩展面板会区分 <strong>Local</strong> 与 <strong>SSH: lab</strong>。Python、Jupyter 等开发扩展应按面板提示安装到远端；主题、图标等界面扩展通常留在本地。</p>
+<p>扩展处于灰色禁用状态时，先检查是否需要 <strong>Install in SSH: lab</strong>。不必把本机所有扩展批量复制到服务器，也不应通过强制修改 <code>remote.extensionKind</code> 来修复所有扩展问题；某些扩展只能在其设计的位置运行。</p>
+<h3 id="3-2-选择服务器上的解释器"><a href="#3-2-选择服务器上的解释器" class="headerlink" title="3.2 选择服务器上的解释器"></a>3.2 选择服务器上的解释器</h3><p>打开远端项目后，执行 <strong>Python: Select Interpreter</strong>，选择该项目实际使用的 Conda 或虚拟环境。例如：</p>
+<figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/home/alice/miniconda3/envs/research/bin/python</span><br><span class="line">/home/alice/projects/demo/.venv/bin/python</span><br></pre></td></tr></table></figure>
+<p>这些是服务器路径，不能填写本机的 <code>C:\...\python.exe</code>。若列表中没有已存在的环境，可选择输入解释器路径，并先在远端终端确认该文件存在。</p>
+<p>选择解释器后，<strong>新建一个远端终端</strong>并验证：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">&quot;import sys; print(sys.executable)&quot;</span></span><br><span class="line">python -m pip --version</span><br></pre></td></tr></table></figure>
+<p>第一条显示实际执行的 Python，第二条显示该解释器对应的 pip。两者路径应属于预期环境。使用 <code>python -m pip</code> 可减少 <code>pip</code> 命令指向另一套环境的情况。</p>
+<p>扩展通常会在新终端中激活选中的环境，但已有终端不一定随之切换。如果终端输出不符，检查自动激活设置，或在该终端手动执行已有环境的激活命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda activate research</span><br><span class="line"><span class="comment"># 使用项目 .venv 时，改为：source .venv/bin/activate</span></span><br></pre></td></tr></table></figure>
+<p>解释器选择会影响语言分析、运行与调试；已有调试配置若单独指定解释器，则还需检查该配置。环境选择和终端激活机制见 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/python/environments">VS Code Python 环境文档</a>。</p>
+<h3 id="3-3-Notebook-的内核需要单独确认"><a href="#3-3-Notebook-的内核需要单独确认" class="headerlink" title="3.3 Notebook 的内核需要单独确认"></a>3.3 Notebook 的内核需要单独确认</h3><p>打开 <code>.ipynb</code> 后，通过右上角的内核选择器选择服务器上的目标环境。在单元格中运行以下代码，可确认 Notebook 实际使用的解释器：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="built_in">print</span>(sys.executable)</span><br></pre></td></tr></table></figure>
+<p>终端已激活某个环境，不代表已有 Notebook 自动切换内核。调试、终端与 Notebook 出现不同导入结果时，先比较解释器路径，再判断是否缺少依赖。</p>
+<h2 id="4-打开已有-Git-项目"><a href="#4-打开已有-Git-项目" class="headerlink" title="4 打开已有 Git 项目"></a>4 打开已有 Git 项目</h2><p>通过 <strong>Open Folder</strong> 打开服务器上的仓库根目录，而不是只打开其中一个脚本。在远端终端检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br><span class="line">git rev-parse --show-toplevel</span><br><span class="line">git status --short</span><br><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+<p>这些命令分别确认远端 Git 可用、当前仓库根目录、工作区改动和远程仓库地址。源代码管理面板操作的是这份服务器仓库，编辑后可直接查看差异，再按项目流程暂存与提交。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/sourcecontrol/overview">VS Code 源代码管理说明</a></p>
+<p>若提示“不在 Git 仓库中”，先确认打开的目录是否正确，不要直接在错误目录执行 <code>git init</code>。仓库已经存在时，也无需再克隆一份来让 VS Code 识别。</p>
+<p>连接服务器的 SSH 凭据与服务器访问 Git 托管平台的凭据是两件事。<code>ssh lab</code> 成功，不代表远端 <code>git pull</code> 或 <code>git push</code> 必然成功；应检查远程 URL 使用 HTTPS 还是 SSH，并按托管平台与服务器的既有方式配置认证。</p>
+<p>数据集、权重、日志和个人密钥不应因为远程开发而自动加入版本管理。已有仓库的 <code>.gitignore</code>、分支与未提交改动仍按原项目管理。</p>
+<h2 id="5-用端口转发访问远端-Web-工具"><a href="#5-用端口转发访问远端-Web-工具" class="headerlink" title="5 用端口转发访问远端 Web 工具"></a>5 用端口转发访问远端 Web 工具</h2><p>网页应用在服务器运行时，其 <code>127.0.0.1</code> 指向服务器；本机浏览器中的 <code>127.0.0.1</code> 指向 PC。SSH 端口转发把两端连接起来，无需为临时开发页面直接开放服务器公网端口。</p>
+<p>以预览项目中的静态结果页面为例，在<strong>远端终端</strong>进入仅包含待预览内容的目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/projects/demo/reports</span><br><span class="line">python -m http.server 8000 --<span class="built_in">bind</span> 127.0.0.1</span><br></pre></td></tr></table></figure>
+<p>目录需事先存在。该命令提供当前目录的文件列表与文件内容，适合临时预览；不要在包含密钥或私有配置的目录启动。命令参数见 <a target="_blank" rel="noopener" href="https://docs.python.org/3/library/http.server.html#command-line-interface">Python HTTP Server 文档</a>。</p>
+<p>随后在 VS Code 中：</p>
+<ol>
+<li>打开底部 <strong>Ports</strong> 面板，必要时执行 <strong>Ports: Focus on Ports View</strong>。</li>
+<li>选择 <strong>Forward a Port</strong> 或添加端口，输入远端端口 <code>8000</code>。</li>
+<li>查看生成的 <strong>Forwarded Address</strong>，从本机浏览器打开该地址。</li>
+</ol>
+<p>如果本机 <code>8000</code> 已占用，实际分配的本地端口可能不同，例如 <code>http://127.0.0.1:4123</code>；以面板显示值为准。Jupyter、TensorBoard 等工具也可以转发其监听端口，工具本身的登录令牌或认证设置仍然有效。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/ssh#_forwarding-a-port-creating-ssh-tunnel">Remote-SSH 端口转发说明</a></p>
+<p>关闭转发不等于停止远端服务，终止远端服务则会使转发地址失去响应。临时测试结束后，在服务终端按 <code>Ctrl+C</code>，并按需移除 Ports 中的转发记录。</p>
+<h2 id="6-分清组件下载与代理配置"><a href="#6-分清组件下载与代理配置" class="headerlink" title="6 分清组件下载与代理配置"></a>6 分清组件下载与代理配置</h2><h3 id="6-1-本机下载-VS-Code-Server"><a href="#6-1-本机下载-VS-Code-Server" class="headerlink" title="6.1 本机下载 VS Code Server"></a>6.1 本机下载 VS Code Server</h3><p>首次连接或本机 VS Code 更新后，远端可能需要相应版本的 Server。Remote-SSH 默认尝试远端下载，失败时可回退到本机下载再传输。服务器下载较慢、本机线路可用时，可在<strong>本地用户设置 JSON</strong>中合并：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;remote.SSH.localServerDownload&quot;</span><span class="punctuation">:</span> <span class="string">&quot;always&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>它改变的是 <strong>VS Code Server 的下载位置</strong>。远端扩展、扩展额外下载的语言服务、模型或其他依赖，不会因此全部改由 PC 下载。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/faq#_what-are-the-connectivity-requirements-for-vs-code-server">Remote Development 联网要求</a></p>
+<h3 id="6-2-本地-VS-Code-的代理"><a href="#6-2-本地-VS-Code-的代理" class="headerlink" title="6.2 本地 VS Code 的代理"></a>6.2 本地 VS Code 的代理</h3><p>VS Code 的多数界面请求会使用系统代理。需要显式配置时，可在<strong>本地用户设置</strong>中加入本机已有 HTTP 代理地址：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;http.proxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>7890</code> 必须是 PC 上真实运行的代理端口。<code>http.proxySupport</code> 控制扩展代理支持，可保留默认设置；<code>http.proxy</code> 并非接管所有程序网络的总开关，个别扩展和下载器仍可能使用自己的网络栈。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/setup/network">VS Code 网络与代理说明</a></p>
+<h3 id="6-3-远端扩展的代理"><a href="#6-3-远端扩展的代理" class="headerlink" title="6.3 远端扩展的代理"></a>6.3 远端扩展的代理</h3><p>远端扩展发起的连接，需要服务器可达的代理。若按 <a href="/2026/09/20/linux_proxy/" title="Linux服务器代理联网指南：Clash与Mihomo">Linux服务器代理联网指南</a> 在服务器启动了 Mihomo，可在当前远端窗口的设置中切换到 <strong>Remote [SSH: lab]</strong>，合并：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;http.useLocalProxyConfiguration&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;http.proxy&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://127.0.0.1:7890&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>这里的 <code>127.0.0.1:7890</code> 是服务器上的代理，即使文字与本地设置相同，也不是同一项服务。只有 PC 运行代理时，不能直接把该地址当成服务器可用代理；需要先建立合适的 SSH 转发，或在服务器部署代理。</p>
+<p><code>http.useLocalProxyConfiguration</code> 决定远端扩展宿主是否采用本地代理配置。关闭后，才能分别配置远端代理。当前官方排障文档明确给出了这一处理方式，不能简单概括成“本地设置始终继承”或“本地设置绝不继承”。<a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/troubleshooting#_extensions-fail-to-connect-to-the-internet-when-installed-remotely">远端扩展联网排障</a></p>
+<p>命令行工具还需各自支持并读取 <code>http_proxy</code>、<code>https_proxy</code> 等环境变量。在已有集成终端中执行 <code>export</code>，只影响该终端及后续子进程，不会追溯改变已经启动的 VS Code Server。需要让 Server 读取环境变量时，应在其启动环境配置，并在保存工作后重启相应远端组件。</p>
+<h2 id="7-按阶段定位连接故障"><a href="#7-按阶段定位连接故障" class="headerlink" title="7 按阶段定位连接故障"></a>7 按阶段定位连接故障</h2><h3 id="7-1-命令行也无法连接"><a href="#7-1-命令行也无法连接" class="headerlink" title="7.1 命令行也无法连接"></a>7.1 命令行也无法连接</h3><p>先回到本机 CMD 测试 <code>ssh lab</code>。如果仍失败，检查网络、端口、账号、主机指纹和密钥配置，处理方法见 <a href="/2026/09/20/linux-ssh-connection/" title="Linux服务器SSH连接指南：密码、密钥与文件传输">SSH连接指南</a>。此时重装 VS Code 扩展通常不能解决基础连接问题。</p>
+<h3 id="7-2-CMD-成功，但-VS-Code-失败"><a href="#7-2-CMD-成功，但-VS-Code-失败" class="headerlink" title="7.2 CMD 成功，但 VS Code 失败"></a>7.2 CMD 成功，但 VS Code 失败</h3><p>打开 <strong>View → Output</strong>，选择 <strong>Remote - SSH</strong>，或执行 <strong>Remote-SSH: Show Log</strong>。先看它实际使用的 SSH 程序、配置文件、目标账号与报错阶段。</p>
+<p>在本机 CMD 可用 <code>where ssh</code> 查看候选客户端。如果 VS Code 读取了另一份配置，可在<strong>本地用户设置</strong>中明确指定：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;remote.SSH.configFile&quot;</span><span class="punctuation">:</span> <span class="string">&quot;C:/Users/你的用户名/.ssh/config&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>路径应改成实际文件位置。日志若停在认证阶段，启用 <code>remote.SSH.showLoginTerminal</code>；若已经完成认证，再检查 Server 下载、解压和启动。日志可能含用户名、内部地址与本地路径，公开求助前应移除这些信息。</p>
+<h3 id="7-3-Server-无法安装或启动"><a href="#7-3-Server-无法安装或启动" class="headerlink" title="7.3 Server 无法安装或启动"></a>7.3 Server 无法安装或启动</h3><p>在普通 SSH 终端检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">uname</span> -m</span><br><span class="line"><span class="built_in">uname</span> -r</span><br><span class="line">ldd --version</span><br><span class="line"><span class="built_in">df</span> -h <span class="string">&quot;<span class="variable">$HOME</span>&quot;</span></span><br><span class="line"><span class="built_in">df</span> -i <span class="string">&quot;<span class="variable">$HOME</span>&quot;</span></span><br><span class="line"><span class="built_in">command</span> -v bash tar curl wget</span><br></pre></td></tr></table></figure>
+<p>当前官方 Linux 基础要求包括内核 <code>4.18</code> 及以上、glibc <code>2.28</code> 及以上、libstdc++ 提供 <code>GLIBCXX_3.4.25</code>，以及 <code>tar</code>；Remote-SSH 还需要 SSH 服务、Bash，并提供 curl 或 wget。<code>3.4.25</code> 是 libstdc++ 符号版本，不能仅用 GCC 编译器版本代替判断。要求会随版本演进，具体见 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/linux">Linux 远程开发前置条件</a>。</p>
+<p>磁盘空间、inode 或用户配额耗尽会导致写入失败；<code>noexec</code> 挂载和启动脚本强制切换 Shell 也可能影响组件运行。若系统版本不满足要求，应使用受支持的服务器环境或与管理员协商，不能在个人账号下直接替换系统 glibc。</p>
+<h3 id="7-4-SSH-登录正常，但隧道失败"><a href="#7-4-SSH-登录正常，但隧道失败" class="headerlink" title="7.4 SSH 登录正常，但隧道失败"></a>7.4 SSH 登录正常，但隧道失败</h3><p>日志中的 <code>administratively prohibited</code> 可能表示服务器限制了 SSH 转发。Remote-SSH 依赖相关通道，普通 Shell 能登录不代表所有转发都被允许。应向管理员确认具体限制；HTTP 代理配置不能替代 SSH 服务端的转发权限。</p>
+<h3 id="7-5-已连接，但扩展异常或窗口反复重连"><a href="#7-5-已连接，但扩展异常或窗口反复重连" class="headerlink" title="7.5 已连接，但扩展异常或窗口反复重连"></a>7.5 已连接，但扩展异常或窗口反复重连</h3><p>先查看对应扩展的 Output 通道和 <strong>Log (Remote Extension Host)</strong>，确认是否只有某个扩展失败。可以先禁用最近新增的相关扩展，再重新加载窗口；远端仍可能受内存、磁盘和架构兼容性影响。</p>
+<p>只有在日志指向远端组件状态异常时，再保存未保存的工作、确认相关终端任务状态，考虑执行 <strong>Remote-SSH: Kill VS Code Server on Host…</strong> 并重新连接。它会影响该账号的相关远端连接。删除整个 <code>~/.vscode-server</code> 会涉及已安装组件与用户状态，不应作为每次排错的默认步骤。更多定位方法见 <a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/remote/troubleshooting">Remote Development 官方排障文档</a>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/09/20/linux-vscode-remote/">https://lucky1192405754.github.io/2026/09/20/linux-vscode-remote/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Keming's Eutopia ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/VS-Code/">VS Code</a><a class="post-meta__tags" href="/tags/%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">开发环境</a><a class="post-meta__tags" href="/tags/Remote-SSH/">Remote-SSH</a><a class="post-meta__tags" href="/tags/Python/">Python</a></div><div class="post-share"><div class="social-share" data-image="/image/linux-server-series/vscode-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/20/linux-ssh-connection/" title="Linux服务器SSH连接指南：密码、密钥与文件传输"><img class="cover" src="/image/linux-server-series/ssh-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux服务器SSH连接指南：密码、密钥与文件传输</div></div><div class="info-2"><div class="info-item-1">SSH 在本机与服务器之间建立加密通道，支持远程登录、执行命令、传输文件和端口转发。连接参数与认证配置确定后，命令行、MobaXterm 和 VS Code 可以围绕同一台服务器协同工作。 本文以 Windows 本机 + Linux 服务器 为例。标为“本机 CMD”的命令在 Windows 命令提示符执行；标为“服务器终端”的命令在登录后的 Linux Shell 执行。完整开发流程见 面向Linux服务器的Coding指南。  1 连接前需要哪些信息 服务器地址：例如 server.example.edu，也可以是管理员提供的 IP。 SSH 端口：默认通常为 22，以实际配置为准。 用户名：本文示例为 alice。 认证方式：账号密码，或已登记到该账号的公钥。 网络入口：服务器是否要求 VPN、指定网络或跳板机。  密码与密钥认证都发生在 SSH 加密通道中。服务器是否接受密码、公钥或额外验证码，由其认证策略决定，客户端无法自行解除限制。 1.1 检查本机客户端在本机 CMD 执行： 1ssh -V 能够显示 OpenSSH 版本即可继续。若命令不存在，在...</div></div></div></a><a class="pagination-related" href="/2026/09/20/linux-codex-cli/" title="Linux服务器使用Codex CLI：安装、认证与自动化"><img class="cover" src="/image/linux-server-series/codex-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Linux服务器使用Codex CLI：安装、认证与自动化</div></div><div class="info-2"><div class="info-item-1">Codex CLI 在终端中读取项目、修改代码并调用本机工具。通过 SSH 登录 Linux 服务器后运行 Codex，文件操作和命令执行发生在服务器，模型请求也由服务器发出。 本文使用普通 Linux 账户和 Bash，示例项目位于 ~/projects/demo。远程连接与整体工作流见 面向Linux服务器的Coding指南；Claude Code 与 cc-switch 的配置见 Linux服务器安装Claude Code教程。  1 运行前需要准备什么服务器需要能够访问安装文件、认证服务与模型接口。PC 浏览器能够联网，并不代表服务器上的命令行工具已经具备相同的访问条件。 使用官方模型服务时，不需要在服务器上下载模型权重，也不要求本机 GPU 用于模型推理。项目中的测试、数据处理和训练仍会占用服务器资源。 在服务器终端检查基础工具： 12345hostnamecommand -v curlcommand -v shgit --versionuname -m 如果依赖代理，应先准备服务器可达的网络出口，再启动 Codex。代理原理与配置见...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南"><img class="cover" src="/image/coding-linux-server-guide/linux-coding-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">面向Linux服务器的Coding指南</div></div><div class="info-2"><div class="info-item-1">Linux 服务器上的开发通常围绕一条工作流展开：通过 SSH 登录，在远端配置环境、编辑代码并运行任务，再通过日志和资源监控确认运行状态。个人电脑提供交互界面，服务器提供计算资源与存储，两者通过网络连接协作。 本文按连接、开发、AI 辅助、联网配置和任务管理的顺序整理常用操作。示例以 Windows 本机 + Linux 服务器 + Bash 为主；没有特别说明时，Linux 命令均使用普通账户执行。  各环节的完整流程与排错方法另整理为独立文章，可按当前任务查阅：  SSH 连接、密钥认证与文件传输：从首次登录到跳板机、SFTP 和连接排查。 VS Code 远程开发：远端组件、扩展、解释器、端口转发与下载配置。 Codex CLI 安装、认证与自动化：普通用户安装、项目权限、交互开发与脚本调用。 tmux、日志与断线恢复：长任务的启动、监控、恢复和结束。 Python 环境管理与依赖复现：venv、Conda、解释器定位和环境迁移。 GPU 监控与资源排查：nvidia-smi、nvitop、设备选择与常见瓶颈。 Clash 与 Mihomo...</div></div></div></a><a class="pagination-related" href="/2026/09/20/linux-python-environments/" title="Linux服务器Python环境管理：venv、Conda与依赖复现"><img class="cover" src="/image/linux-server-series/python-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">Linux服务器Python环境管理：venv、Conda与依赖复现</div></div><div class="info-2"><div class="info-item-1">同一台 Linux 服务器可以同时存在系统 Python、Conda 环境和多个项目虚拟环境。包已经安装却无法导入，常见原因是安装时与运行时使用了不同的解释器。 本文的命令均在服务器 Bash 终端执行，示例项目目录为 ~/projects/demo。远程连接和服务器开发流程见 面向Linux服务器的Coding指南。  1 解释器、pip 与 PATHpython 是 Shell 根据命令查找规则找到的程序，通常由 PATH 中目录的先后顺序决定。pip 也是一个命令，它关联的 Python 不一定与当前 python 相同。 开始安装前，先查看实际程序位置： 12345command -v pythoncommand -v python3python3 --versionpython3 -c &quot;import sys; print(sys.executable)&quot;python3 -m pip --version 系统可能只有 python3，也可能没有为它安装 pip。输出中的路径和版本，比终端提示符是否显示环境名称更能说明实际情况。 python -m...</div></div></div></a><a class="pagination-related" href="/2026/05/18/Linux-Claude-Code/" title="Linux服务器 安装Claude Code教程"><img class="cover" src="/image/Linux-Claude-Code/linux_claude.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-18</div><div class="info-item-2">Linux服务器 安装Claude Code教程</div></div><div class="info-2"><div class="info-item-1">Linux服务器 安装Claude Code教程1“ AI 不太可能取代你，但一个比你更会使用 AI 的人，可能会。 ”    ————Jensen Huang（黄仁勋） Claude Code是由Anthropic公司开发的一款AI驱动型的编程Agent命令行工具。这类产品也已经成为当代程序员代码开发不可或缺的重要工具。本文将介绍如何在 Linux 服务器上部署、配置个人Claude Code，利用CC-Switch绕过Claude Code本身的订阅需求，并且无需sudo 权限。 本文主要分成两部分：  先安装并验证 Claude Code 如果首次启动时遇到登录受限、地区限制，或者你本来就准备使用自定义 API provider，则继续安装并配置 cc-switch CLI  如果你只是想在服务器上快速把 Claude Code 跑起来，可以先看前半部分；如果你后续还需要切换 provider、配置 apikey、base_url、model，则重点看后半部分。 1 安装前准备在正式安装之前，可以先确认当前 Ubuntu 环境里至少有 bash 和...</div></div></div></a><a class="pagination-related" href="/2026/05/19/Linux-kill-zombie/" title="Linux服务器 NVIDIA显卡僵尸进程清理"><img class="cover" src="/image/Linux-kill-zombie/zombie_process.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-19</div><div class="info-item-2">Linux服务器 NVIDIA显卡僵尸进程清理</div></div><div class="info-2"><div class="info-item-1">Linux服务器 NVIDIA显卡僵尸进程清理在 Linux 服务器上跑深度学习任务时，偶尔会遇到一种比较烦人的情况：nvitop、nvidia-smi 等工具里还显示某个 GPU 上挂着进程，但真正去 kill 这个 PID 时，却提示 No such process。这类现象通常意味着你看到的已经不是一个正常运行中的计算任务，而是一次异常退出后残留下来的 GPU 占用记录，实践中经常被统称为“僵尸进程”问题。 这篇文章只介绍一个实用排查流程：先定位是哪张卡出了问题，再沿着该设备文件找到相关宿主进程，最后 kill 掉父进程或同组进程。 1 先定位是哪张显卡出现异常首先使用 nvitop、nvidia-smi 等工具，确认具体是哪张卡上挂着异常 PID。 例如下图中，可以看到 4号显卡 上出现了 PID 为 1405016 的异常进程：  如果此时你直接执行： 1kill -9 1405016 却得到： 1kill: (1405016) - No such process 那么通常说明这个 PID 本身已经不再是一个可直接操作的正常用户态进程，但它对应的 GPU...</div></div></div></a><a class="pagination-related" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南"><img class="cover" src="/image/linux-category-introduction/Linux_Front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「Linux」服务器操作指南</div></div><div class="info-2"><div class="info-item-1">Linux操作指北 为什么不写操作指南？这就像你不会在简历上写精通C语言一样。  首先，本章节并非面向寻求Linux某一教程的用户，因为我毕竟不是专业的Linux工程师。如果您真遇到了技术问题，不妨先去问问身边穿着格子衬衫的资深程序员，如果你喜欢硅基生物，也可以问问大G老师（你问我是Gemini还是ChatGPT，我说都行），大K老师，大鲸鱼老师，大豆老师等等，总之不建议在这个熵爆表的个人博客里索取答案。 作为学校实验室服务器的管理员，我只是在日常运维中积累了一些实践经验，并且为后面的管理员提供一些参考。换言之这个更像一个面向我所在的实验室的服务器管理私货，记录一些仅适用于特定场所的不一定实用的服务器操作技巧（其实就是我那些年月踩过的那些坑），如果能帮到其他与服务器打交道的朋友，那是莫大的荣幸。  内容范围🚧 施工中…TO BE...</div></div></div></a><a class="pagination-related" href="/2026/07/02/linux-kernel-update/" title="Linux服务器 系统内核升级指南"><img class="cover" src="/image/linux-kernel-update/front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-02</div><div class="info-item-2">Linux服务器 系统内核升级指南</div></div><div class="info-2"><div class="info-item-1">Linux服务器 系统内核升级指南在长期运行的 Linux 服务器上，经常会遇到应用程序要求更高版本内核的场景。尤其是当宿主机仍使用较老的发行版系统，而业务侧又依赖新版 eBPF 或较新的驱动特性时，往往必须在不整体升级系统的前提下更换内核。整个过程涉及内核包本身、glibc、编译工具链以及 NVIDIA DKMS 模块之间的多层依赖，任一环节处理不当都可能导致重启后系统无法正常进入图形界面或 GPU 驱动失效。 本文以 Ubuntu 18.04 + NVIDIA 驱动 + 目标内核 5.5.5 （升级前：4.15.0） 的实际升级过程为例，梳理内核升级涉及的核心概念、约束条件、完整执行流程以及常见问题的排查方法，供有类似需求的运维与开发人员参考。 1 Linux 内核与相关组件1.1 内核版本号的含义Linux 内核（Linux Kernel）是操作系统的核心，负责管理硬件资源（CPU、内存、磁盘、网卡、GPU 等）、调度进程并提供系统调用接口。执行 uname -r 得到的字符串即为当前运行的内核版本，例如...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E6%9C%AC%E5%9C%B0%E7%95%8C%E9%9D%A2%E3%80%81%E8%BF%9C%E7%AB%AF-Server-%E4%B8%8E%E6%89%A9%E5%B1%95%E7%9A%84%E5%88%86%E5%B7%A5"><span class="toc-text">1 本地界面、远端 Server 与扩展的分工</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%85%8D%E7%BD%AE%E5%B9%B6%E9%AA%8C%E8%AF%81%E8%BF%9E%E6%8E%A5"><span class="toc-text">2 配置并验证连接</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E5%85%88%E9%AA%8C%E8%AF%81%E5%91%BD%E4%BB%A4%E8%A1%8C-SSH"><span class="toc-text">2.1 先验证命令行 SSH</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E8%BF%9E%E6%8E%A5%E8%BF%9C%E7%AB%AF%E7%AA%97%E5%8F%A3"><span class="toc-text">2.2 连接远端窗口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-%E7%A1%AE%E8%AE%A4%E5%AE%9E%E9%99%85%E6%89%A7%E8%A1%8C%E4%BD%8D%E7%BD%AE"><span class="toc-text">2.3 确认实际执行位置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E6%89%A9%E5%B1%95%E4%B8%8E%E9%80%89%E6%8B%A9-Python-%E7%8E%AF%E5%A2%83"><span class="toc-text">3 安装扩展与选择 Python 环境</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E6%8A%8A%E6%89%A9%E5%B1%95%E5%AE%89%E8%A3%85%E5%9C%A8%E9%9C%80%E8%A6%81%E7%9A%84%E4%BD%8D%E7%BD%AE"><span class="toc-text">3.1 把扩展安装在需要的位置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E9%80%89%E6%8B%A9%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E7%9A%84%E8%A7%A3%E9%87%8A%E5%99%A8"><span class="toc-text">3.2 选择服务器上的解释器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-Notebook-%E7%9A%84%E5%86%85%E6%A0%B8%E9%9C%80%E8%A6%81%E5%8D%95%E7%8B%AC%E7%A1%AE%E8%AE%A4"><span class="toc-text">3.3 Notebook 的内核需要单独确认</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E6%89%93%E5%BC%80%E5%B7%B2%E6%9C%89-Git-%E9%A1%B9%E7%9B%AE"><span class="toc-text">4 打开已有 Git 项目</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%94%A8%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91%E8%AE%BF%E9%97%AE%E8%BF%9C%E7%AB%AF-Web-%E5%B7%A5%E5%85%B7"><span class="toc-text">5 用端口转发访问远端 Web 工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E5%88%86%E6%B8%85%E7%BB%84%E4%BB%B6%E4%B8%8B%E8%BD%BD%E4%B8%8E%E4%BB%A3%E7%90%86%E9%85%8D%E7%BD%AE"><span class="toc-text">6 分清组件下载与代理配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-%E6%9C%AC%E6%9C%BA%E4%B8%8B%E8%BD%BD-VS-Code-Server"><span class="toc-text">6.1 本机下载 VS Code Server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2-%E6%9C%AC%E5%9C%B0-VS-Code-%E7%9A%84%E4%BB%A3%E7%90%86"><span class="toc-text">6.2 本地 VS Code 的代理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-%E8%BF%9C%E7%AB%AF%E6%89%A9%E5%B1%95%E7%9A%84%E4%BB%A3%E7%90%86"><span class="toc-text">6.3 远端扩展的代理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E6%8C%89%E9%98%B6%E6%AE%B5%E5%AE%9A%E4%BD%8D%E8%BF%9E%E6%8E%A5%E6%95%85%E9%9A%9C"><span class="toc-text">7 按阶段定位连接故障</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#7-1-%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%B9%9F%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5"><span class="toc-text">7.1 命令行也无法连接</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-2-CMD-%E6%88%90%E5%8A%9F%EF%BC%8C%E4%BD%86-VS-Code-%E5%A4%B1%E8%B4%A5"><span class="toc-text">7.2 CMD 成功，但 VS Code 失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-3-Server-%E6%97%A0%E6%B3%95%E5%AE%89%E8%A3%85%E6%88%96%E5%90%AF%E5%8A%A8"><span class="toc-text">7.3 Server 无法安装或启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-4-SSH-%E7%99%BB%E5%BD%95%E6%AD%A3%E5%B8%B8%EF%BC%8C%E4%BD%86%E9%9A%A7%E9%81%93%E5%A4%B1%E8%B4%A5"><span class="toc-text">7.4 SSH 登录正常，但隧道失败</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-5-%E5%B7%B2%E8%BF%9E%E6%8E%A5%EF%BC%8C%E4%BD%86%E6%89%A9%E5%B1%95%E5%BC%82%E5%B8%B8%E6%88%96%E7%AA%97%E5%8F%A3%E5%8F%8D%E5%A4%8D%E9%87%8D%E8%BF%9E"><span class="toc-text">7.5 已连接，但扩展异常或窗口反复重连</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/image/linux-server-series/vscode-cover.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Lucky1192405754/Lucky1192405754.github.io',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script src="/js/video-background.js"></script><script src="/js/custom-announcement.js"></script><script src="/js/background-music.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

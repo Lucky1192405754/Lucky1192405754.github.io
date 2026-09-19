@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Linux服务器GPU监控指南：nvidia-smi与nvitop | Keming's Eutopia ♪</title><meta name="author" content="LuckyShen"><meta name="copyright" content="LuckyShen"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="从 nvidia-smi 与 nvitop 的主要指标出发，介绍 GPU 可见设备选择、进程归属、显存与系统内存排查，以及结合日志、CPU 和磁盘判断任务状态的方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器GPU监控指南：nvidia-smi与nvitop">
+<meta property="og:url" content="https://lucky1192405754.github.io/2026/09/20/linux-gpu-monitoring/index.html">
+<meta property="og:site_name" content="Keming&#39;s Eutopia ♪">
+<meta property="og:description" content="从 nvidia-smi 与 nvitop 的主要指标出发，介绍 GPU 可见设备选择、进程归属、显存与系统内存排查，以及结合日志、CPU 和磁盘判断任务状态的方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://lucky1192405754.github.io/image/linux-server-series/gpu-cover.png">
+<meta property="article:published_time" content="2026-09-20T03:55:00.000Z">
+<meta property="article:modified_time" content="2026-09-19T17:52:45.006Z">
+<meta property="article:author" content="LuckyShen">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="NVIDIA">
+<meta property="article:tag" content="GPU">
+<meta property="article:tag" content="nvitop">
+<meta property="article:tag" content="性能排查">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://lucky1192405754.github.io/image/linux-server-series/gpu-cover.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Linux服务器GPU监控指南：nvidia-smi与nvitop",
+  "url": "https://lucky1192405754.github.io/2026/09/20/linux-gpu-monitoring/",
+  "image": "https://lucky1192405754.github.io/image/linux-server-series/gpu-cover.png",
+  "datePublished": "2026-09-20T03:55:00.000Z",
+  "dateModified": "2026-09-19T17:52:45.006Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "LuckyShen",
+      "url": "https://lucky1192405754.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/image/KM.webp"><link rel="canonical" href="https://lucky1192405754.github.io/2026/09/20/linux-gpu-monitoring/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'undefined')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?d307051884df6e49bb73adb7336b2992";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+btf.addGlobalFn('pjaxComplete', () => {
+  _hmt.push(['_trackPageview',window.location.pathname])
+}, 'baidu_analytics')
+</script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Linux服务器GPU监控指南：nvidia-smi与nvitop',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><script src="/js/default-dark-mode.js"></script><link rel="stylesheet" href="/styles/main.css"><meta name="generator" content="Hexo 7.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load', preloader.endLoading)
+
+  if (false) {
+    btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
+    btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
+  }
+})()</script><div id="web_bg" style="background-image: url(/image/background/bg_2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar_2.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/linux-server-series/gpu-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Keming's Eutopia ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">Linux服务器GPU监控指南：nvidia-smi与nvitop</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">Linux服务器GPU监控指南：nvidia-smi与nvitop</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-09-20T03:55:00.000Z" title="发表于 2026-09-20 11:55:00">2026-09-20</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T17:52:45.006Z" title="更新于 2026-09-20 01:52:45">2026-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CLinux%E3%80%8D%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%93%8D%E4%BD%9C%E6%8C%87%E5%8D%97/">「Linux」服务器操作指南</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>GPU 任务启动后，需要分别确认设备是否可用、程序是否正在计算、显存由哪些进程占用。显存占满不等于计算效率高，GPU 利用率低也不一定代表程序挂起；监控应结合运行阶段、进程状态和日志共同判断。</p>
+<p>本文面向配有 NVIDIA GPU 的 Linux 服务器，整理普通账户可以使用的查看与排查方法。连接、环境和任务管理的整体流程见 <a href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南">面向Linux服务器的Coding指南</a>。</p>
+<span id="more"></span>
+<h2 id="1-先区分驱动、计算环境与监控工具"><a href="#1-先区分驱动、计算环境与监控工具" class="headerlink" title="1 先区分驱动、计算环境与监控工具"></a>1 先区分驱动、计算环境与监控工具</h2><p>NVIDIA 驱动提供系统访问 GPU 的基础接口；PyTorch 等框架及其 CUDA 运行时位于项目环境中；<code>nvidia-smi</code>、<code>nvitop</code> 用来读取设备和进程状态。这三层相关，但不能相互替代。</p>
+<p><code>nvidia-smi</code> 通常随驱动工具安装，<code>nvitop</code> 通过 NVML 接口读取 GPU 信息。安装 nvitop 不会安装或修复系统驱动，也不需要为了监控而把整个 CUDA Toolkit 安装到个人目录。</p>
+<p>先确认当前机器和基础查询：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br><span class="line"><span class="built_in">command</span> -v nvidia-smi</span><br><span class="line">nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>若命令不存在，先核对是否登录了 GPU 节点，以及集群是否要求加载模块。若提示无法与驱动通信或 NVML 初始化失败，应保留完整错误并检查管理员提供的运行环境；反复安装 Python 包通常不能解决驱动层问题。</p>
+<p>容器与调度系统可能只暴露部分设备。当前终端看不到 GPU，并不一定代表整台物理服务器没有 GPU；需要核对资源分配与容器启动方式。</p>
+<h2 id="2-阅读-nvidia-smi"><a href="#2-阅读-nvidia-smi" class="headerlink" title="2 阅读 nvidia-smi"></a>2 阅读 nvidia-smi</h2><h3 id="2-1-一次查看与持续刷新"><a href="#2-1-一次查看与持续刷新" class="headerlink" title="2.1 一次查看与持续刷新"></a>2.1 一次查看与持续刷新</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi</span><br><span class="line">nvidia-smi -L</span><br><span class="line">watch -n 1 nvidia-smi</span><br></pre></td></tr></table></figure>
+<p>第一条显示当前概况，第二条列出设备名称与 UUID，第三条每秒刷新。<code>watch</code> 前台运行时按 <code>Ctrl+C</code> 结束监控，不会结束另一个终端里的训练。</p>
+<p>没有 <code>watch</code> 时，可使用 <code>nvidia-smi -l 1</code> 持续刷新。GPU 负载会随数据加载、前向计算、反向计算和验证阶段变化，应观察多个采样周期。</p>
+<h3 id="2-2-主要指标"><a href="#2-2-主要指标" class="headerlink" title="2.2 主要指标"></a>2.2 主要指标</h3><ul>
+<li><strong>GPU 名称与编号</strong>：定位设备；编号属于当前查询环境，不宜作为永久身份标识。</li>
+<li><strong>Memory-Usage</strong>：显存已用量与总容量，例如 <code>12000 MiB / 24576 MiB</code>。</li>
+<li><strong>GPU-Util</strong>：采样期间 GPU 执行计算内核的时间比例，不是峰值算力利用率。</li>
+<li><strong>Temp 与 Power</strong>：温度、当前功耗及功耗上限，可辅助观察负载变化。</li>
+<li><strong>Processes</strong>：与 GPU 相关的进程 PID、类型、命令及显存用量。</li>
+</ul>
+<p>进程类型中的 <code>C</code> 通常表示计算，<code>G</code> 表示图形，<code>C+G</code> 表示两者兼有。部分硬件、MIG 配置或权限条件下会出现 <code>N/A</code>，它表示指标不可用，不能直接当作零值。字段定义见 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/deploy/nvidia-smi/">NVIDIA nvidia-smi 文档</a>。</p>
+<p>需要区分<strong>显存容量占用</strong>与<strong>显存读写活动</strong>。查询字段 <code>memory.used</code> 是占用了多少显存；<code>utilization.memory</code> 是采样期间读写显存的活动比例，不是 <code>memory.used / memory.total</code>。</p>
+<h3 id="2-3-CUDA-Version-不等于项目安装版本"><a href="#2-3-CUDA-Version-不等于项目安装版本" class="headerlink" title="2.3 CUDA Version 不等于项目安装版本"></a>2.3 CUDA Version 不等于项目安装版本</h3><p>常见输出顶部的 <code>CUDA Version</code> 表示驱动支持的 CUDA 版本上限，不表示当前 Python 环境的 CUDA 运行时版本。新版工具可能显示为 <code>CUDA UMD Version</code>，驱动字段也可能显示为 <code>KMD Version</code>，含义仍需与项目环境区分。</p>
+<p>在已经安装 PyTorch 的项目环境中检查：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -c <span class="string">&quot;import torch; print(&#x27;PyTorch:&#x27;, torch.__version__); print(&#x27;Built with CUDA:&#x27;, torch.version.cuda); print(&#x27;CUDA available:&#x27;, torch.cuda.is_available())&quot;</span></span><br></pre></td></tr></table></figure>
+<p><code>torch.version.cuda</code> 是该 PyTorch 构建对应的 CUDA 版本；CPU 构建可能返回 <code>None</code>。<code>nvcc --version</code> 则检查当前路径中的 CUDA 编译器，三者不同不能单凭数字不一致就判断环境损坏。</p>
+<p>解释器与依赖选择见 <a href="/2026/09/20/linux-python-environments/" title="Linux服务器Python环境管理：venv、Conda与依赖复现">Linux服务器Python环境管理与依赖复现</a>。驱动升级属于服务器维护工作，不是普通项目环境安装的一部分。</p>
+<h3 id="2-4-导出便于保存的指标"><a href="#2-4-导出便于保存的指标" class="headerlink" title="2.4 导出便于保存的指标"></a>2.4 导出便于保存的指标</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi --query-gpu=index,uuid,name,memory.used,memory.total,utilization.gpu \</span><br><span class="line">  --format=csv</span><br></pre></td></tr></table></figure>
+<p>长实验可以每 10 秒记录一次：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p logs</span><br><span class="line">gpu_log=<span class="string">&quot;logs/gpu-<span class="subst">$(date +%Y%m%d-%H%M%S)</span>-$$.csv&quot;</span></span><br><span class="line">nvidia-smi --query-gpu=timestamp,index,uuid,memory.used,utilization.gpu \</span><br><span class="line">  --format=csv -l 10 &gt; <span class="string">&quot;<span class="variable">$gpu_log</span>&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这个命令持续占用当前终端，按 <code>Ctrl+C</code> 停止。若需要断开 SSH 后继续采样，可将它放在单独的 tmux 窗口中；方法见 <a href="/2026/09/20/linux-tmux-long-tasks/" title="Linux服务器长任务管理：tmux、日志与断线恢复">tmux、日志与断线恢复</a>。日志记录的是设备整体状态，多用户共享时不等于单个实验的独占使用量。</p>
+<h2 id="3-安装与使用-nvitop"><a href="#3-安装与使用-nvitop" class="headerlink" title="3 安装与使用 nvitop"></a>3 安装与使用 nvitop</h2><h3 id="3-1-独立环境安装"><a href="#3-1-独立环境安装" class="headerlink" title="3.1 独立环境安装"></a>3.1 独立环境安装</h3><p>nvitop 将 GPU、CPU、系统内存和相关进程集中显示，适合交互查看。可以用支持 <code>venv</code> 的 Python 在个人目录创建独立工具环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">python3 -m venv <span class="string">&quot;<span class="variable">$HOME</span>/.venvs/nvitop&quot;</span></span><br><span class="line"><span class="string">&quot;<span class="variable">$HOME</span>/.venvs/nvitop/bin/python&quot;</span> -m pip install --upgrade pip</span><br><span class="line"><span class="string">&quot;<span class="variable">$HOME</span>/.venvs/nvitop/bin/python&quot;</span> -m pip install nvitop</span><br><span class="line"><span class="string">&quot;<span class="variable">$HOME</span>/.venvs/nvitop/bin/nvitop&quot;</span></span><br></pre></td></tr></table></figure>
+<p>这种方式不需要 sudo，也不会向训练环境添加依赖。之后直接使用最后一条绝对路径命令启动即可；无需在每个项目中重复安装。安装要求见 <a target="_blank" rel="noopener" href="https://nvitop.readthedocs.io/en/latest/">nvitop 官方文档</a>。</p>
+<p>若系统不具备 venv，可使用已有 Conda 创建工具环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create -n gpu-tools -c conda-forge nvitop</span><br><span class="line">conda run -n gpu-tools --no-capture-output nvitop</span><br></pre></td></tr></table></figure>
+<p>两种安装方式任选其一。下载失败时先检查服务器网络和包源访问；网络配置见 <a href="/2026/09/20/linux_proxy/" title="Linux服务器代理联网指南：Clash与Mihomo">Linux服务器代理联网指南：Clash与Mihomo</a>。</p>
+<p>以下示例假设已将 nvitop 所在环境激活，因此可直接调用命令。采用上面的 venv 时执行 <code>source &quot;$HOME/.venvs/nvitop/bin/activate&quot;</code>，结束后用 <code>deactivate</code> 退出；采用 Conda 路线时执行 <code>conda activate gpu-tools</code>，结束后用 <code>conda deactivate</code> 退出。</p>
+<h3 id="3-2-日常查看"><a href="#3-2-日常查看" class="headerlink" title="3.2 日常查看"></a>3.2 日常查看</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">nvitop</span><br><span class="line">nvitop --user <span class="string">&quot;<span class="variable">$USER</span>&quot;</span></span><br><span class="line">nvitop --once</span><br></pre></td></tr></table></figure>
+<p>分别对应交互监控、仅显示当前用户的相关进程、输出一次快照。用户过滤主要影响进程列表，设备总体指标仍可能包含其他任务的占用。</p>
+<p>常用交互操作包括：</p>
+<ul>
+<li><code>h</code> 或 <code>?</code>：查看帮助。</li>
+<li>上下方向键：选择进程。</li>
+<li><code>Enter</code>：查看所选进程的指标。</li>
+<li><code>t</code>：查看进程树。</li>
+<li><code>q</code>：退出监控界面。</li>
+</ul>
+<p>nvitop 含有发送进程信号的快捷键，因此退出时使用 <code>q</code>，不要把所有监控界面中的 <code>Ctrl+C</code> 都当作普通退出操作。若已安装版本的 <code>nvitop --help</code> 列出 <code>--readonly</code>，可以用 <code>nvitop --readonly</code> 禁用进程修改功能。参数与按键见 <a target="_blank" rel="noopener" href="https://github.com/XuehaiPan/nvitop#usage">项目使用说明</a>。</p>
+<h3 id="3-3-将-GPU-状态关联到进程"><a href="#3-3-将-GPU-状态关联到进程" class="headerlink" title="3.3 将 GPU 状态关联到进程"></a>3.3 将 GPU 状态关联到进程</h3><p>进程列表重点看 PID、用户名、命令行、GPU 显存、CPU 使用量、主机内存和运行时长。显存是 GPU 的存储资源，主机内存是服务器 RAM，两者应分别观察。</p>
+<p>对于列表中的某个 PID，可进一步查询；下面的 <code>12345</code> 只是示例，必须替换为当前实际 PID：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -p 12345 -o user,pid,ppid,<span class="built_in">stat</span>,etime,%cpu,%mem,rss,args</span><br></pre></td></tr></table></figure>
+<p><code>PPID</code> 可用于核对父进程，<code>RSS</code> 以 KiB 表示常驻物理内存；<code>ps</code> 的 <code>%CPU</code> 通常是进程生存期内的平均值，不等于监控界面的瞬时采样值。字段含义见 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man1/ps.1.html">ps 手册</a>。</p>
+<p>同一训练任务可能产生多个 Python 子进程，PID 相近也可能只是启动时间接近。判断归属应依靠用户名、命令和实际父子关系，不能凭数字相近推断。</p>
+<h2 id="4-选择任务使用的-GPU"><a href="#4-选择任务使用的-GPU" class="headerlink" title="4 选择任务使用的 GPU"></a>4 选择任务使用的 GPU</h2><h3 id="4-1-CUDA-VISIBLE-DEVICES-的作用"><a href="#4-1-CUDA-VISIBLE-DEVICES-的作用" class="headerlink" title="4.1 CUDA_VISIBLE_DEVICES 的作用"></a>4.1 CUDA_VISIBLE_DEVICES 的作用</h3><p>在没有调度器预先分配设备、且已确认允许使用目标 GPU 的条件下，可以只为一次命令设置可见设备：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=2 python train.py</span><br></pre></td></tr></table></figure>
+<p><code>train.py</code> 代表已有项目的训练入口。这里的设备 <code>2</code> 必须实际存在且已确认可用；该环境变量在 CUDA 初始化前生效，不能在任务运行过程中改变已经建立的设备上下文。</p>
+<p>仅暴露一张设备时，程序内部一般将它编号为 <code>cuda:0</code>。同样，<code>CUDA_VISIBLE_DEVICES=2,1</code> 暴露两张设备时，程序内的 <code>cuda:0</code> 对应列表第一张，<code>cuda:1</code> 对应第二张。顺序与重编号规则见 <a target="_blank" rel="noopener" href="https://docs.nvidia.com/cuda/cuda-programming-guide/05-appendices/environment-variables.html">CUDA 环境变量文档</a>。</p>
+<p>设置可见列表不会自动让单卡代码改为多卡计算。多卡训练还需要框架的分布式启动方式和项目支持。</p>
+<h3 id="4-2-编号、UUID-与可见性"><a href="#4-2-编号、UUID-与可见性" class="headerlink" title="4.2 编号、UUID 与可见性"></a>4.2 编号、UUID 与可见性</h3><p>数字编号可能受到设备枚举顺序、容器和环境配置影响。记录或指定具体设备时，可以先查询完整 UUID：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvidia-smi --query-gpu=index,uuid,pci.bus_id,name --format=csv</span><br></pre></td></tr></table></figure>
+<p>然后将下例字符串替换为查询得到的完整 <code>GPU-...</code> UUID：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CUDA_VISIBLE_DEVICES=GPU-实际完整UUID python train.py</span><br></pre></td></tr></table></figure>
+<p>UUID 标识设备本身，可减少将监控编号与 CUDA 进程内编号混淆的情况。使用 MIG 切分设备时还涉及实例标识，应遵循所在集群的资源分配方式。</p>
+<p><code>nvidia-smi</code> 通常仍能列出其权限范围内的设备，不会因为训练设置了 <code>CUDA_VISIBLE_DEVICES</code> 就只显示训练可见的卡。nvitop 的 <code>--only-visible</code> 可按<strong>启动监控时所在环境</strong>的该变量过滤显示。</p>
+<h3 id="4-3-可见性不等于预约资源"><a href="#4-3-可见性不等于预约资源" class="headerlink" title="4.3 可见性不等于预约资源"></a>4.3 可见性不等于预约资源</h3><p><code>CUDA_VISIBLE_DEVICES</code> 不会锁定或独占 GPU，其他用户仍可能使用同一设备。显示“显存空闲”也不代表设备没有被预约。</p>
+<p>Slurm 等系统已为作业分配 GPU 时，应保留调度器设置的可见设备，不要覆盖变量指定物理编号。容器中的 <code>cuda:0</code> 也可能是分配给容器的第一张卡，而不是宿主机的 0 号卡。</p>
+<h2 id="5-结合日志判断瓶颈"><a href="#5-结合日志判断瓶颈" class="headerlink" title="5 结合日志判断瓶颈"></a>5 结合日志判断瓶颈</h2><h3 id="5-1-显存占用高，GPU-利用率低"><a href="#5-1-显存占用高，GPU-利用率低" class="headerlink" title="5.1 显存占用高，GPU 利用率低"></a>5.1 显存占用高，GPU 利用率低</h3><p>模型参数、缓存或已分配的张量可以长期驻留显存，计算则可能在等待数据加载、CPU 预处理、磁盘读取或多进程同步。低利用率也可能是初始化、保存 checkpoint 等正常阶段。</p>
+<p>先查看日志是否仍有进度，再观察 CPU 与 I/O 活动。优化应针对已确认的等待环节；仅增加 DataLoader worker 数量可能同时增加 CPU、系统内存和存储压力。</p>
+<h3 id="5-2-CUDA-显存不足"><a href="#5-2-CUDA-显存不足" class="headerlink" title="5.2 CUDA 显存不足"></a>5.2 CUDA 显存不足</h3><p>日志明确出现 <code>CUDA out of memory</code> 时，应检查当前任务及同卡其他任务的显存使用，并结合模型规模、batch size、序列长度或输入分辨率分析峰值需求。</p>
+<p>PyTorch 的缓存分配器可能保留暂未被张量使用的显存，因此 <code>nvidia-smi</code> 的占用与框架报告的张量占用不完全一致。<code>torch.cuda.empty_cache()</code> 只能释放部分未使用的缓存，不能释放仍被活动张量引用的内存。参见 <a target="_blank" rel="noopener" href="https://docs.pytorch.org/docs/main/notes/cuda.html#memory-management">PyTorch CUDA 内存管理</a>。</p>
+<h3 id="5-3-进程突然消失或只显示-Killed"><a href="#5-3-进程突然消失或只显示-Killed" class="headerlink" title="5.3 进程突然消失或只显示 Killed"></a>5.3 进程突然消失或只显示 Killed</h3><p>这不一定是 GPU 显存问题。系统 RAM 耗尽、作业内存限制、超时、外部信号和程序异常都可能导致退出。单凭 <code>Killed</code> 无法确定原因，应结合日志和调度器记录判断。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">free -h</span><br><span class="line"><span class="built_in">df</span> -h <span class="string">&quot;<span class="variable">$HOME</span>&quot;</span></span><br><span class="line">ps -u <span class="string">&quot;<span class="variable">$USER</span>&quot;</span> -o pid,ppid,<span class="built_in">stat</span>,etime,%cpu,%mem,args</span><br><span class="line"><span class="built_in">tail</span> -n 100 logs/实际日志文件名.<span class="built_in">log</span></span><br></pre></td></tr></table></figure>
+<p><code>free</code> 中的 <code>available</code> 比单纯的 <code>free</code> 更适合判断系统当前可供新任务使用的内存；它仍不一定反映容器或作业的独立限制。<code>df</code> 应同时检查实际数据与输出所在文件系统，个人配额还需单独查询。内存字段见 <a target="_blank" rel="noopener" href="https://man7.org/linux/man-pages/man1/free.1.html">free 手册</a>。</p>
+<h3 id="5-4-日志不更新，但进程还在"><a href="#5-4-日志不更新，但进程还在" class="headerlink" title="5.4 日志不更新，但进程还在"></a>5.4 日志不更新，但进程还在</h3><p>先确认查看的是当前实验的日志，并检查输出是否被缓冲。Python 可以用 <code>-u</code> 启动减少标准输出缓冲；程序采用独立日志框架时，还应检查其写入目标和刷新机制。</p>
+<p>若 GPU、CPU 与日志长期没有变化，再检查数据路径、网络请求和进程同步。等待 API 或远程文件时，修复 GPU 环境通常没有作用。</p>
+<h2 id="6-正常停止与异常占用"><a href="#6-正常停止与异常占用" class="headerlink" title="6 正常停止与异常占用"></a>6 正常停止与异常占用</h2><p>优先回到任务所在终端使用项目的停止方式。独立任务失去原终端后，先确认 PID 仍属于自己的目标任务，再请求终止：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -p 12345 -o user,pid,ppid,lstart,args</span><br><span class="line"><span class="built_in">kill</span> -TERM 12345</span><br></pre></td></tr></table></figure>
+<p><code>12345</code> 是占位示例，不应原样执行。<code>SIGTERM</code> 给程序处理终止请求的机会，但能否保存结果取决于程序实现。等待并再次检查；只有进程持续不响应、已重新核对身份且确需强制结束时，才考虑 <code>kill -KILL 实际PID</code>。</p>
+<p>强制终止无法执行清理逻辑，也不保证自动结束全部子进程。由调度器管理的任务优先通过其作业取消接口处理；共享服务器上不应通过重置 GPU 或结束其他用户的进程来清理显存。</p>
+<p>如果 GPU 列表中的 PID 在当前环境查不到，还需考虑容器 PID 命名空间、进程退出时序和查询权限。严格的 Linux 僵尸进程是已经退出、等待父进程回收退出状态的进程，不能仅凭“显存还占着”作出判断。</p>
+<p>设备文件关联进程的进一步排查见 <a href="/2026/05/19/Linux-kill-zombie/" title="Linux服务器 NVIDIA显卡僵尸进程清理">NVIDIA显卡异常进程占用排查</a>。涉及系统权限和共享设备时，应由管理员结合宿主机进程信息处理；PID 相近本身不是终止一批进程的依据。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io">LuckyShen</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://lucky1192405754.github.io/2026/09/20/linux-gpu-monitoring/">https://lucky1192405754.github.io/2026/09/20/linux-gpu-monitoring/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://lucky1192405754.github.io" target="_blank">Keming's Eutopia ♪</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Linux/">Linux</a><a class="post-meta__tags" href="/tags/NVIDIA/">NVIDIA</a><a class="post-meta__tags" href="/tags/GPU/">GPU</a><a class="post-meta__tags" href="/tags/nvitop/">nvitop</a><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E6%8E%92%E6%9F%A5/">性能排查</a></div><div class="post-share"><div class="social-share" data-image="/image/linux-server-series/gpu-cover.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2026/09/20/linux-python-environments/" title="Linux服务器Python环境管理：venv、Conda与依赖复现"><img class="cover" src="/image/linux-server-series/python-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Linux服务器Python环境管理：venv、Conda与依赖复现</div></div><div class="info-2"><div class="info-item-1">同一台 Linux 服务器可以同时存在系统 Python、Conda 环境和多个项目虚拟环境。包已经安装却无法导入，常见原因是安装时与运行时使用了不同的解释器。 本文的命令均在服务器 Bash 终端执行，示例项目目录为 ~/projects/demo。远程连接和服务器开发流程见 面向Linux服务器的Coding指南。  1 解释器、pip 与 PATHpython 是 Shell 根据命令查找规则找到的程序，通常由 PATH 中目录的先后顺序决定。pip 也是一个命令，它关联的 Python 不一定与当前 python 相同。 开始安装前，先查看实际程序位置： 12345command -v pythoncommand -v python3python3 --versionpython3 -c &quot;import sys; print(sys.executable)&quot;python3 -m pip --version 系统可能只有 python3，也可能没有为它安装 pip。输出中的路径和版本，比终端提示符是否显示环境名称更能说明实际情况。 python -m...</div></div></div></a><a class="pagination-related" href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南"><img class="cover" src="/image/coding-linux-server-guide/linux-coding-cover.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">面向Linux服务器的Coding指南</div></div><div class="info-2"><div class="info-item-1">Linux 服务器上的开发通常围绕一条工作流展开：通过 SSH 登录，在远端配置环境、编辑代码并运行任务，再通过日志和资源监控确认运行状态。个人电脑提供交互界面，服务器提供计算资源与存储，两者通过网络连接协作。 本文按连接、开发、AI 辅助、联网配置和任务管理的顺序整理常用操作。示例以 Windows 本机 + Linux 服务器 + Bash 为主；没有特别说明时，Linux 命令均使用普通账户执行。  各环节的完整流程与排错方法另整理为独立文章，可按当前任务查阅：  SSH 连接、密钥认证与文件传输：从首次登录到跳板机、SFTP 和连接排查。 VS Code 远程开发：远端组件、扩展、解释器、端口转发与下载配置。 Codex CLI 安装、认证与自动化：普通用户安装、项目权限、交互开发与脚本调用。 tmux、日志与断线恢复：长任务的启动、监控、恢复和结束。 Python 环境管理与依赖复现：venv、Conda、解释器定位和环境迁移。 GPU 监控与资源排查：nvidia-smi、nvitop、设备选择与常见瓶颈。 Clash 与 Mihomo...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2026/05/19/Linux-kill-zombie/" title="Linux服务器 NVIDIA显卡僵尸进程清理"><img class="cover" src="/image/Linux-kill-zombie/zombie_process.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-19</div><div class="info-item-2">Linux服务器 NVIDIA显卡僵尸进程清理</div></div><div class="info-2"><div class="info-item-1">Linux服务器 NVIDIA显卡僵尸进程清理在 Linux 服务器上跑深度学习任务时，偶尔会遇到一种比较烦人的情况：nvitop、nvidia-smi 等工具里还显示某个 GPU 上挂着进程，但真正去 kill 这个 PID 时，却提示 No such process。这类现象通常意味着你看到的已经不是一个正常运行中的计算任务，而是一次异常退出后残留下来的 GPU 占用记录，实践中经常被统称为“僵尸进程”问题。 这篇文章只介绍一个实用排查流程：先定位是哪张卡出了问题，再沿着该设备文件找到相关宿主进程，最后 kill 掉父进程或同组进程。 1 先定位是哪张显卡出现异常首先使用 nvitop、nvidia-smi 等工具，确认具体是哪张卡上挂着异常 PID。 例如下图中，可以看到 4号显卡 上出现了 PID 为 1405016 的异常进程：  如果此时你直接执行： 1kill -9 1405016 却得到： 1kill: (1405016) - No such process 那么通常说明这个 PID 本身已经不再是一个可直接操作的正常用户态进程，但它对应的 GPU...</div></div></div></a><a class="pagination-related" href="/2026/07/02/linux-kernel-update/" title="Linux服务器 系统内核升级指南"><img class="cover" src="/image/linux-kernel-update/front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-07-02</div><div class="info-item-2">Linux服务器 系统内核升级指南</div></div><div class="info-2"><div class="info-item-1">Linux服务器 系统内核升级指南在长期运行的 Linux 服务器上，经常会遇到应用程序要求更高版本内核的场景。尤其是当宿主机仍使用较老的发行版系统，而业务侧又依赖新版 eBPF 或较新的驱动特性时，往往必须在不整体升级系统的前提下更换内核。整个过程涉及内核包本身、glibc、编译工具链以及 NVIDIA DKMS 模块之间的多层依赖，任一环节处理不当都可能导致重启后系统无法正常进入图形界面或 GPU 驱动失效。 本文以 Ubuntu 18.04 + NVIDIA 驱动 + 目标内核 5.5.5 （升级前：4.15.0） 的实际升级过程为例，梳理内核升级涉及的核心概念、约束条件、完整执行流程以及常见问题的排查方法，供有类似需求的运维与开发人员参考。 1 Linux 内核与相关组件1.1 内核版本号的含义Linux 内核（Linux Kernel）是操作系统的核心，负责管理硬件资源（CPU、内存、磁盘、网卡、GPU 等）、调度进程并提供系统调用接口。执行 uname -r 得到的字符串即为当前运行的内核版本，例如...</div></div></div></a><a class="pagination-related" href="/2026/05/18/Linux-Claude-Code/" title="Linux服务器 安装Claude Code教程"><img class="cover" src="/image/Linux-Claude-Code/linux_claude.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-05-18</div><div class="info-item-2">Linux服务器 安装Claude Code教程</div></div><div class="info-2"><div class="info-item-1">Linux服务器 安装Claude Code教程1“ AI 不太可能取代你，但一个比你更会使用 AI 的人，可能会。 ”    ————Jensen Huang（黄仁勋） Claude Code是由Anthropic公司开发的一款AI驱动型的编程Agent命令行工具。这类产品也已经成为当代程序员代码开发不可或缺的重要工具。本文将介绍如何在 Linux 服务器上部署、配置个人Claude Code，利用CC-Switch绕过Claude Code本身的订阅需求，并且无需sudo 权限。 本文主要分成两部分：  先安装并验证 Claude Code 如果首次启动时遇到登录受限、地区限制，或者你本来就准备使用自定义 API provider，则继续安装并配置 cc-switch CLI  如果你只是想在服务器上快速把 Claude Code 跑起来，可以先看前半部分；如果你后续还需要切换 provider、配置 apikey、base_url、model，则重点看后半部分。 1 安装前准备在正式安装之前，可以先确认当前 Ubuntu 环境里至少有 bash 和...</div></div></div></a><a class="pagination-related" href="/2026/04/09/linux-category-introduction/" title="「Linux」服务器操作指南"><img class="cover" src="/image/linux-category-introduction/Linux_Front.webp" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-04-09</div><div class="info-item-2">「Linux」服务器操作指南</div></div><div class="info-2"><div class="info-item-1">Linux操作指北 为什么不写操作指南？这就像你不会在简历上写精通C语言一样。  首先，本章节并非面向寻求Linux某一教程的用户，因为我毕竟不是专业的Linux工程师。如果您真遇到了技术问题，不妨先去问问身边穿着格子衬衫的资深程序员，如果你喜欢硅基生物，也可以问问大G老师（你问我是Gemini还是ChatGPT，我说都行），大K老师，大鲸鱼老师，大豆老师等等，总之不建议在这个熵爆表的个人博客里索取答案。 作为学校实验室服务器的管理员，我只是在日常运维中积累了一些实践经验，并且为后面的管理员提供一些参考。换言之这个更像一个面向我所在的实验室的服务器管理私货，记录一些仅适用于特定场所的不一定实用的服务器操作技巧（其实就是我那些年月踩过的那些坑），如果能帮到其他与服务器打交道的朋友，那是莫大的荣幸。  内容范围🚧 施工中…TO BE...</div></div></div></a><a class="pagination-related" href="/2026/09/19/coding-linux-latex/" title="Linux安装LaTeX（Tex Live）教程"><img class="cover" src="/image/image_latex/linux_latex_cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-19</div><div class="info-item-2">Linux安装LaTeX（Tex Live）教程</div></div><div class="info-2"><div class="info-item-1"> #article-container .linux-latex-figure { margin: 24px 0 28px; } #article-container .linux-latex-figure img { display: block; width: auto; height: auto; max-width: 100%; max-height: 680px; margin: 0 auto; border-radius: 6px; } #article-container .linux-latex-figure figcaption { margin-top: 10px; color: var(--font-color); font-size: 0.9em; line-height: 1.7; text-align: center; opacity: 0.8; } #article-container .linux-latex-figure .img-alt { display: none; }   LaTeX...</div></div></div></a><a class="pagination-related" href="/2026/09/20/coding-linux-server-guide/" title="面向Linux服务器的Coding指南"><img class="cover" src="/image/coding-linux-server-guide/linux-coding-cover.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2026-09-20</div><div class="info-item-2">面向Linux服务器的Coding指南</div></div><div class="info-2"><div class="info-item-1">Linux 服务器上的开发通常围绕一条工作流展开：通过 SSH 登录，在远端配置环境、编辑代码并运行任务，再通过日志和资源监控确认运行状态。个人电脑提供交互界面，服务器提供计算资源与存储，两者通过网络连接协作。 本文按连接、开发、AI 辅助、联网配置和任务管理的顺序整理常用操作。示例以 Windows 本机 + Linux 服务器 + Bash 为主；没有特别说明时，Linux 命令均使用普通账户执行。  各环节的完整流程与排错方法另整理为独立文章，可按当前任务查阅：  SSH 连接、密钥认证与文件传输：从首次登录到跳板机、SFTP 和连接排查。 VS Code 远程开发：远端组件、扩展、解释器、端口转发与下载配置。 Codex CLI 安装、认证与自动化：普通用户安装、项目权限、交互开发与脚本调用。 tmux、日志与断线恢复：长任务的启动、监控、恢复和结束。 Python 环境管理与依赖复现：venv、Conda、解释器定位和环境迁移。 GPU 监控与资源排查：nvidia-smi、nvitop、设备选择与常见瓶颈。 Clash 与 Mihomo...</div></div></div></a></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E5%85%88%E5%8C%BA%E5%88%86%E9%A9%B1%E5%8A%A8%E3%80%81%E8%AE%A1%E7%AE%97%E7%8E%AF%E5%A2%83%E4%B8%8E%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7"><span class="toc-text">1 先区分驱动、计算环境与监控工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E9%98%85%E8%AF%BB-nvidia-smi"><span class="toc-text">2 阅读 nvidia-smi</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-%E4%B8%80%E6%AC%A1%E6%9F%A5%E7%9C%8B%E4%B8%8E%E6%8C%81%E7%BB%AD%E5%88%B7%E6%96%B0"><span class="toc-text">2.1 一次查看与持续刷新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-%E4%B8%BB%E8%A6%81%E6%8C%87%E6%A0%87"><span class="toc-text">2.2 主要指标</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-CUDA-Version-%E4%B8%8D%E7%AD%89%E4%BA%8E%E9%A1%B9%E7%9B%AE%E5%AE%89%E8%A3%85%E7%89%88%E6%9C%AC"><span class="toc-text">2.3 CUDA Version 不等于项目安装版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-%E5%AF%BC%E5%87%BA%E4%BE%BF%E4%BA%8E%E4%BF%9D%E5%AD%98%E7%9A%84%E6%8C%87%E6%A0%87"><span class="toc-text">2.4 导出便于保存的指标</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E5%AE%89%E8%A3%85%E4%B8%8E%E4%BD%BF%E7%94%A8-nvitop"><span class="toc-text">3 安装与使用 nvitop</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-%E7%8B%AC%E7%AB%8B%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85"><span class="toc-text">3.1 独立环境安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-%E6%97%A5%E5%B8%B8%E6%9F%A5%E7%9C%8B"><span class="toc-text">3.2 日常查看</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-3-%E5%B0%86-GPU-%E7%8A%B6%E6%80%81%E5%85%B3%E8%81%94%E5%88%B0%E8%BF%9B%E7%A8%8B"><span class="toc-text">3.3 将 GPU 状态关联到进程</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E9%80%89%E6%8B%A9%E4%BB%BB%E5%8A%A1%E4%BD%BF%E7%94%A8%E7%9A%84-GPU"><span class="toc-text">4 选择任务使用的 GPU</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-CUDA-VISIBLE-DEVICES-%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-text">4.1 CUDA_VISIBLE_DEVICES 的作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-%E7%BC%96%E5%8F%B7%E3%80%81UUID-%E4%B8%8E%E5%8F%AF%E8%A7%81%E6%80%A7"><span class="toc-text">4.2 编号、UUID 与可见性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-%E5%8F%AF%E8%A7%81%E6%80%A7%E4%B8%8D%E7%AD%89%E4%BA%8E%E9%A2%84%E7%BA%A6%E8%B5%84%E6%BA%90"><span class="toc-text">4.3 可见性不等于预约资源</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E7%BB%93%E5%90%88%E6%97%A5%E5%BF%97%E5%88%A4%E6%96%AD%E7%93%B6%E9%A2%88"><span class="toc-text">5 结合日志判断瓶颈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E9%AB%98%EF%BC%8CGPU-%E5%88%A9%E7%94%A8%E7%8E%87%E4%BD%8E"><span class="toc-text">5.1 显存占用高，GPU 利用率低</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-CUDA-%E6%98%BE%E5%AD%98%E4%B8%8D%E8%B6%B3"><span class="toc-text">5.2 CUDA 显存不足</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-%E8%BF%9B%E7%A8%8B%E7%AA%81%E7%84%B6%E6%B6%88%E5%A4%B1%E6%88%96%E5%8F%AA%E6%98%BE%E7%A4%BA-Killed"><span class="toc-text">5.3 进程突然消失或只显示 Killed</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-%E6%97%A5%E5%BF%97%E4%B8%8D%E6%9B%B4%E6%96%B0%EF%BC%8C%E4%BD%86%E8%BF%9B%E7%A8%8B%E8%BF%98%E5%9C%A8"><span class="toc-text">5.4 日志不更新，但进程还在</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E6%AD%A3%E5%B8%B8%E5%81%9C%E6%AD%A2%E4%B8%8E%E5%BC%82%E5%B8%B8%E5%8D%A0%E7%94%A8"><span class="toc-text">6 正常停止与异常占用</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url(/image/linux-server-series/gpu-cover.png);"><div id="footer-wrap"><div class="copyright">&copy;2019 - 2026 By LuckyShen</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.5</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax/es5/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'Lucky1192405754/Lucky1192405754.github.io',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script src="/js/video-background.js"></script><script src="/js/custom-announcement.js"></script><script src="/js/background-music.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
