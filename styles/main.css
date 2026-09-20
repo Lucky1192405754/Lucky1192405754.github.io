@@ -1084,7 +1084,7 @@ rgba(24,40,72,.2));
 
 /* 学术主页：首页学术化改版 */
 .layout.hide-aside:has(.academic-home) {
-    width: 92%;
+    width: 84%;
     max-width: none;
     padding: clamp(24px, 2.2vw, 48px) 0;
 }
@@ -2073,6 +2073,10 @@ rgba(24,40,72,.2));
 }
 
 @media screen and (max-width: 1080px) {
+    .layout.hide-aside:has(.academic-home) {
+        width: 92%;
+    }
+
     .academic-home__hero,
     .academic-home__publication {
         grid-template-columns: 1fr;
@@ -2378,8 +2382,8 @@ rgba(24,40,72,.2));
 }
 
 
-/* 桌面博客两栏等高：卡片均分侧栏带来的余高，分页紧接卡片。
-   末页少于六篇时保留自然高度，避免少量文章被过度拉长。 */
+/* 桌面博客两栏等高：保留卡片和封面的原有高度，将余高分配到卡片间距。
+   末页少于六篇时保留自然间距，避免少量文章被过度分散。 */
 @media screen and (min-width: 901px) {
     #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) {
         display: flex;
@@ -2390,11 +2394,12 @@ rgba(24,40,72,.2));
         display: flex;
         flex-direction: column;
         flex: 1;
+        justify-content: space-between;
         gap: 20px;
     }
 
     #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) > .recent-post-items > .recent-post-item {
-        flex: 1 0 auto;
+        flex: none;
         margin-bottom: 0;
     }
 
