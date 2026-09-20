@@ -1,0 +1,400 @@
+/* Academic homepage only. The blog retains its theme and saved color preference. */
+html:has(.academic-home) {
+    color-scheme: light;
+    --font-color: #334155;
+    --text-highlight-color: #172b42;
+    --global-bg: #fff;
+    --card-bg: #fff;
+    --sidebar-bg: #fff;
+    --btn-bg: #2563a6;
+    --btn-hover-color: #174c86;
+    --btn-color: #fff;
+    --hr-border: #e2e8f0;
+    --scrollbar-color: #a8b8c9;
+}
+
+body:has(.academic-home) {
+    background: #fff;
+    color: #334155;
+}
+
+body:has(.academic-home) #web_bg,
+body:has(.academic-home) #footer canvas,
+body:has(.academic-home) #footer .container,
+body:has(.academic-home) #site-bgm-floating,
+body:has(.academic-home) #darkmode {
+    display: none !important;
+}
+
+body:has(.academic-home) #page-header,
+body:has(.academic-home) #nav,
+body:has(.academic-home) #page-header:is(.nav-fixed, .not-top-img) > #nav {
+    background: #fff;
+    box-shadow: none;
+    text-shadow: none;
+}
+
+body:has(.academic-home) #nav {
+    border-bottom: 1px solid #e8edf2;
+}
+
+body:has(.academic-home) #nav :is(a, .site-name, .site-page),
+body:has(.academic-home) #toggle-menu {
+    color: #334155;
+    text-shadow: none;
+}
+
+body:has(.academic-home) #nav a:hover {
+    color: #2563a6;
+}
+
+body:has(.academic-home) #nav .menus_item_child {
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 8px 24px rgb(15 23 42 / 6%);
+}
+
+body:has(.academic-home) #sidebar #sidebar-menus {
+    background: #fff;
+    color: #334155;
+}
+
+body:has(.academic-home) #sidebar #sidebar-menus a {
+    color: #334155;
+}
+
+body:has(.academic-home) #footer {
+    height: auto;
+    background: #fff;
+    border-top: 1px solid #e8edf2;
+}
+
+body:has(.academic-home) #footer::before {
+    background: transparent;
+}
+
+body:has(.academic-home) #footer #footer-wrap,
+body:has(.academic-home) #footer a {
+    color: #64748b;
+}
+
+body:has(.academic-home) #rightside > div > button {
+    background: #f1f5f9;
+    color: #47647f;
+}
+
+body:has(.academic-home) .layout.hide-aside:has(.academic-home) {
+    width: 84%;
+    padding-block: clamp(32px, 3.2vw, 72px);
+}
+
+body:has(.academic-home) .academic-home {
+    color: #334155;
+    gap: 3rem;
+    text-align: left;
+    font-size: 16px;
+}
+
+body:has(.academic-home) .academic-home img {
+    filter: none;
+}
+
+body:has(.academic-home) .academic-home a {
+    color: #2563a6;
+    text-underline-offset: 3px;
+}
+
+body:has(.academic-home) .academic-home a:hover {
+    color: #174c86;
+    text-decoration: underline;
+}
+
+body:has(.academic-home) .academic-home a:focus-visible {
+    outline: 2px solid #2563a6;
+    outline-offset: 4px;
+}
+
+body:has(.academic-home) :is(.academic-home__hero, .academic-home__section, .academic-home__panel) {
+    padding: 0;
+    background: #fff;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+}
+
+body:has(.academic-home) .academic-home__hero {
+    grid-template-columns: minmax(0, 1fr) clamp(280px, 28%, 440px);
+    gap: clamp(28px, 4vw, 80px);
+}
+
+body:has(.academic-home) #article-container .academic-home__name {
+    margin: 0.65rem 0 1.6rem;
+    padding: 0;
+    font-size: clamp(32px, 3.3vw, 64px);
+    line-height: 1.2;
+    flex-wrap: wrap;
+    gap: 0.18em 0.4em;
+    color: #172b42;
+}
+
+body:has(.academic-home) .academic-home__name-zh {
+    color: #334155;
+    text-shadow: none;
+    font-size: 0.78em;
+}
+
+body:has(.academic-home) :is(.academic-home__eyebrow, .academic-home__fact span) {
+    color: #63758a;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+}
+
+body:has(.academic-home) .academic-home__summary {
+    color: #3f4d60;
+    font-size: clamp(16px, 0.95vw, 19px);
+    line-height: 1.85;
+}
+
+body:has(.academic-home) :is(.academic-home__meta span, .academic-home__fact strong,
+    .academic-home__publication-authors, .academic-home__publication-summary,
+    .academic-home__education-degree, .academic-home__list-body p, .academic-home__education-metrics) {
+    color: #526174;
+}
+
+body:has(.academic-home) :is(.academic-home__profile-card h2, .academic-home__section-heading h2,
+    .academic-home__publication-title, .academic-home__education-school,
+    .academic-home__list-body strong, .academic-home__meta strong, .academic-home__author-me) {
+    color: #172b42;
+}
+
+body:has(.academic-home) .academic-home__actions {
+    max-width: 640px;
+    margin-block: 1.4rem 0.3rem;
+}
+
+body:has(.academic-home) :is(.academic-home__button, .academic-home__link-pill) {
+    background: #fff;
+    border-color: #d6e0ea;
+    border-radius: 8px;
+    color: #2563a6 !important;
+    box-shadow: none;
+}
+
+body:has(.academic-home) .academic-home__button--primary {
+    background: #2563a6;
+    border-color: #2563a6;
+    color: #fff !important;
+}
+
+body:has(.academic-home) :is(.academic-home__button, .academic-home__link-pill):hover {
+    border-color: #2563a6;
+    box-shadow: 0 3px 10px rgb(37 99 166 / 8%);
+    transform: translateY(-1px);
+}
+
+body:has(.academic-home) .academic-home__button-link + .academic-home__button-link {
+    border-color: #d6e0ea;
+}
+
+body:has(.academic-home) .academic-home__button-link:hover {
+    background: #eef5fc;
+}
+
+body:has(.academic-home) #article-container .academic-home__meta {
+    gap: 0;
+    padding-left: 0;
+}
+
+body:has(.academic-home) .academic-home__meta li {
+    margin: 0;
+    padding: 0.8rem 0;
+    background: #fff;
+    border: 0;
+    border-top: 1px solid #e8edf2;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+body:has(.academic-home) .academic-home__profile img {
+    border-radius: 16px;
+    box-shadow: none;
+}
+
+body:has(.academic-home) .academic-home__profile-card {
+    padding: 1.25rem;
+    border-radius: 14px;
+    background: #fff;
+    border-color: #e2e8f0;
+    box-shadow: none;
+}
+
+body:has(.academic-home) #article-container .academic-home__profile-card h2 {
+    font-size: 20px;
+}
+
+body:has(.academic-home) .academic-home__facts {
+    gap: 0;
+}
+
+body:has(.academic-home) .academic-home__fact {
+    padding: 0.65rem 0;
+    background: #fff;
+    border: 0;
+    border-bottom: 1px solid #edf1f5;
+    border-radius: 0;
+    box-shadow: none;
+    font-size: 14px;
+}
+
+body:has(.academic-home) .academic-home__profile-tags {
+    gap: 6px;
+}
+
+body:has(.academic-home) .academic-home__profile-tags span {
+    padding: 4px 8px;
+    border-radius: 5px;
+    background: #f1f5f9;
+    color: #47647f;
+    font-size: 12px;
+}
+
+body:has(.academic-home) .academic-home__section-heading {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid #dce5ee;
+}
+
+body:has(.academic-home) #article-container .academic-home__section-heading h2 {
+    padding-left: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(25px, 2vw, 32px);
+    font-weight: 600;
+    transform: none;
+}
+
+body:has(.academic-home) .academic-home__section-icon {
+    font-size: 0.7em;
+}
+
+body:has(.academic-home) :is(.academic-home__education-card, .academic-home__publication,
+    .academic-home__honors-list li, .academic-home__recognition-list li) {
+    padding: 1.1rem;
+    background: #fff;
+    border: 1px solid #e5eaf0;
+    border-radius: 12px;
+    box-shadow: none;
+}
+
+body:has(.academic-home) :is(.academic-home__education-logo-shell, .academic-home__publication-figure) {
+    background: #fff;
+    border-color: #edf1f5;
+    border-radius: 8px;
+    box-shadow: none;
+}
+
+body:has(.academic-home) .academic-home__education-title-row {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+}
+
+body:has(.academic-home) .academic-home__education-degree {
+    line-height: 1.7;
+    margin-top: 0.35rem;
+}
+
+body:has(.academic-home) .academic-home__publication {
+    grid-template-columns: minmax(200px, 22%) minmax(0, 1fr);
+    gap: 1.5rem;
+}
+
+body:has(.academic-home) .academic-home__publication-figure img {
+    object-fit: contain;
+    margin: 0;
+}
+
+body:has(.academic-home) .academic-home__publication-main {
+    gap: 0.6rem;
+}
+
+body:has(.academic-home) .academic-home__publication-title {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+body:has(.academic-home) .academic-home__publication-summary {
+    line-height: 1.7;
+}
+
+body:has(.academic-home) :is(.academic-home__education-time, .academic-home__publication-venue, .academic-home__list-year) {
+    background: #eef5fc;
+    color: #2563a6;
+    border-radius: 6px;
+}
+
+body:has(.academic-home) .academic-home__publication-role {
+    background: #f1f5f9;
+    color: #526174;
+    border-radius: 6px;
+}
+
+body:has(.academic-home) .academic-home__recognition-list .academic-home__list-body :is(strong, p) {
+    white-space: normal;
+    line-height: 1.6;
+}
+
+body:has(.academic-home) #article-container :is(.academic-home__honors-list, .academic-home__recognition-list) {
+    padding-left: 0;
+}
+
+@media (max-width: 1080px) {
+    body:has(.academic-home) .layout.hide-aside:has(.academic-home) {
+        width: 92%;
+    }
+
+    body:has(.academic-home) .academic-home__hero {
+        grid-template-columns: 1fr;
+    }
+
+    body:has(.academic-home) .academic-home__profile {
+        max-width: 360px;
+    }
+}
+
+@media (max-width: 700px) {
+    body:has(.academic-home) .academic-home {
+        gap: 2rem;
+    }
+
+    body:has(.academic-home) .academic-home__publication {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    body:has(.academic-home) .academic-home__publication-figure {
+        min-height: 180px;
+    }
+
+    body:has(.academic-home) .academic-home__education-heading {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+    }
+
+    body:has(.academic-home) :is(.academic-home__education-school, .academic-home__education-metrics) {
+        white-space: normal;
+    }
+
+    body:has(.academic-home) .academic-home__education-time {
+        justify-self: start;
+    }
+
+    body:has(.academic-home) .academic-home__recognition-list li {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body:has(.academic-home) .academic-home a {
+        transition: none;
+    }
+}

@@ -56,6 +56,18 @@
     var bg = document.getElementById('web_bg');
     if (!bg) return;
 
+    // The academic homepage has its own plain background, including PJAX visits.
+    if (document.querySelector('.academic-home')) {
+      var existing = document.getElementById(VIDEO_ID);
+      if (existing) {
+        existing.pause();
+        existing.remove();
+      }
+      bg.style.backgroundImage = 'none';
+      bg.style.backgroundColor = '#fff';
+      return;
+    }
+
     ensureBackgroundLayout(bg);
 
     if (!shouldUseVideoBackground()) {

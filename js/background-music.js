@@ -735,6 +735,12 @@
   }
 
   function init() {
+    // Keep the academic homepage quiet without changing the blog music preference.
+    if (document.querySelector('.academic-home')) {
+      if (audio) audio.pause();
+      stopVisualizer();
+      return;
+    }
     ensureFloatingControl();
     bindWidgetDrag();
     bindViewportEvents();
