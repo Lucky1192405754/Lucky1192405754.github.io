@@ -1149,6 +1149,8 @@ rgba(24,40,72,.2));
 }
 
 .academic-home__intro {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
 }
 
@@ -1311,6 +1313,16 @@ rgba(24,40,72,.2));
     color: #0f172a;
 }
 
+#article-container .academic-home__meta {
+    margin-top: auto;
+    margin-bottom: 0;
+    padding-top: 1.6rem;
+}
+
+#article-container .academic-home__meta li:last-child {
+    margin-bottom: 0;
+}
+
 .academic-home__profile {
     display: flex;
     flex-direction: column;
@@ -1320,7 +1332,10 @@ rgba(24,40,72,.2));
 
 .academic-home__profile img {
     width: 100%;
-    max-width: min(100%, 340px);
+    max-width: 100%;
+    height: auto;
+    flex: none;
+    margin: 0;
     aspect-ratio: 1 / 1;
     object-fit: cover;
     border-radius: 28px;
@@ -1330,10 +1345,24 @@ rgba(24,40,72,.2));
 
 
 .academic-home__profile-card {
+    flex: 1;
     padding: 1.35rem 1.4rem;
     border-radius: 22px;
     background: rgba(248, 250, 252, 0.95);
     border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+#article-container .academic-home__profile-card h2 {
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+    padding-left: 0;
+}
+
+.academic-home__profile-card h2 svg {
+    width: 1em;
+    height: 1em;
+    flex: none;
 }
 
 .academic-home__profile-card h2,
@@ -2035,9 +2064,6 @@ rgba(24,40,72,.2));
         gap: 0.18em;
     }
 
-    .academic-home__profile img {
-        max-width: min(100%, 280px);
-    }
 }
 
 @container (max-width: 860px) {
@@ -2050,9 +2076,6 @@ rgba(24,40,72,.2));
         gap: 0.14em;
     }
 
-    .academic-home__profile img {
-        max-width: min(100%, 250px);
-    }
 }
 
 @media screen and (max-width: 1280px) {
@@ -2067,9 +2090,6 @@ rgba(24,40,72,.2));
         gap: 0.16em;
     }
 
-    .academic-home__profile img {
-        max-width: min(100%, 292px);
-    }
 }
 
 @media screen and (max-width: 1080px) {
@@ -2381,32 +2401,6 @@ rgba(24,40,72,.2));
     }
 }
 
-
-/* 桌面博客两栏等高：保留卡片和封面的原有高度，将余高分配到卡片间距。
-   末页少于六篇时保留自然间距，避免少量文章被过度分散。 */
-@media screen and (min-width: 901px) {
-    #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) {
-        display: flex;
-        flex-direction: column;
-    }
-
-    #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) > .recent-post-items {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        justify-content: space-between;
-        gap: 20px;
-    }
-
-    #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) > .recent-post-items > .recent-post-item {
-        flex: none;
-        margin-bottom: 0;
-    }
-
-    #recent-posts:not(.masonry):has(> .recent-post-items > .recent-post-item:nth-child(6)) > #pagination {
-        flex: none;
-    }
-}
 
 /* ========== 音乐悬浮球 ========== */
 .bgm-floating {
