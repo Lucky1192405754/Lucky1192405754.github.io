@@ -7,7 +7,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://lucky1192405754.github.io/image/cv-transformer-attention-visualization/attention-cover.png">
 <meta property="article:published_time" content="2026-04-09T16:00:00.000Z">
-<meta property="article:modified_time" content="2026-09-19T17:58:47.089Z">
+<meta property="article:modified_time" content="2026-09-20T04:32:25.859Z">
 <meta property="article:author" content="LuckyShen">
 <meta property="article:tag" content="计算机视觉">
 <meta property="article:tag" content="深度学习">
@@ -22,7 +22,7 @@
   "url": "https://lucky1192405754.github.io/2026/04/10/cv-transformer-attention-visualization/",
   "image": "https://lucky1192405754.github.io/image/cv-transformer-attention-visualization/attention-cover.png",
   "datePublished": "2026-04-09T16:00:00.000Z",
-  "dateModified": "2026-09-19T17:58:47.089Z",
+  "dateModified": "2026-09-20T04:32:25.859Z",
   "author": [
     {
       "@type": "Person",
@@ -194,7 +194,7 @@ btf.addGlobalFn('pjaxComplete', () => {
     btf.addGlobalFn('pjaxSend', preloader.initLoading, 'preloader_init')
     btf.addGlobalFn('pjaxComplete', preloader.endLoading, 'preloader_end')
   }
-})()</script><div id="web_bg" style="background-image: url(/image/background/bg_2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar_2.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/cv-transformer-attention-visualization/attention-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Keming's Eutopia ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-19T17:58:47.089Z" title="更新于 2026-09-20 01:58:47">2026-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="引言：为什么-Transformer-值得被“看见”"><a href="#引言：为什么-Transformer-值得被“看见”" class="headerlink" title="引言：为什么 Transformer 值得被“看见”"></a>引言：为什么 Transformer 值得被“看见”</h2><p>Transformer 已经成为现代 AI 的底层通用架构：大语言模型、视觉 Transformer、多模态模型，乃至许多序列建模系统，都在不同程度上继承了它的设计。</p>
+})()</script><div id="web_bg" style="background-image: url(/image/background/bg_2.webp);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/image/avatar_2.webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">23</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">60</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/image/cv-transformer-attention-visualization/attention-cover.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><img class="site-icon" src="/image/logo_2.gif" alt="Logo"><span class="site-name">Keming's Eutopia ♪</span></a><a class="nav-page-title" href="/"><span class="site-name">理解 Transformer 的 Attention 机制</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-graduation-cap"></i><span> 学术主页</span></a></div><div class="menus_item"><a class="site-page" href="/blog/"><i class="fa-fw fas fa-feather-pointed"></i><span> 生活博客</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fa fa-heartbeat"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">理解 Transformer 的 Attention 机制</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-04-09T16:00:00.000Z" title="发表于 2026-04-10 00:00:00">2026-04-10</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-09-20T04:32:25.859Z" title="更新于 2026-09-20 12:32:25">2026-09-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E3%80%8CCV%E3%80%8D%E7%9C%8B%E5%BE%97%E8%A7%81%E7%9A%84%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">「CV」看得见的计算机视觉</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h2 id="引言：为什么-Transformer-值得被“看见”"><a href="#引言：为什么-Transformer-值得被“看见”" class="headerlink" title="引言：为什么 Transformer 值得被“看见”"></a>引言：为什么 Transformer 值得被“看见”</h2><p>Transformer 已经成为现代 AI 的底层通用架构：大语言模型、视觉 Transformer、多模态模型，乃至许多序列建模系统，都在不同程度上继承了它的设计。</p>
 <p>这一架构的难点不在于定义本身，而在于它很容易被压缩成若干公式、矩阵乘法和工程术语。读者通常知道 <code>Attention(Q, K, V)</code> 这条公式，也知道 Transformer 在实践中的重要性，但不一定容易建立一个稳定的结构认知：</p>
 <ul>
 <li>token 是如何被切分并编码的；</li>
@@ -205,7 +205,11 @@ btf.addGlobalFn('pjaxComplete', () => {
 <li>KV Cache、MQA/GQA、FlashAttention 这些优化分别作用在哪个层面。</li>
 </ul>
 <p>本文的目标不是重复 Transformer 的标准定义，而是把这套结构重新放回图示、数值与公式之中，说明它如何从输入 token 出发，逐层建立上下文、压缩语义，并最终形成输出概率分布。</p>
-<p><img src="/image/cv-transformer-attention-visualization/transformer.png" alt="Transformer 总体结构图"></p>
+<figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/transformer.png" alt="Transformer 总体结构图" loading="lazy" decoding="async">
+  <figcaption>图 1. Transformer 总体结构图。</figcaption>
+</figure>
+
 <p>上图是原始 Transformer 论文中最具代表性的整体结构图。左侧是编码器堆栈，右侧是解码器堆栈。编码器中的每一层由 <strong>Multi-Head Self-Attention</strong> 和 <strong>Position-wise Feed-Forward Network</strong> 两部分组成；解码器则在此基础上额外插入一层 <strong>Masked Multi-Head Attention</strong>，用于保证自回归生成时当前位置不能访问未来 token。</p>
 <p>这张图的意义在于为后文建立统一的结构坐标：</p>
 <ul>
@@ -308,7 +312,11 @@ Q = XW^Q, \quad K = XW^K, \quad V = XW^V</script><p>这一步的意义在于把�
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">torch.finfo(score.dtype).<span class="built_in">min</span></span><br></pre></td></tr></table></figure>
 <p>原因在于不同 dtype 的可表示范围不同，数值稳定性的边界也不同。这类细节在论文图示中不显眼，但会直接影响训练与推理的稳定性。</p>
 <hr>
-<h2 id="3-从缩放点积到多头结构：Attention-在结构图中究竟对应什么"><a href="#3-从缩放点积到多头结构：Attention-在结构图中究竟对应什么" class="headerlink" title="3. 从缩放点积到多头结构：Attention 在结构图中究竟对应什么"></a>3. 从缩放点积到多头结构：Attention 在结构图中究竟对应什么</h2><p><img src="/image/cv-transformer-attention-visualization/scale_dot_product_attention.png" alt="缩放点积注意力示意图"></p>
+<h2 id="3-从缩放点积到多头结构：Attention-在结构图中究竟对应什么"><a href="#3-从缩放点积到多头结构：Attention-在结构图中究竟对应什么" class="headerlink" title="3. 从缩放点积到多头结构：Attention 在结构图中究竟对应什么"></a>3. 从缩放点积到多头结构：Attention 在结构图中究竟对应什么</h2><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/scale_dot_product_attention.png" alt="缩放点积注意力示意图" loading="lazy" decoding="async">
+  <figcaption>图 2. 缩放点积注意力示意图。</figcaption>
+</figure>
+
 <p>这张图对应最基本的 <strong>Scaled Dot-Product Attention</strong>。它把前一节的公式拆成了一个可逐步核对的计算流程：</p>
 <ol>
 <li>先计算 $QK^T$，得到 Query 与所有 Key 之间的相关性分数；</li>
@@ -326,7 +334,11 @@ Q = XW^Q, \quad K = XW^K, \quad V = XW^V</script><p>这一步的意义在于把�
 <li>语义关系，例如整句的主题对象。</li>
 </ul>
 <p>如果所有类型的相关性都由一个 attention matrix 负责，模型需要在同一个相似度空间内同时兼顾多种标准。多头机制的作用，就是把这些不同标准拆分到多个子空间内并行处理。</p>
-<h3 id="4-1-多头的真正作用"><a href="#4-1-多头的真正作用" class="headerlink" title="4.1 多头的真正作用"></a>4.1 多头的真正作用</h3><p><img src="/image/cv-transformer-attention-visualization/multi_head_attention.png" alt="多头注意力示意图"></p>
+<h3 id="4-1-多头的真正作用"><a href="#4-1-多头的真正作用" class="headerlink" title="4.1 多头的真正作用"></a>4.1 多头的真正作用</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/multi_head_attention.png" alt="多头注意力示意图" loading="lazy" decoding="async">
+  <figcaption>图 3. 多头注意力示意图。</figcaption>
+</figure>
+
 <p>这张图展示了多头结构的关键变化：输入不会只经过一次 Attention，而是先分别经过多组线性映射，形成多组头部的 $Q_i, K_i, V_i$，随后每个 head 独立完成一次 Scaled Dot-Product Attention，最后把各头输出 concat 起来，并通过 $W^O$ 映射回原始模型维度。</p>
 <p>图中最关键的三点如下：</p>
 <ol>
@@ -370,7 +382,11 @@ d_k = d_{model} / h</script><h3 id="4-2-从架构图到代码实现"><a href="#4
 <li><strong>Normalization</strong>：控制隐藏状态尺度，降低训练不稳定性；</li>
 <li><strong>FFN / MLP</strong>：在每个 token 内部完成更强的非线性特征重编码。</li>
 </ol>
-<h3 id="5-1-LayerNorm、Pre-Norm-与-RMSNorm"><a href="#5-1-LayerNorm、Pre-Norm-与-RMSNorm" class="headerlink" title="5.1 LayerNorm、Pre-Norm 与 RMSNorm"></a>5.1 LayerNorm、Pre-Norm 与 RMSNorm</h3><p><img src="/image/cv-transformer-attention-visualization/layer_norm.png" alt="LayerNorm 示意图"></p>
+<h3 id="5-1-LayerNorm、Pre-Norm-与-RMSNorm"><a href="#5-1-LayerNorm、Pre-Norm-与-RMSNorm" class="headerlink" title="5.1 LayerNorm、Pre-Norm 与 RMSNorm"></a>5.1 LayerNorm、Pre-Norm 与 RMSNorm</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/layer_norm.png" alt="LayerNorm 示意图" loading="lazy" decoding="async">
+  <figcaption>图 4. LayerNorm 示意图。</figcaption>
+</figure>
+
 <p>这张图左侧对比了 BatchNorm 与 LayerNorm 的归一化维度。BatchNorm 会跨 batch 统计均值和方差，因此更依赖批量维度上的稳定分布；LayerNorm 则在单个样本的特征维度内部完成归一化，因此更适合序列模型与变长输入。</p>
 <p>对 Transformer 而言，LayerNorm 的作用主要体现在两点：</p>
 <ul>
@@ -388,7 +404,11 @@ x + \text{Sublayer}(\text{Norm}(x))</script><p>其主要原因在于：</p>
 <li><strong>Pre-Norm</strong> 更容易训练深层模型；</li>
 <li><strong>RMSNorm</strong> 进一步减少均值中心化步骤，只保留尺度归一化，以换取更稳的训练与更低的计算负担。</li>
 </ul>
-<h3 id="5-2-FFN-不只是“一个两层-MLP”"><a href="#5-2-FFN-不只是“一个两层-MLP”" class="headerlink" title="5.2 FFN 不只是“一个两层 MLP”"></a>5.2 FFN 不只是“一个两层 MLP”</h3><p><img src="/image/cv-transformer-attention-visualization/positionwise_feed_forward.png" alt="前馈网络示意图"></p>
+<h3 id="5-2-FFN-不只是“一个两层-MLP”"><a href="#5-2-FFN-不只是“一个两层-MLP”" class="headerlink" title="5.2 FFN 不只是“一个两层 MLP”"></a>5.2 FFN 不只是“一个两层 MLP”</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/positionwise_feed_forward.png" alt="前馈网络示意图" loading="lazy" decoding="async">
+  <figcaption>图 5. 前馈网络示意图。</figcaption>
+</figure>
+
 <p>这张图强调了两个经常被忽略的点。第一，FFN 的输入输出形状都是 <code>[batchsize, m, 512]</code>，说明它<strong>不会改变序列长度</strong>，也不会像 Attention 那样在 token 之间交换信息。第二，所谓 <strong>position-wise</strong>，指的是同一组全连接参数会独立应用到每个位置上。</p>
 <p>因此，Attention 与 FFN 的分工是明确的：Attention 负责跨位置路由，FFN 负责逐位置变换。二者缺一不可。</p>
 <p>FFN 的标准形式是：</p>
@@ -403,7 +423,11 @@ x + \text{Sublayer}(\text{Norm}(x))</script><p>其主要原因在于：</p>
 <p>这些变化决定了模型在完成上下文路由之后，如何在局部表示空间中重写特征。</p>
 <hr>
 <h2 id="6-从论文到工程：实现层面真正关键的细节"><a href="#6-从论文到工程：实现层面真正关键的细节" class="headerlink" title="6. 从论文到工程：实现层面真正关键的细节"></a>6. 从论文到工程：实现层面真正关键的细节</h2><p>Transformer 的结构图相对清晰，但从论文到工程实现，中间仍然存在大量对训练稳定性与推理效率有决定性影响的细节。</p>
-<h3 id="6-1-位置编码与顺序信息"><a href="#6-1-位置编码与顺序信息" class="headerlink" title="6.1 位置编码与顺序信息"></a>6.1 位置编码与顺序信息</h3><p><img src="/image/cv-transformer-attention-visualization/positional_encoding.png" alt="位置编码示意图"></p>
+<h3 id="6-1-位置编码与顺序信息"><a href="#6-1-位置编码与顺序信息" class="headerlink" title="6.1 位置编码与顺序信息"></a>6.1 位置编码与顺序信息</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/positional_encoding.png" alt="位置编码示意图" loading="lazy" decoding="async">
+  <figcaption>图 6. 位置编码示意图。</figcaption>
+</figure>
+
 <p>这张图左侧展示了正余弦位置编码在不同位置与不同维度上的数值分布，右侧给出了对应公式。图像中从低频到高频的周期变化说明：不同维度会以不同波长编码位置信息，因此模型既能感知相邻位置，也能在更长尺度上保留相对顺序关系。</p>
 <p>这张图的关键结论有两点：</p>
 <ul>
@@ -489,7 +513,11 @@ x + \text{Sublayer}(\text{Norm}(x))</script><p>其主要原因在于：</p>
 <p>因此，FlashAttention 的关键贡献不在于新公式，而在于把 attention 的瓶颈从“理论算子数量”转移到“实际硬件上的内存访问方式”上来理解。</p>
 <hr>
 <h2 id="9-从-NLP-到-ViT、CLIP-与多模态模型：Transformer-为什么能扩展得这么远"><a href="#9-从-NLP-到-ViT、CLIP-与多模态模型：Transformer-为什么能扩展得这么远" class="headerlink" title="9. 从 NLP 到 ViT、CLIP 与多模态模型：Transformer 为什么能扩展得这么远"></a>9. 从 NLP 到 ViT、CLIP 与多模态模型：Transformer 为什么能扩展得这么远</h2><p>Transformer 的可扩展性并不来自某一种特定模态，而来自它对 <strong>token 化表示 + 统一路由机制</strong> 的兼容性。文本、图像乃至多模态输入，只要能够被改写成离散 token 或连续向量序列，就能够进入相近的结构框架。</p>
-<h3 id="9-1-ViT：把图像重新表述为-patch-序列"><a href="#9-1-ViT：把图像重新表述为-patch-序列" class="headerlink" title="9.1 ViT：把图像重新表述为 patch 序列"></a>9.1 ViT：把图像重新表述为 patch 序列</h3><p><img src="/image/cv-transformer-attention-visualization/ViT.webp" alt="ViT 结构示意图"></p>
+<h3 id="9-1-ViT：把图像重新表述为-patch-序列"><a href="#9-1-ViT：把图像重新表述为-patch-序列" class="headerlink" title="9.1 ViT：把图像重新表述为 patch 序列"></a>9.1 ViT：把图像重新表述为 patch 序列</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/ViT.webp" alt="ViT 结构示意图" loading="lazy" decoding="async">
+  <figcaption>图 7. ViT 结构示意图。</figcaption>
+</figure>
+
 <p>这张图说明了 ViT 与标准 Transformer 的对应关系。输入图像首先被切分为固定大小的 patch，每个 patch 经过线性投影后变成一个 token；随后这些视觉 token 与一个额外的分类 token 一同送入 Transformer Encoder。</p>
 <p>图中最关键的观察点有三个：</p>
 <ul>
@@ -498,7 +526,11 @@ x + \text{Sublayer}(\text{Norm}(x))</script><p>其主要原因在于：</p>
 <li>分类结果来自全局聚合后的表示，而不是单个局部卷积响应。</li>
 </ul>
 <p>因此，ViT 的关键不在于“发明了一种新的视觉 attention”，而在于把二维图像重写成一维 token 序列，再复用 Transformer 编码器结构。</p>
-<h3 id="9-2-Cross-Attention：从“看自己”走向“去别的模态里查信息”"><a href="#9-2-Cross-Attention：从“看自己”走向“去别的模态里查信息”" class="headerlink" title="9.2 Cross-Attention：从“看自己”走向“去别的模态里查信息”"></a>9.2 Cross-Attention：从“看自己”走向“去别的模态里查信息”</h3><p><img src="/image/cv-transformer-attention-visualization/CLIP.webp" alt="CLIP 与跨模态对齐示意图"></p>
+<h3 id="9-2-Cross-Attention：从“看自己”走向“去别的模态里查信息”"><a href="#9-2-Cross-Attention：从“看自己”走向“去别的模态里查信息”" class="headerlink" title="9.2 Cross-Attention：从“看自己”走向“去别的模态里查信息”"></a>9.2 Cross-Attention：从“看自己”走向“去别的模态里查信息”</h3><figure class="blog-figure">
+  <img src="/image/cv-transformer-attention-visualization/CLIP.webp" alt="CLIP 与跨模态对齐示意图" loading="lazy" decoding="async">
+  <figcaption>图 8. CLIP 与跨模态对齐示意图。</figcaption>
+</figure>
+
 <p>这张图展示了跨模态建模中一个核心思想：文本与图像可以先各自编码成向量表示，再通过共享语义空间建立匹配与对齐关系。虽然 CLIP 本身并不等同于典型的 encoder-decoder cross-attention，但它清楚说明了不同模态最终都可以被组织成 token 或向量集合，并在统一表示空间中进行比较。</p>
 <p>在更典型的 cross-attention 结构中，目标序列当前位置的 Query 来自当前模态，而 Key / Value 来自另一模态或另一序列。这样一来，当前位置的表示就不再只从自身上下文取证，而是可以从外部表示集合中检索与当前任务最相关的信息。</p>
 <p>因此，从文本到视觉，再到跨模态系统，Transformer 的可迁移性主要来自“统一表示 + 统一路由”的范式，而不是某个单一任务技巧。</p>

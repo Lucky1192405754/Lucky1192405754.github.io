@@ -2402,6 +2402,42 @@ rgba(24,40,72,.2));
 }
 
 
+/* 正文插图：每篇文章独立编号，图片与图注共用居中轴线。 */
+#article-container figure.blog-figure {
+    margin: 24px 0 28px;
+    text-align: center;
+}
+
+#article-container figure.blog-figure img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+}
+
+#article-container figure.blog-figure figcaption {
+    display: block;
+    margin: 10px 0 0;
+    padding: 0;
+    color: var(--font-color);
+    font-size: 0.9em;
+    font-style: normal;
+    line-height: 1.7;
+    text-align: center;
+    text-indent: 0;
+    opacity: 0.8;
+}
+
+#article-container figure.blog-figure .img-alt {
+    display: none;
+}
+
+#article-container figure.linux-latex-figure img {
+    max-height: 680px;
+    border-radius: 6px;
+}
+
 /* ========== 音乐悬浮球 ========== */
 .bgm-floating {
     position: fixed;
